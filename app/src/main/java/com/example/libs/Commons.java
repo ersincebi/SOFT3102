@@ -18,5 +18,6 @@ public class Commons {
         dateFormat = String.valueOf(new SimpleDateFormat(dateFormat));
         date = new Date();
         return dateFormat.format(String.valueOf(date));
+
     }
 }
