@@ -115,8 +115,13 @@ public class AddTripActivity extends AppCompatActivity {
         });
     }
     public void addTrip(View view){
-        if (from.getText().toString() == destination.getText().toString()){
+        if (from.getText().toString().equals(destination.getText().toString()) ){
             Toast.makeText(getApplicationContext(), "From and Destination Cannot be same", Toast.LENGTH_LONG).show();
+        }
+        if(dateText.getText().toString().equals("") || timeText.getText().toString().equals("")||
+                from.getText().toString().equals("")||destination.getText().toString().equals("")||
+                capacity.getText().toString().equals("")|| price.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show();
         }
         else {
             ParseObject object = new ParseObject("Trip");
@@ -135,8 +140,8 @@ public class AddTripActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(getApplicationContext(), "Trip added.", Toast.LENGTH_LONG).show();
 
-                        ParseUser usr = ParseUser.getCurrentUser();
 
+                       
                     }
 
                 }
