@@ -38,7 +38,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
         } else {
                     Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(),AddTripActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),ListTripActivity.class);
                     startActivity(intent);
                 }
             }
@@ -63,7 +63,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show(); //geçersiz isim şifre vs.
           } else {
                         Toast.makeText(getApplicationContext(),"Yeni Kullanıcı Oluşturuldu!",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(),AddTripActivity.class);
+                        Intent intent = new Intent(getApplicationContext(),ListTripActivity.class);
                         startActivity(intent);
 
 
