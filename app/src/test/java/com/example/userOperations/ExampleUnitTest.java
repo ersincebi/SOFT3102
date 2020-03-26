@@ -1,4 +1,4 @@
-package com.example.signuplogin;
+package com.example.userOperations;
 
 import org.junit.Test;
 
