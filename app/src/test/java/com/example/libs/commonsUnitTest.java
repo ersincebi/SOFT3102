@@ -14,9 +14,9 @@ public class commonsUnitTest {
     private DateFormat dateFormat;
     private Date date;
 
-    private libs.Commons commons;
+    private Commons commons;
 
-    public void setUp(){ commons = new libs.Commons(); }
+    public void setUp(){ commons = new Commons(); }
 
     public void tearDown(){ commons = null; }
 
