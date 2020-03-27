@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.example.tripOperations.AddTripActivity;
 import com.example.tripOperations.ListTripActivity;
+import com.example.tripOperations.passengerFeedback;
+import com.example.tripOperations.driverFeedback;
 
 public class HomePage extends AppCompatActivity {
 
@@ -73,6 +75,21 @@ public class HomePage extends AppCompatActivity {
 
     public void openAddTripPage(){
         Intent intent = new Intent(this, AddTripActivity.class);
+        startActivity(intent);
+    }
+
+    public void openPassengerFeedback(){
+        Intent intent = new Intent(this, passengerFeedback.class);
+        intent.putExtra("personName", "Ersin");
+        intent.putExtra("personId",123);
+        startActivity(intent);
+    }
+
+
+    public void openDriverFeedback(){
+        Intent intent = new Intent(this, driverFeedback.class);
+        intent.putExtra("personName", "Ersin");
+        intent.putExtra("personId",123);
         startActivity(intent);
     }
 }
