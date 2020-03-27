@@ -1,17 +1,17 @@
-package com.example.userOperations;
+package com.fmway.userOperations;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.tripOperations.AddTripActivity;
-import com.example.tripOperations.ListTripActivity;
-import com.example.tripOperations.passengerFeedback;
-import com.example.tripOperations.driverFeedback;
+import com.fmway.tripOperations.AddTripActivity;
+import com.fmway.tripOperations.ListTripActivity;
+import com.fmway.tripOperations.passengerFeedback;
+import com.fmway.tripOperations.driverFeedback;
+import com.fmway.userOperations.R;
 
 public class HomePage extends AppCompatActivity {
 

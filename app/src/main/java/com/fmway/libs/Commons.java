@@ -1,4 +1,4 @@
-package com.example.libs;
+package com.fmway.libs;
 
 import java.util.Date;
 import java.text.DateFormat;

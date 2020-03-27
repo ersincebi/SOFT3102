@@ -1,4 +1,4 @@
-package com.example.tripOperations;
+package com.fmway.tripOperations;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.example.userOperations.R;
+import com.fmway.userOperations.R;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.SaveCallback;

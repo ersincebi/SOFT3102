@@ -1,4 +1,4 @@
-package com.example.userOperations;
+package com.fmway.userOperations;
 
 import android.app.Activity;
 import android.widget.ArrayAdapter;
@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.fmway.userOperations.R;
+
 public class PostActivity extends ArrayAdapter<String> {
     private final ArrayList<String> date; //String ---> DATE
     private final ArrayList<String> time;
@@ -26,7 +28,7 @@ public class PostActivity extends ArrayAdapter<String> {
     public PostActivity(ArrayList<String> date,ArrayList<String> time,ArrayList<String> from, ArrayList<String> destination , ArrayList<String> capacity,
                       ArrayList<String> price, Activity context){
 //String ----> Date
-        super(context,R.layout.customview_listtrips,from);
+        super(context, R.layout.customview_listtrips,from);
         this.date=date;
         this.time=time;
         this.from=from;

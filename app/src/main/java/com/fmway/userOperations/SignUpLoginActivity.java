@@ -1,4 +1,4 @@
-package com.example.userOperations;
+package com.fmway.userOperations;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tripOperations.ListTripActivity;
+import com.fmway.tripOperations.ListTripActivity;
+import com.fmway.userOperations.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

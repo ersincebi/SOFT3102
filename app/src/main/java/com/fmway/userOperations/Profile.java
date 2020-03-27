@@ -1,8 +1,10 @@
-package com.example.userOperations;
+package com.fmway.userOperations;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.fmway.userOperations.R;
 
 public class Profile extends AppCompatActivity {
 
