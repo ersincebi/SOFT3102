@@ -19,6 +19,8 @@
         </activity>
         <activity android:name="com.example.tripOperations.AddTripActivity" />
         <activity android:name="com.example.tripOperations.ListTripActivity" />
+        <activity android:name="com.example.tripOperations.driverFeedback" />
+        <activity android:name="com.example.tripOperations.passengerFeedback" />
     </application>
 
 </manifest>

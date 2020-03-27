@@ -21,6 +21,8 @@ public class HomePage extends AppCompatActivity {
     Button payment;
     Button triplist;
     Button create;
+    Button passengerFeedback;
+    Button driverFeedback;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,21 @@ public class HomePage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openAddTripPage();
+            }
+        });
+        driverFeedback = findViewById(R.id.driverFeedback);
+        passengerFeedback = findViewById(R.id.passengerFeedback);
+        driverFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDriverFeedback();;
+            }
+        });
+
+        passengerFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPassengerFeedback();
             }
         });
     }
