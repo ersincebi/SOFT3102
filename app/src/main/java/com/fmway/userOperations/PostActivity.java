@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.fmway.userOperations.R;
+import com.fmway.R;
 
 public class PostActivity extends ArrayAdapter<String> {
     private final ArrayList<String> date; //String ---> DATE

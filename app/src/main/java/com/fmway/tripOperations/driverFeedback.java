@@ -1,6 +1,5 @@
 package com.fmway.tripOperations;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,8 +7,10 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.fmway.libs.Commons;
-import com.fmway.userOperations.R;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.fmway.R;
+import com.fmway.libs.*;
 
 public class driverFeedback extends AppCompatActivity {
 

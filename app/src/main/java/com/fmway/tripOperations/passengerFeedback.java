@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.fmway.libs.Commons;
-import com.fmway.userOperations.R;
+import com.fmway.R;
+import com.fmway.libs.*;
 
 public class passengerFeedback extends AppCompatActivity {
 

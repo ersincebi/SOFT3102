@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.fmway.userOperations.R;
+import com.fmway.R;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;

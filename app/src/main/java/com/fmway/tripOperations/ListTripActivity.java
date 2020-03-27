@@ -6,7 +6,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.fmway.userOperations.PostActivity;
-import com.fmway.userOperations.R;
+import com.fmway.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;

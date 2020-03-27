@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.fmway.userOperations.R;
+import com.fmway.R;
 
 public class Profile extends AppCompatActivity {
 

@@ -11,7 +11,7 @@ import com.fmway.tripOperations.AddTripActivity;
 import com.fmway.tripOperations.ListTripActivity;
 import com.fmway.tripOperations.passengerFeedback;
 import com.fmway.tripOperations.driverFeedback;
-import com.fmway.userOperations.R;
+import com.fmway.R;
 
 public class HomePage extends AppCompatActivity {
 
