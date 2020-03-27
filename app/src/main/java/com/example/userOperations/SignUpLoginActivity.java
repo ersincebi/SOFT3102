@@ -39,7 +39,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
         } else {
                     Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), ListTripActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), HomePage.class);
                     startActivity(intent);
                 }
             }

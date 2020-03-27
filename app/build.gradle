@@ -23,7 +23,7 @@ android {
 
 }
 
-ext{
+ext {
     parseVersion = "1.17.3"
 }
 
