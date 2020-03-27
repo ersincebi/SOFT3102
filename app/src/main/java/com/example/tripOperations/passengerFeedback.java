@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.libs.Commons;
 import com.example.userOperations.R;
 
 public class passengerFeedback extends AppCompatActivity {
 
     // Library declarations
-    private libs.Commons commons = new libs.Commons();
+    private Commons commons = new Commons();
 
     private TextView feedbackText;
     private Button up;

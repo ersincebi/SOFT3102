@@ -1,4 +1,4 @@
-package libs;
+package com.example.libs;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -9,15 +9,14 @@ public class Commons {
     private Date date;
 
     /**
-     * @param dateFormat takes only one parameter to decide date format
+     * @param requiredDateFormat takes only one parameter to decide date format
      *                   this format could be decided as 'dd.MM.yyyy' or
      *                   'dd/MM/yy' to be generic the format depends ona caller
      * @return returns the current date
      */
-    public String currentDate(String dateFormat){
-        dateFormat = String.valueOf(new SimpleDateFormat(dateFormat));
+    public String currentDate(String requiredDateFormat){
+        dateFormat = new SimpleDateFormat(requiredDateFormat);
         date = new Date();
-        return dateFormat.format(String.valueOf(date));
-
+        return dateFormat.format(date);
     }
 }
