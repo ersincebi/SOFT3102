@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.fmway.R;
 
 public class PostActivity extends ArrayAdapter<String> {
+    private final ArrayList<String> objectId;
     private final ArrayList<String> date; //String ---> DATE
     private final ArrayList<String> time;
     private final ArrayList<String> from;
@@ -25,10 +26,13 @@ public class PostActivity extends ArrayAdapter<String> {
 
     private final Activity context;
 
-    public PostActivity(ArrayList<String> date,ArrayList<String> time,ArrayList<String> from, ArrayList<String> destination , ArrayList<String> capacity,
+    public PostActivity(ArrayList<String> objectId,ArrayList<String> date,ArrayList<String> time,ArrayList<String> from, ArrayList<String> destination , ArrayList<String> capacity,
                       ArrayList<String> price, Activity context){
 //String ----> Date
-        super(context, R.layout.customview_listtrips,from);
+
+        super(context,R.layout.customview_listtrips,objectId);
+        this.objectId=objectId;
+
         this.date=date;
         this.time=time;
         this.from=from;
@@ -43,6 +47,7 @@ public class PostActivity extends ArrayAdapter<String> {
 
         LayoutInflater layoutInflater=this.context.getLayoutInflater();
         View customView=layoutInflater.inflate(R.layout.customview_listtrips,null,true);
+        TextView objectIdText=customView.findViewById(R.id.customView_objectId);
         TextView dateText=customView.findViewById(R.id.customView_date);
         TextView timeText=customView.findViewById(R.id.customView_Time);
         TextView fromText=customView.findViewById(R.id.customView_From);
@@ -50,6 +55,7 @@ public class PostActivity extends ArrayAdapter<String> {
         TextView capacityText=customView.findViewById(R.id.customView_Capacity);
         TextView priceText=customView.findViewById(R.id.customView_Price);
 
+        objectIdText.setText(objectId.get(position));
         dateText.setText(date.get(position));
         timeText.setText(time.get(position));
         fromText.setText(from.get(position));

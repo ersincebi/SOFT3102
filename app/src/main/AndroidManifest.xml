@@ -17,10 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name="com.fmway.tripOperations.AddTripActivity" />
         <activity android:name="com.fmway.tripOperations.ListTripActivity" />
         <activity android:name="com.fmway.tripOperations.driverFeedback" />
         <activity android:name="com.fmway.tripOperations.passengerFeedback" />
+        <activity android:name="com.fmway.tripOperations.TripDetailsActivity" > </activity>
+        <activity android:name="com.fmway.tripOperations.EditTripActivity"> </activity>
     </application>
 
 </manifest>
