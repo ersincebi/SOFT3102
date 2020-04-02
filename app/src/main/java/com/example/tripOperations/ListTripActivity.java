@@ -2,7 +2,11 @@ package com.example.tripOperations;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.userOperations.PostActivity;
@@ -20,12 +24,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ListTripActivity extends AppCompatActivity {
 
     ListView listView;
+    ArrayList<String> objectIdFromParse;
     ArrayList<String> dateFromParse;
     ArrayList<String> timeFromParse;
     ArrayList<String> fromFromParse;
     ArrayList<String> destinationFromParse;
     ArrayList<String> capacityFromParse;
     ArrayList<String> priceFromParse;
+    String selected=null;
+
 
     PostActivity postActivity ;
 
@@ -40,6 +47,7 @@ public class ListTripActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.listTripsList);
 
+        objectIdFromParse= new ArrayList<>();
         dateFromParse= new ArrayList<>();
         timeFromParse=new ArrayList<>();
         fromFromParse= new ArrayList<>();
@@ -48,11 +56,28 @@ public class ListTripActivity extends AppCompatActivity {
         priceFromParse=new ArrayList<>();
 
 
-        postActivity= new PostActivity(dateFromParse,timeFromParse,fromFromParse,destinationFromParse,capacityFromParse,priceFromParse,this);
 
-        listView.setAdapter(postActivity);
+        postActivity= new PostActivity(objectIdFromParse,dateFromParse,timeFromParse,fromFromParse,destinationFromParse,capacityFromParse,priceFromParse,this);
 
         download();
+        listView.setAdapter(postActivity);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+                selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
+
+
+                Intent myIntent= new Intent(ListTripActivity.this, TripDetailsActivity.class);
+                myIntent.putExtra("objectID", selected);
+                startActivity(myIntent);
+            }
+        });
+
 
     }
     public void download(){
@@ -69,6 +94,7 @@ public class ListTripActivity extends AppCompatActivity {
                         for(ParseObject object: objects){
 
 
+                            objectIdFromParse.add(object.getObjectId());
                             dateFromParse.add(object.getString("Date"));
                             timeFromParse.add(object.getString("Time"));
                             fromFromParse.add(object.getString("From"));

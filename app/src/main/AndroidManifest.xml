@@ -21,6 +21,8 @@
         <activity android:name="com.example.tripOperations.ListTripActivity" />
         <activity android:name="com.example.tripOperations.driverFeedback" />
         <activity android:name="com.example.tripOperations.passengerFeedback" />
+        <activity android:name="com.example.tripOperations.TripDetailsActivity" > </activity>
+        <activity android:name="com.example.tripOperations.EditTripActivity"> </activity>
     </application>
 
 </manifest>
