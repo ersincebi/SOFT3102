@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".passengerFeedback">
+    android:layout_height="match_parent">
 
 
     <ImageView
@@ -22,20 +21,28 @@
         android:layout_below="@id/personImage"
         android:layout_centerHorizontal="true" />
 
-    <Button
-        android:id="@+id/up"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/feedbackText"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:text="Like" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:background="@android:drawable/bottom_bar"
+        android:paddingLeft="4.0dip"
+        android:paddingTop="5.0dip"
+        android:paddingRight="4.0dip"
+        android:paddingBottom="1.0dip"
+        android:layout_width="fill_parent" android:layout_height="wrap_content"
+        android:layout_below="@+id/feedbackText">
 
-    <Button
-        android:id="@+id/down"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dislike"
-        android:layout_below="@id/feedbackText"
-        android:layout_toRightOf="@id/up" />
+        <Button
+            android:id="@+id/up"
+            android:layout_width="0.0dip" android:layout_height="fill_parent"
+            android:text="Like"
+            android:layout_weight="1.0" />
+
+        <Button
+            android:id="@+id/down"
+            android:layout_width="0.0dip" android:layout_height="fill_parent"
+            android:text="Dislike"
+            android:layout_weight="1.0" />
+
+    </LinearLayout>
+
 </RelativeLayout>

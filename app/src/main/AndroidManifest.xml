@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.fmway">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.fmway">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
-        android:name="com.fmway.userOperations.ParseStarterClass"
+        android:name=".userOperations.ParseStarterClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.fmway.userOperations.Profile"></activity>
-        <activity android:name="com.fmway.userOperations.Payment" />
-        <activity android:name="com.fmway.userOperations.HomePage" />
-        <activity android:name="com.fmway.userOperations.SignUpLoginActivity">
+        <activity android:name=".userOperations.Profile" />
+        <activity android:name=".userOperations.Payment" />
+        <activity android:name=".userOperations.HomePage" />
+        <activity android:name=".userOperations.SignUpLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fmway.tripOperations.AddTripActivity" />
-        <activity android:name="com.fmway.tripOperations.ListTripActivity" />
-        <activity android:name="com.fmway.tripOperations.driverFeedback" />
-        <activity android:name="com.fmway.tripOperations.passengerFeedback" />
+        <activity android:name=".tripOperations.AddTripActivity" />
+        <activity android:name=".tripOperations.ListTripActivity" />
+        <activity android:name=".tripOperations.driverFeedback" />
+        <activity android:name=".tripOperations.passengerFeedback" />
+        <activity android:name=".tripOperations.tripChat" />
     </application>
 
 </manifest>
