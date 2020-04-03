@@ -1,4 +1,4 @@
-package com.fmway.libs.chat;
+package com.fmway.models.chat;
 
 import com.parse.ParseClassName;
 import com.parse.ParseException;

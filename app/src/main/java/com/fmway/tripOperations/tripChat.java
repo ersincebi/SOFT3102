@@ -9,9 +9,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.fmway.R;
-import com.fmway.libs.chat.ChatList;
-import com.fmway.libs.chat.Chat;
-import com.fmway.libs.chat.ParseChat;
+import com.fmway.models.chat.ChatList;
+import com.fmway.models.chat.Chat;
+import com.fmway.models.chat.ParseChat;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
