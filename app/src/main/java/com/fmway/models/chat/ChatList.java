@@ -1,4 +1,4 @@
-package com.fmway.libs.chat;
+package com.fmway.models.chat;
 
 import android.app.Activity;
 import android.view.LayoutInflater;

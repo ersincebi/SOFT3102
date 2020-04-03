@@ -1,4 +1,4 @@
-package com.fmway.libs.chat;
+package com.fmway.models.chat;
 
 public class Chat{
     private String tripId;
