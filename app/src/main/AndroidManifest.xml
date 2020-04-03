@@ -22,12 +22,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fmway.tripOperations.AddTripActivity" />
-        <activity android:name="com.fmway.tripOperations.ListTripActivityAdmin" />
-        <activity android:name="com.fmway.tripOperations.driverFeedback" />
-        <activity android:name="com.fmway.tripOperations.passengerFeedback" />
-        <activity android:name="com.fmway.tripOperations.TripDetailsAdminActivity" > </activity>
-        <activity android:name="com.fmway.tripOperations.EditTripAdminActivity"> </activity>
+        <activity android:name=".tripOperations.AddTripActivity" />
+        <activity android:name=".tripOperations.ListTripActivityAdmin" />
+        <activity android:name=".tripOperations.driverFeedback" />
+        <activity android:name=".tripOperations.passengerFeedback" />
+        <activity android:name=".tripOperations.TripDetailsAdminActivity" > </activity>
+        <activity android:name=".tripOperations.EditTripAdminActivity"> </activity>
         <activity android:name=".userOperations.AdminActivity"> </activity>
         <activity android:name=".userOperations.PassengerActivity"> </activity>
         <activity android:name=".tripOperations.TripDetailsPassengerActivity"></activity>
@@ -40,6 +40,7 @@
         <activity android:name=".tripOperations.EditTripDriverActivity"></activity>
         <activity android:name=".tripOperations.TripDetailsDriverActivity"></activity>
         <activity android:name=".userOperations.AddAdminActivity"></activity>
+        <activity android:name=".tripOperations.tripChat" />
     </application>
 
 </manifest>
