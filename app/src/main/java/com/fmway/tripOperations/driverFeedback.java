@@ -20,7 +20,6 @@ public class driverFeedback extends AppCompatActivity {
     private TextView feedbackText;
     private RatingBar qualityRating;
     private RatingBar communicationRating;
-    private RatingBar priceRating;
     private Button feedbackSend;
     private EditText commentText;
 

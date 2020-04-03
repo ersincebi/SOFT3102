@@ -1,27 +1,33 @@
 package com.fmway.libs.chat;
 
-import com.parse.ParseClassName;
-import com.parse.ParseObject;
+import android.app.Activity;
+import android.widget.ArrayAdapter;
 
-@ParseClassName("Chat")
+import com.fmway.R;
 
-public class Chat extends ParseObject {
-    public static final String USER_ID_KEY = "userId";
-    public static final String BODY_KEY = "body";
+public class Chat extends ArrayAdapter<String> {
+    private String tripId;
+    private String userId;
+    private String message;
 
-    public String getUserId() {
-        return getString(USER_ID_KEY);
+    private final Activity context;
+
+    public Chat(String tripId
+                , String userId
+                , String message
+                , Activity context){
+
+        super(context, R.layout.activity_trip_chat);
+        this.tripId = tripId;
+        this.userId = userId;
+        this.message = message;
+
+        this.context = context;
     }
 
-    public String getBody() {
-        return getString(BODY_KEY);
-    }
+    public String getTripId() { return tripId; }
 
-    public void setUserId(String userId) {
-        put(USER_ID_KEY, userId);
-    }
+    public String getUserId() { return userId; }
 
-    public void setBody(String body) {
-        put(BODY_KEY, body);
-    }
+    public String getMessage() { return message; }
 }
