@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.fmway.R;
+import com.fmway.libs.chat.ChatList;
 import com.fmway.libs.chat.Chat;
 import com.fmway.libs.chat.ParseChat;
 import com.parse.ParseObject;
@@ -26,7 +27,7 @@ public class tripChat extends AppCompatActivity {
     private ArrayList<Chat> adapterMessageList;
 
     private ParseChat parseChat = new ParseChat();
-    private Chat chat;
+    private ChatList chatList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +37,13 @@ public class tripChat extends AppCompatActivity {
         final String userId = "123";
 
         discussionList = (ListView)findViewById(R.id.discussionList);
-        discussionList.setAdapter(chat);
+
+        chatList = new ChatList(adapterMessageList, this);
+        discussionList.setAdapter(chatList);
 
         message = (EditText)findViewById(R.id.message);
+
+        listMessages(tripId);
 
         send = (Button)findViewById(R.id.send);
         send.setOnClickListener(new View.OnClickListener() {
@@ -57,14 +62,15 @@ public class tripChat extends AppCompatActivity {
 
     public void listMessages(String takeTripId){
         messageList = parseChat.getList(takeTripId);
-        for (ParseObject listItem: messageList) {
-            adapterMessageList.add(new Chat(listItem.getString(parseChat.tripId)
-                                            ,listItem.getString(parseChat.userId)
-                                            ,listItem.getString(parseChat.message)
-                                            ,this));
+        adapterMessageList = null;
+        if(messageList.size()>0){
+            for (ParseObject listItem: messageList) {
+                adapterMessageList.add(new Chat(listItem.getString(parseChat.tripId)
+                                                ,listItem.getString(parseChat.userId)
+                                                ,listItem.getString(parseChat.message)));
 
-            chat.notifyDataSetChanged();
+                chatList.notifyDataSetChanged();
+            }
         }
-
     }
 }

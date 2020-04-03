@@ -1,28 +1,19 @@
 package com.fmway.libs.chat;
 
-import android.app.Activity;
-import android.widget.ArrayAdapter;
-
-import com.fmway.R;
-
-public class Chat extends ArrayAdapter<String> {
+public class Chat{
     private String tripId;
     private String userId;
     private String message;
 
-    private final Activity context;
 
     public Chat(String tripId
                 , String userId
-                , String message
-                , Activity context){
+                , String message){
 
-        super(context, R.layout.activity_trip_chat);
         this.tripId = tripId;
         this.userId = userId;
         this.message = message;
 
-        this.context = context;
     }
 
     public String getTripId() { return tripId; }
@@ -30,4 +21,7 @@ public class Chat extends ArrayAdapter<String> {
     public String getUserId() { return userId; }
 
     public String getMessage() { return message; }
+
+    public String getBody() { return userId + ": " + message; }
+
 }
