@@ -19,11 +19,17 @@
         </activity>
 
         <activity android:name="com.fmway.tripOperations.AddTripActivity" />
-        <activity android:name="com.fmway.tripOperations.ListTripActivity" />
+        <activity android:name="com.fmway.tripOperations.ListTripActivityAdmin" />
         <activity android:name="com.fmway.tripOperations.driverFeedback" />
         <activity android:name="com.fmway.tripOperations.passengerFeedback" />
-        <activity android:name="com.fmway.tripOperations.TripDetailsActivity" > </activity>
+        <activity android:name="com.fmway.tripOperations.TripDetailsAdminActivity" > </activity>
         <activity android:name="com.fmway.tripOperations.EditTripActivity"> </activity>
+        <activity android:name=".userOperations.AdminActivity"> </activity>
+        <activity android:name=".userOperations.PassengerActivity"> </activity>
+        <activity android:name=".tripOperations.TripDetailsPassengerActivity"></activity>
+        <activity android:name=".tripOperations.ListTripActivityPassenger"></activity>
+        <activity android:name=".userOperations.DriverActivity"></activity>
+
     </application>
 
 </manifest>

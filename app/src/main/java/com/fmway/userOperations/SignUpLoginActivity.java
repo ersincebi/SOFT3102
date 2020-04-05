@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.fmway.tripOperations.ListTripActivity;
 import com.fmway.R;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -40,8 +39,33 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
         } else {
                     Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), HomePage.class);
-                    startActivity(intent);
+
+
+                    String userType=user.getString("userType");
+                    if (userType.equals("admin")){
+
+                        //intent for admin Login
+                        Intent intent = new Intent(getApplicationContext(),AdminActivity.class);
+                        startActivity(intent);
+
+                    }
+
+                    //intent for passenger Login
+                    else if (userType.equals("passenger")){
+                        //intent
+                        Intent intent = new Intent(getApplicationContext(),PassengerActivity.class);
+                        startActivity(intent);
+
+                    }
+
+
+                    //intent for driver Login
+                    else if (userType.equals("driver")){
+                        //intent
+                        Intent intent = new Intent(getApplicationContext(),DriverActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
             }
         });
@@ -52,10 +76,11 @@ public class SignUpLoginActivity extends AppCompatActivity {
 
         public void signUp(View view) {
 
-            ParseUser user = new ParseUser();
+            final ParseUser user = new ParseUser();
             user.setUsername(usernameText.getText().toString());
             user.setPassword(passwordText.getText().toString());
 
+            user.put("userType","passenger");
             user.signUpInBackground(new SignUpCallback() {
 
                 @Override
@@ -65,8 +90,30 @@ public class SignUpLoginActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show(); //geçersiz isim şifre vs.
           } else {
                         Toast.makeText(getApplicationContext(),"Yeni Kullanıcı Oluşturuldu!",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(),ListTripActivity.class);
-                        startActivity(intent);
+                        String userType=user.getString("userType");
+                        if (userType.equals("admin")){
+
+                            //intent for admin Login
+                            Intent intent = new Intent(getApplicationContext(),AdminActivity.class);
+                            startActivity(intent);
+
+                        }
+
+                        //intent for passenger Login
+                        else if (userType.equals("passenger")){
+                            //intent
+                            Intent intent = new Intent(getApplicationContext(),PassengerActivity.class);
+                            startActivity(intent);
+
+                        }
+
+
+                        //intent for driver Login
+                        else if (userType.equals("driver")){
+                            //intent
+                            Intent intent = new Intent(getApplicationContext(),DriverActivity.class);
+                            startActivity(intent);
+                        }
 
 
                     }

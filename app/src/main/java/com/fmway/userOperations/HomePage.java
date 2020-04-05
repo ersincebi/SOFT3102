@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.fmway.tripOperations.AddTripActivity;
-import com.fmway.tripOperations.ListTripActivity;
+import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.passengerFeedback;
 import com.fmway.tripOperations.driverFeedback;
 import com.fmway.R;
@@ -86,7 +86,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void openTripList(){
-        Intent intent = new Intent(this, ListTripActivity.class);
+        Intent intent = new Intent(this, ListTripActivityAdmin.class);
         startActivity(intent);
     }
 
