@@ -77,7 +77,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="70dp"
         android:background="#2196F3"
-        android:onClick="signUp_orientation"
+        android:onClick="signUp"
         android:text="Sign Up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,37 +95,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/images" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="288dp"
-        android:layout_marginLeft="288dp"
-        android:layout_marginTop="508dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="204dp"
-        android:text="Admin Bilgileri"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="289dp"
-        android:layout_marginLeft="289dp"
-        android:layout_marginTop="539dp"
-        android:layout_marginEnd="31dp"
-        android:layout_marginRight="31dp"
-        android:layout_marginBottom="173dp"
-        android:text="admin / admin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
