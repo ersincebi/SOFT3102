@@ -37,7 +37,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
             public void done(ParseUser user, ParseException e) {
                 if (e!= null) {
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-                } else {
+        } else {
                     Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
 
 
@@ -73,56 +73,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
     }
 
 
-    public void signUp_orientation (View view) {
 
-        Toast.makeText(getApplicationContext(),"Lütfen gerekli kullanıcı bilgilerini doldurun!",Toast.LENGTH_LONG).show();
-
-        //intent for new user
-        Intent intent = new Intent(getApplicationContext(),SignUpActivityMain.class);
-        startActivity(intent);
-
-    }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
         public void signUp(View view) {
 
             final ParseUser user = new ParseUser();
@@ -172,4 +123,5 @@ public class SignUpLoginActivity extends AppCompatActivity {
             });
 
 
-        }  */
+        }
+    }
