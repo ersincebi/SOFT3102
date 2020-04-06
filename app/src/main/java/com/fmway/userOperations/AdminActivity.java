@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.ListTripActivityPassenger;
+import com.fmway.tripOperations.ListUserActivityAdmin;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -67,4 +68,12 @@ import androidx.appcompat.app.AppCompatActivity;
         Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
         startActivity(intent);
     }
+
+     public void editUser(View view){
+         Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
+         startActivity(intent);
+     }
+
+
+
 }
