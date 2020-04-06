@@ -29,6 +29,9 @@
         <activity android:name=".tripOperations.TripDetailsPassengerActivity"></activity>
         <activity android:name=".tripOperations.ListTripActivityPassenger"></activity>
         <activity android:name=".userOperations.DriverActivity"></activity>
+        <activity android:name=".userOperations.SignUpActivityMain"></activity>
+        <activity android:name=".tripOperations.ListUserActivityAdmin"></activity>
+        <activity android:name=".tripOperations.UserDetailsAdminActivity"></activity>
 
     </application>
 
