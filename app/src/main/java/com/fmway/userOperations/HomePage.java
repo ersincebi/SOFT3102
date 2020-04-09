@@ -25,6 +25,7 @@ public class HomePage extends AppCompatActivity {
     Button create;
     Button passengerFeedback;
     Button driverFeedback;
+    Button tripChat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,17 +60,24 @@ public class HomePage extends AppCompatActivity {
             }
         });
         driverFeedback = findViewById(R.id.driverFeedback);
-        passengerFeedback = findViewById(R.id.passengerFeedback);
         driverFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openDriverFeedback();;
             }
         });
+        passengerFeedback = findViewById(R.id.passengerFeedback);
         passengerFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPassengerFeedback();
+            }
+        });
+        tripChat = findViewById(R.id.tripChat);
+        tripChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openChat();
             }
         });
     }
@@ -103,6 +111,12 @@ public class HomePage extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openChat(){
+        Intent intent = new Intent(this, tripChat.class);
+        intent.putExtra("tripId", "123");
+        intent.putExtra("personId","123");
+        startActivity(intent);
+    }
 
     public void openDriverFeedback(){
         Intent intent = new Intent(this, driverFeedback.class);

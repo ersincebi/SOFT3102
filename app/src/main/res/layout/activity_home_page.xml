@@ -4,7 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fmway.userOperations.com.fmway.userOperations.HomePage">
+    tools:context="com.fmway.userOperations.HomePage">
+
+    <Button
+        android:id="@+id/tripChat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="168dp"
+        android:layout_marginLeft="168dp"
+        android:layout_marginTop="204dp"
+        android:text="Trip Chat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paymentPage" />
 
     <Button
         android:id="@+id/profilePage"

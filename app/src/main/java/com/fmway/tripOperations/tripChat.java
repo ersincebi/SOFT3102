@@ -28,8 +28,8 @@ public class tripChat extends AppCompatActivity {
     public static final String personIdKey = "personId";
     public static final String messageKey = "message";
 
-    private String tripId = "123";
-    private String personId = "123";
+    private String tripId = "";
+    private String personId = "";
 
     private ListView discussionList;
     private EditText message;
@@ -43,8 +43,8 @@ public class tripChat extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_chat);
 
-        //tripId = getIntent().getStringExtra("tripId");
-        //personId = getIntent().getStringExtra("personId");
+        tripId = getIntent().getStringExtra("tripId");
+        personId = getIntent().getStringExtra("personId");
 
         adapterMessageList = new ArrayList<>();
 
