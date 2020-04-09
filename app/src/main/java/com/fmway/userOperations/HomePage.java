@@ -63,7 +63,7 @@ public class HomePage extends AppCompatActivity {
         driverFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDriverFeedback();;
+                openDriverFeedback();
             }
         });
         passengerFeedback = findViewById(R.id.passengerFeedback);
