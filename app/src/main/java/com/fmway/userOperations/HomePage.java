@@ -12,6 +12,8 @@ import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.passengerFeedback;
 import com.fmway.tripOperations.driverFeedback;
 import com.fmway.R;
+import com.fmway.tripOperations.passengerFeedback;
+import com.fmway.tripOperations.tripChat;
 
 public class HomePage extends AppCompatActivity {
 
@@ -64,7 +66,6 @@ public class HomePage extends AppCompatActivity {
                 openDriverFeedback();;
             }
         });
-
         passengerFeedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,7 +99,7 @@ public class HomePage extends AppCompatActivity {
     public void openPassengerFeedback(){
         Intent intent = new Intent(this, passengerFeedback.class);
         intent.putExtra("personName", "Ersin");
-        intent.putExtra("personId",123);
+        intent.putExtra("personId","123");
         startActivity(intent);
     }
 
@@ -106,7 +107,7 @@ public class HomePage extends AppCompatActivity {
     public void openDriverFeedback(){
         Intent intent = new Intent(this, driverFeedback.class);
         intent.putExtra("personName", "Ersin");
-        intent.putExtra("personId",123);
+        intent.putExtra("personId","123");
         startActivity(intent);
     }
 }

@@ -24,6 +24,8 @@ public class ChatList  extends ArrayAdapter<Chat> {
     public ChatList(ArrayList<Chat> messageList
                     , Activity context){
         super(context, 0, messageList);
+
+        this.messageList = messageList;
     }
 
     @NonNull
@@ -31,7 +33,7 @@ public class ChatList  extends ArrayAdapter<Chat> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.customview_listtrips, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.chat_customviewer, parent, false);
         }
 
         // Lookup view for data population
