@@ -8,12 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.fmway.tripOperations.AddTripActivity;
-<<<<<<< HEAD
 import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.passengerFeedback;
-=======
-import com.fmway.tripOperations.ListTripActivity;
->>>>>>> chat bug fix finished
 import com.fmway.tripOperations.driverFeedback;
 import com.fmway.R;
 import com.fmway.tripOperations.passengerFeedback;
