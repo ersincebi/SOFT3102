@@ -2,26 +2,26 @@ package com.fmway.models.chat;
 
 public class Chat{
     private String tripId;
-    private String userId;
+    private String personId;
     private String message;
 
 
     public Chat(String tripId
-                , String userId
+                , String personId
                 , String message){
 
         this.tripId = tripId;
-        this.userId = userId;
+        this.personId = personId;
         this.message = message;
 
     }
 
     public String getTripId() { return tripId; }
 
-    public String getUserId() { return userId; }
+    public String getPersonId() { return personId; }
 
     public String getMessage() { return message; }
 
-    public String getBody() { return userId + ": " + message; }
+    public String getBody() { return personId + ": " + message; }
 
 }

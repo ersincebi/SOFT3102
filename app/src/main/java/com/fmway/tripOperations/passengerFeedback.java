@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.fmway.R;
-import com.fmway.libs.*;
+import com.fmway.libs.Commons;
 
 public class passengerFeedback extends AppCompatActivity {
 
@@ -18,7 +18,7 @@ public class passengerFeedback extends AppCompatActivity {
     private TextView feedbackText;
     private Button up;
     private Button down;
-
+    private String personId;
     /**
      * before call this activity
      * this activity requires two parameter via intent
@@ -35,10 +35,11 @@ public class passengerFeedback extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.passenger_feedback);
 
         String driverName = getIntent().getStringExtra("personName");
-        final int personId = getIntent().getIntExtra("personId",-1);
+        personId = getIntent().getStringExtra("personId");
 
         feedbackText = (TextView)findViewById(R.id.feedbackText);
         feedbackText.setText("How was your trip with " + driverName + "?");
@@ -47,19 +48,7 @@ public class passengerFeedback extends AppCompatActivity {
         up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                 * TODO: will be deleted after implementation
-                 * dummy display of ration value
-                 */
-                if(personId!=-1)
-                    System.out.println("\nCurrent Date: "
-                            + commons.currentDate("yyyy-MM-dd")
-                            +"\nid of driver :"
-                            + personId
-                            + "\nRating of the driver: "
-                            + "1");
-                else
-                    System.out.println("an error occurred");
+                giveFeedback(1);
             }
         });
 
@@ -67,21 +56,17 @@ public class passengerFeedback extends AppCompatActivity {
         down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /**
-                 * TODO: will be deleted after implementation
-                 * dummy display of ration value
-                 */
-                if(personId!=-1)
-                    System.out.println("\nCurrent Date: "
-                            + commons.currentDate("yyyy-MM-dd")
-                            +"\nid of driver :"
-                            + personId
-                            + "\nRating of the driver: "
-                            + "-1");
-                else
-                    System.out.println("an error occurred");
+                giveFeedback(-1);
             }
         });
+    }
+
+    public void giveFeedback(int rating){
+        System.out.println("\nCurrent Date: "
+                + commons.currentDate("yyyy-MM-dd")
+                +"\nid of driver :"
+                + personId
+                + "\nRating of the driver: "
+                + rating);
     }
 }

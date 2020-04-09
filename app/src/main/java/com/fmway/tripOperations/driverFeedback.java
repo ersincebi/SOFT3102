@@ -43,7 +43,7 @@ public class driverFeedback extends AppCompatActivity {
         setContentView(R.layout.driver_feedback);
 
         String driverName = getIntent().getStringExtra("personName");
-        final int personId = getIntent().getIntExtra("personId",-1);
+        final String personId = getIntent().getStringExtra("personId");
 
         feedbackText = (TextView)findViewById(R.id.feedbackText);
         feedbackText.setText("How was your trip with " + driverName + "?");
@@ -66,19 +66,16 @@ public class driverFeedback extends AppCompatActivity {
                  * TODO: will be deleted after implementation
                  * dummy display of ration value
                  */
-                if(personId!=-1)
-                    System.out.println("\nCurrent Date: "
-                            + commons.currentDate("yyyy-MM-dd")
-                            +"\nid of driver :"
-                            + personId
-                            + "\nRating of the driver qualityRating: "
-                            + qualityValue
-                            + "\nRating of the driver communicationRating: "
-                            + communicationValue
-                            + "\nPassenger comment to driver: "
-                            + comment);
-                else
-                    System.out.println("an error occurred");
+                System.out.println("\nCurrent Date: "
+                        + commons.currentDate("yyyy-MM-dd")
+                        +"\nid of driver :"
+                        + personId
+                        + "\nRating of the driver qualityRating: "
+                        + qualityValue
+                        + "\nRating of the driver communicationRating: "
+                        + communicationValue
+                        + "\nPassenger comment to driver: "
+                        + comment);
             }
         });
     }

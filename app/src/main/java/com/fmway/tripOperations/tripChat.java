@@ -7,70 +7,110 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.fmway.R;
 import com.fmway.models.chat.ChatList;
 import com.fmway.models.chat.Chat;
-import com.fmway.models.chat.ParseChat;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class tripChat extends AppCompatActivity {
 
+    public static final String className = "Chat";
+    public static final String tripIdKey = "tripId";
+    public static final String personIdKey = "personId";
+    public static final String messageKey = "message";
+
+    private String tripId = "123";
+    private String personId = "123";
+
     private ListView discussionList;
     private EditText message;
     private Button send;
 
-    private List<ParseObject> messageList;
     private ArrayList<Chat> adapterMessageList;
 
-    private ParseChat parseChat = new ParseChat();
     private ChatList chatList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_chat);
 
-        final String tripId = "123";
-        final String userId = "123";
+        //tripId = getIntent().getStringExtra("tripId");
+        //personId = getIntent().getStringExtra("personId");
 
+        adapterMessageList = new ArrayList<>();
+
+        send = (Button)findViewById(R.id.send);
         discussionList = (ListView)findViewById(R.id.discussionList);
+        message = (EditText)findViewById(R.id.message);
 
         chatList = new ChatList(adapterMessageList, this);
         discussionList.setAdapter(chatList);
 
-        message = (EditText)findViewById(R.id.message);
-
         listMessages(tripId);
+    }
 
-        send = (Button)findViewById(R.id.send);
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String messageFromUser = String.valueOf(message.getText());
+    public void sendMessage(View view){
+        String messageFromUser = String.valueOf(message.getText());
 
-                parseChat.setTripId(tripId);
-                parseChat.setUserId(userId);
-                parseChat.setMessage(messageFromUser);
+        if(messageFromUser.equals("")){
+            Toast.makeText(getApplicationContext(), "This field cannot be empty!", Toast.LENGTH_LONG).show();
+        }
+        else {
+            ParseObject parseObject = new ParseObject(className);
 
-                listMessages(tripId);
-            }
-        });
+            parseObject.put(tripIdKey, tripId);
+            parseObject.put(personIdKey, personId);
+            parseObject.put(messageKey, messageFromUser);
+
+            parseObject.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Message sent.", Toast.LENGTH_LONG).show();
+
+                        adapterMessageList.clear();
+
+                        listMessages(tripId);
+                    }
+                }
+            });
+        }
     }
 
     public void listMessages(String takeTripId){
-        messageList = parseChat.getList(takeTripId);
-        adapterMessageList = null;
-        if(messageList.size()>0){
-            for (ParseObject listItem: messageList) {
-                adapterMessageList.add(new Chat(listItem.getString(parseChat.tripId)
-                                                ,listItem.getString(parseChat.userId)
-                                                ,listItem.getString(parseChat.message)));
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(className);
 
-                chatList.notifyDataSetChanged();
+        parseQuery.whereEqualTo(tripIdKey,takeTripId);
+
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+                @Override
+                public void done(List<ParseObject> objects, ParseException e) {
+                    if(e!=null){
+                        Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    }else{
+                        if(objects.size()>0){
+                            for(ParseObject object: objects){
+                                adapterMessageList.add(new Chat(object.getString(tripIdKey)
+                                                                ,object.getString(personIdKey)
+                                                                ,object.getString(messageKey)));
+
+                                chatList.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
             }
-        }
+        );
     }
 }

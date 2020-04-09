@@ -9,9 +9,10 @@ import android.widget.Button;
 
 import com.fmway.tripOperations.AddTripActivity;
 import com.fmway.tripOperations.ListTripActivity;
-import com.fmway.tripOperations.passengerFeedback;
 import com.fmway.tripOperations.driverFeedback;
 import com.fmway.R;
+import com.fmway.tripOperations.passengerFeedback;
+import com.fmway.tripOperations.tripChat;
 
 public class HomePage extends AppCompatActivity {
 
@@ -98,15 +99,15 @@ public class HomePage extends AppCompatActivity {
     public void openPassengerFeedback(){
         Intent intent = new Intent(this, passengerFeedback.class);
         intent.putExtra("personName", "Ersin");
-        intent.putExtra("personId",123);
+        intent.putExtra("personId","123");
         startActivity(intent);
     }
 
 
     public void openDriverFeedback(){
-        Intent intent = new Intent(this, driverFeedback.class);
+        Intent intent = new Intent(this, tripChat.class);
         intent.putExtra("personName", "Ersin");
-        intent.putExtra("personId",123);
+        intent.putExtra("personId","123");
         startActivity(intent);
     }
 }
