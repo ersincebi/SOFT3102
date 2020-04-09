@@ -22,17 +22,24 @@
         android:layout_centerHorizontal="true"/>
 
     <RatingBar
-        android:id="@+id/feedbackRating"
+        android:id="@+id/quality"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/feedbackText"
+        android:layout_centerHorizontal="true" />
+
+    <RatingBar
+        android:id="@+id/communication"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/quality"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:id="@+id/commentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/feedbackRating"
+        android:layout_below="@id/communication"
         android:ems="10"
         android:inputType="textPersonName"
         android:layout_centerHorizontal="true"

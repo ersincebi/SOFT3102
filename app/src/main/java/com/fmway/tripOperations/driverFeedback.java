@@ -18,13 +18,12 @@ public class driverFeedback extends AppCompatActivity {
     private Commons commons = new Commons();
 
     private TextView feedbackText;
-    private RatingBar feedbackStar;
+    private RatingBar qualityRating;
+    private RatingBar communicationRating;
+    private RatingBar priceRating;
     private Button feedbackSend;
     private EditText commentText;
 
-    /**
-     * TODO: expend the rating as quality, commun, price, time, etc...
-     */
     /**
      * before call this activity
      * this activity requires two parameter via intent
@@ -50,7 +49,8 @@ public class driverFeedback extends AppCompatActivity {
         feedbackText = (TextView)findViewById(R.id.feedbackText);
         feedbackText.setText("How was your trip with " + driverName + "?");
 
-        feedbackStar = (RatingBar)findViewById(R.id.feedbackRating);
+        qualityRating = (RatingBar)findViewById(R.id.quality);
+        communicationRating = (RatingBar)findViewById(R.id.communication);
 
         commentText = (EditText)findViewById(R.id.commentText);
 
@@ -58,7 +58,8 @@ public class driverFeedback extends AppCompatActivity {
         feedbackSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                float rateValue = feedbackStar.getRating();
+                float qualityValue = qualityRating.getRating();
+                float communicationValue = communicationRating.getRating();
                 String comment = String.valueOf(commentText.getText());
 
 
@@ -71,8 +72,10 @@ public class driverFeedback extends AppCompatActivity {
                             + commons.currentDate("yyyy-MM-dd")
                             +"\nid of driver :"
                             + personId
-                            + "\nRating of the driver: "
-                            + rateValue
+                            + "\nRating of the driver qualityRating: "
+                            + qualityValue
+                            + "\nRating of the driver communicationRating: "
+                            + communicationValue
                             + "\nPassenger comment to driver: "
                             + comment);
                 else
