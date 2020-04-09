@@ -8,8 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import com.fmway.tripOperations.AddTripActivity;
+<<<<<<< HEAD
 import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.passengerFeedback;
+=======
+import com.fmway.tripOperations.ListTripActivity;
+>>>>>>> chat bug fix finished
 import com.fmway.tripOperations.driverFeedback;
 import com.fmway.R;
 import com.fmway.tripOperations.passengerFeedback;
@@ -119,7 +123,7 @@ public class HomePage extends AppCompatActivity {
     }
 
     public void openDriverFeedback(){
-        Intent intent = new Intent(this, driverFeedback.class);
+        Intent intent = new Intent(this, tripChat.class);
         intent.putExtra("personName", "Ersin");
         intent.putExtra("personId","123");
         startActivity(intent);
