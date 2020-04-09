@@ -18,6 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.userOperations.DriverActivity;
 import com.fmway.userOperations.SignUpLoginActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -42,6 +43,7 @@ public class AddTripActivity extends AppCompatActivity {
     EditText capacity;
     EditText price;
     Context context=this;
+    String userID;
 
 
     @Override
@@ -86,6 +88,15 @@ public class AddTripActivity extends AppCompatActivity {
         destination=findViewById(R.id.addTripDestination);
         capacity=findViewById(R.id.addTripCapacity);
         price=findViewById(R.id.addTripPrice);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
 
 
 
@@ -164,6 +175,7 @@ public class AddTripActivity extends AppCompatActivity {
             object.put("Destination", destination.getText().toString());
             object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
             object.put("Price",Integer.parseInt(price.getText().toString()));
+            object.put("TripCreatedBy",userID);
             object.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -172,6 +184,10 @@ public class AddTripActivity extends AppCompatActivity {
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Trip added.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                        intent.putExtra("userID",userID);
+                        startActivity(intent);
+
 
 
                        

@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import com.fmway.R;
 import com.fmway.tripOperations.AddTripActivity;
+import com.fmway.tripOperations.ListMyTripsDriverActivity;
+import com.fmway.tripOperations.ListTripActivityAdmin;
 import com.fmway.tripOperations.ListTripActivityPassenger;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -26,6 +28,7 @@ public class DriverActivity extends AppCompatActivity {
     Button balanceButton;
     Button addTripButton;
 
+    String userID;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,6 +67,15 @@ public class DriverActivity extends AppCompatActivity {
         listMyTripsButton=findViewById(R.id.listMyTripsButton);
         addTripButton=findViewById(R.id.addTripButtonDriver);
         balanceButton=findViewById(R.id.balanceButtonDriver);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
     }
 
     public void listTrips(View view){
@@ -77,7 +89,14 @@ public class DriverActivity extends AppCompatActivity {
     }
     public void addTrip(View view){
         Intent intent = new Intent(getApplicationContext(), AddTripActivity.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
+    public void listMyTrips(View view){
+        Intent intent= new Intent(getApplicationContext(), ListMyTripsDriverActivity.class);
+        intent.putExtra("userID",userID);
+        startActivity(intent);
+    }
+
 }
 

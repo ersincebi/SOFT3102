@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
     Button addAdminButton;
     Button approveDriversButton;
 
+
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
          MenuInflater menuInflater = getMenuInflater();
@@ -55,6 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
+
 
         editTripsButton=findViewById(R.id.editTripsButton);
         editUserButton=findViewById(R.id.editProfilesButton);

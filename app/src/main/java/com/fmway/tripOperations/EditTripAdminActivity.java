@@ -31,7 +31,7 @@ import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditTripActivity extends AppCompatActivity {
+public class EditTripAdminActivity extends AppCompatActivity {
     Button dateButton;
     Button timeButton;
     Button editTripButton;
@@ -85,7 +85,7 @@ public class EditTripActivity extends AppCompatActivity {
             savedExtra =(String) b.get("objectID");
 
         }
-        savedExtra= getIntent().getStringExtra("objectID");
+        //savedExtra= getIntent().getStringExtra("objectID");
 
         dateButton=findViewById(R.id.editTripDateButton);
         timeButton=findViewById(R.id.editTripTimeButton);
@@ -124,7 +124,7 @@ public class EditTripActivity extends AppCompatActivity {
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
 
-                if(!((Activity) EditTripActivity.this).isFinishing())
+                if(!((Activity) EditTripAdminActivity.this).isFinishing())
                 {
                     dpd.show();
                 }

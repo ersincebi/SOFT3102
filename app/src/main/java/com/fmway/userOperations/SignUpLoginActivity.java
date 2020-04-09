@@ -41,11 +41,14 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
 
 
+                    String userID=user.getObjectId();
+
                     String userType=user.getString("userType");
                     if (userType.equals("admin")){
 
                         //intent for admin Login
                         Intent intent = new Intent(getApplicationContext(),AdminActivity.class);
+                        intent.putExtra("userID",userID);
                         startActivity(intent);
 
                     }
@@ -54,6 +57,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     else if (userType.equals("passenger")){
                         //intent
                         Intent intent = new Intent(getApplicationContext(),PassengerActivity.class);
+                        intent.putExtra("userID",userID);
                         startActivity(intent);
 
                     }
@@ -63,6 +67,7 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     else if (userType.equals("driver")){
                         //intent
                         Intent intent = new Intent(getApplicationContext(),DriverActivity.class);
+                        intent.putExtra("userID",userID);
                         startActivity(intent);
                     }
 

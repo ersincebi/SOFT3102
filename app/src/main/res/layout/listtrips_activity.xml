@@ -52,23 +52,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/priceTextview"
+        android:id="@+id/capacityTextview"
         android:layout_width="60dp"
         android:layout_height="17dp"
         android:layout_marginStart="292dp"
         android:layout_marginLeft="292dp"
-        android:text="Price"
+        android:text="Capacity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/capacityTextview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/priceTextView"
+        android:layout_width="48dp"
+        android:layout_height="19dp"
         android:layout_marginStart="352dp"
         android:layout_marginLeft="352dp"
-        android:text="Capacity"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Price"
+        app:layout_constraintStart_toStartOf="@+id/dateTextview"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

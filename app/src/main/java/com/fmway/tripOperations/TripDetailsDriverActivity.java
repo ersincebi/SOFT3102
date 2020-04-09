@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.userOperations.AdminActivity;
+import com.fmway.userOperations.DriverActivity;
 import com.fmway.userOperations.SignUpLoginActivity;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -27,7 +27,7 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TripDetailsAdminActivity extends AppCompatActivity {
+public class TripDetailsDriverActivity extends AppCompatActivity {
     Button editTripButton;
     Button deleteTripButton;
     TextView dateText;
@@ -38,8 +38,9 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
     TextView capacity;
     TextView price;
     Context context=this;
+    String userID;
 
-     String savedExtra;
+    String savedExtra;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -77,8 +78,8 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-           savedExtra =(String) b.get("objectID");
-
+            savedExtra =(String) b.get("objectID");
+            userID=(String)b.get("userID");
         }
         savedExtra= getIntent().getStringExtra("objectID");
 
@@ -95,8 +96,9 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         editTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent= new Intent(TripDetailsAdminActivity.this, EditTripAdminActivity.class);
+                Intent myIntent= new Intent(TripDetailsDriverActivity.this, EditTripDriverActivity.class);
                 myIntent.putExtra("objectID", savedExtra);
+                myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
@@ -117,7 +119,8 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
                                 public void done(ParseException e) {
                                     if (e == null) {
                                         Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                        intent.putExtra("userID",userID);
                                         startActivity(intent);
                                         finish();
                                     } else {
@@ -138,29 +141,31 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
 
 
 
-        public void download(){
-            ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
-            query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+    public void download(){
+        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                    } else {
+                } else {
 
-                        dateText.setText(object.getString("Date"));
-                        timeText.setText(object.getString("Time"));
-                        from.setText(object.getString("From"));
-                        destination.setText(object.getString("Destination"));
-                        capacity.setText(String.valueOf(object.getInt("Capacity")));
-                        price.setText(String.valueOf(object.getInt("Price")));
-                    }
-                }
-            });
-
-
-
+                    dateText.setText(object.getString("Date"));
+                    timeText.setText(object.getString("Time"));
+                    from.setText(object.getString("From"));
+                    destination.setText(object.getString("Destination"));
+                    capacity.setText(String.valueOf(object.getInt("Capacity")));
+                    price.setText(String.valueOf(object.getInt("Price")));
                 }
             }
+        });
+
+
+
+    }
+}
+
+
 
 

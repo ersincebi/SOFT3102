@@ -23,7 +23,7 @@
         <activity android:name="com.fmway.tripOperations.driverFeedback" />
         <activity android:name="com.fmway.tripOperations.passengerFeedback" />
         <activity android:name="com.fmway.tripOperations.TripDetailsAdminActivity" > </activity>
-        <activity android:name="com.fmway.tripOperations.EditTripActivity"> </activity>
+        <activity android:name="com.fmway.tripOperations.EditTripAdminActivity"> </activity>
         <activity android:name=".userOperations.AdminActivity"> </activity>
         <activity android:name=".userOperations.PassengerActivity"> </activity>
         <activity android:name=".tripOperations.TripDetailsPassengerActivity"></activity>
@@ -32,6 +32,9 @@
         <activity android:name=".userOperations.SignUpActivityMain"></activity>
         <activity android:name=".tripOperations.ListUserActivityAdmin"></activity>
         <activity android:name=".tripOperations.UserDetailsAdminActivity"></activity>
+        <activity android:name=".tripOperations.ListMyTripsDriverActivity"></activity>
+        <activity android:name=".tripOperations.EditTripDriverActivity"></activity>
+        <activity android:name=".tripOperations.TripDetailsDriverActivity"></activity>
 
     </application>
 
