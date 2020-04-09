@@ -75,6 +75,10 @@ import androidx.appcompat.app.AppCompatActivity;
          Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
          startActivity(intent);
      }
+     public void addAdmin(View view){
+         Intent intent = new Intent(getApplicationContext(), AddAdminActivity.class);
+         startActivity(intent);
+     }
 
 
 
