@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.userOperations.AdminActivity;
 import com.fmway.userOperations.SignUpLoginActivity;
 import com.parse.DeleteCallback;
@@ -40,6 +41,8 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
     Context context=this;
 
      String savedExtra;
+
+     private TripParseDefinitions definitions = new TripParseDefinitions();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -77,10 +80,10 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-           savedExtra =(String) b.get("objectID");
+           savedExtra =(String) b.get(definitions.getObjectIdKey());
 
         }
-        savedExtra= getIntent().getStringExtra("objectID");
+        savedExtra= getIntent().getStringExtra(definitions.getObjectIdKey());
 
         editTripButton = findViewById(R.id.detailsEditTripButton);
         deleteTripButton = findViewById(R.id.detailsDeleteTripButton);

@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fmway.models.trip.Trip;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.userOperations.PostActivity;
 import com.fmway.R;
 import com.fmway.userOperations.SignUpLoginActivity;
@@ -29,18 +31,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ListTripActivityAdmin extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<String> objectIdFromParse;
-    ArrayList<String> dateFromParse;
-    ArrayList<String> timeFromParse;
-    ArrayList<String> fromFromParse;
-    ArrayList<String> destinationFromParse;
-    ArrayList<String> capacityFromParse;
-    ArrayList<String> priceFromParse;
+    ArrayList<Trip> trip;
     String selected=null;
 
+    PostActivity postActivity;
 
-
-    PostActivity postActivity ;
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -82,17 +78,9 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
         listView = findViewById(R.id.listTripsList);
 
-        objectIdFromParse= new ArrayList<>();
-        dateFromParse= new ArrayList<>();
-        timeFromParse=new ArrayList<>();
-        fromFromParse= new ArrayList<>();
-        destinationFromParse=new ArrayList<>();
-        capacityFromParse=new ArrayList<>();
-        priceFromParse=new ArrayList<>();
+        trip = new ArrayList<>();
 
-
-
-        postActivity= new PostActivity(objectIdFromParse,dateFromParse,timeFromParse,fromFromParse,destinationFromParse,capacityFromParse,priceFromParse,this);
+        postActivity= new PostActivity(trip,this);
 
         download();
         listView.setAdapter(postActivity);
@@ -102,15 +90,10 @@ public class ListTripActivityAdmin extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
 
-
-
-
                 Intent myIntent= new Intent(ListTripActivityAdmin.this, TripDetailsAdminActivity.class);
-                myIntent.putExtra("objectID", selected);
+                myIntent.putExtra(definitions.getObjectIdKey(), selected);
                 startActivity(myIntent);
             }
         });
@@ -118,7 +101,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
     }
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -130,14 +113,17 @@ public class ListTripActivityAdmin extends AppCompatActivity {
                     if(objects.size()>0){
                         for(ParseObject object: objects){
 
-
-                            objectIdFromParse.add(object.getObjectId());
-                            dateFromParse.add(object.getString("Date"));
-                            timeFromParse.add(object.getString("Time"));
-                            fromFromParse.add(object.getString("From"));
-                            destinationFromParse.add(object.getString("Destination"));
-                            capacityFromParse.add(String.valueOf(object.getInt("Capacity")));
-                            priceFromParse.add(String.valueOf(object.getInt("Price")));
+                            trip.add(
+                                    new Trip(
+                                            object.getObjectId()
+                                            ,object.getString(definitions.getDateKey())
+                                            ,object.getString(definitions.getTimeKey())
+                                            ,object.getString(definitions.getFromKey())
+                                            ,object.getString(definitions.getDestinationKey())
+                                            ,String.valueOf(object.getInt(definitions.getCapacityKey()))
+                                            ,String.valueOf(object.getInt(definitions.getPriceKey()))
+                                    )
+                            );
 
 
                             postActivity.notifyDataSetChanged();

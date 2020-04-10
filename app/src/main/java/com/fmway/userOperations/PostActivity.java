@@ -14,31 +14,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fmway.R;
+import com.fmway.models.trip.Trip;
 
-public class PostActivity extends ArrayAdapter<String> {
-    private final ArrayList<String> objectId;
-    private final ArrayList<String> date; //String ---> DATE
-    private final ArrayList<String> time;
-    private final ArrayList<String> from;
-    private final ArrayList<String> destination;
-    private final ArrayList<String> capacity;
-    private final ArrayList<String> price;
+public class PostActivity extends ArrayAdapter<Trip> {
+    private final ArrayList<Trip> trip;
 
     private final Activity context;
 
-    public PostActivity(ArrayList<String> objectId,ArrayList<String> date,ArrayList<String> time,ArrayList<String> from, ArrayList<String> destination , ArrayList<String> capacity,
-                      ArrayList<String> price, Activity context){
-//String ----> Date
-
-        super(context,R.layout.customview_listtrips,objectId);
-        this.objectId=objectId;
-
-        this.date=date;
-        this.time=time;
-        this.from=from;
-        this.destination=destination;
-        this.capacity=capacity;
-        this.price=price;
+    public PostActivity(ArrayList<Trip> trip, Activity context){
+        super(context,R.layout.customview_listtrips,trip);
+        this.trip=trip;
         this.context=context;
     }
     @NonNull
@@ -55,15 +40,13 @@ public class PostActivity extends ArrayAdapter<String> {
         TextView capacityText=customView.findViewById(R.id.customView_Capacity);
         TextView priceText=customView.findViewById(R.id.customView_Price);
 
-        objectIdText.setText(objectId.get(position));
-        dateText.setText(date.get(position));
-        timeText.setText(time.get(position));
-        fromText.setText(from.get(position));
-        destinationText.setText(destination.get(position));
-        capacityText.setText(capacity.get(position));
-        priceText.setText(price.get(position));
-
-
+        objectIdText.setText(trip.get(position).getObjectId());
+        dateText.setText(trip.get(position).getDate());
+        timeText.setText(trip.get(position).getTime());
+        fromText.setText(trip.get(position).getFrom());
+        destinationText.setText(trip.get(position).getDestination());
+        capacityText.setText(trip.get(position).getCapacity());
+        priceText.setText(trip.get(position).getPrice());
 
         return customView;
     }

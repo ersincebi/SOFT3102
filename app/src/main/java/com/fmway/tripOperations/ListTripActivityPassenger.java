@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.Trip;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.userOperations.PostActivity;
 import com.fmway.userOperations.SignUpLoginActivity;
 import com.parse.FindCallback;
@@ -29,16 +31,11 @@ import androidx.appcompat.app.AppCompatActivity;
 public class ListTripActivityPassenger extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<String> objectIdFromParse;
-    ArrayList<String> dateFromParse;
-    ArrayList<String> timeFromParse;
-    ArrayList<String> fromFromParse;
-    ArrayList<String> destinationFromParse;
-    ArrayList<String> capacityFromParse;
-    ArrayList<String> priceFromParse;
+    private ArrayList<Trip> trip;
     String selected=null;
 
 
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     PostActivity postActivity ;
 
@@ -81,17 +78,11 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
         listView = findViewById(R.id.listTripsList);
 
-        objectIdFromParse= new ArrayList<>();
-        dateFromParse= new ArrayList<>();
-        timeFromParse=new ArrayList<>();
-        fromFromParse= new ArrayList<>();
-        destinationFromParse=new ArrayList<>();
-        capacityFromParse=new ArrayList<>();
-        priceFromParse=new ArrayList<>();
+        trip= new ArrayList<>();
 
 
 
-        postActivity= new PostActivity(objectIdFromParse,dateFromParse,timeFromParse,fromFromParse,destinationFromParse,capacityFromParse,priceFromParse,this);
+        postActivity= new PostActivity(trip,this);
 
         download();
         listView.setAdapter(postActivity);
@@ -117,7 +108,7 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
     }
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -130,13 +121,17 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                         for(ParseObject object: objects){
 
 
-                            objectIdFromParse.add(object.getObjectId());
-                            dateFromParse.add(object.getString("Date"));
-                            timeFromParse.add(object.getString("Time"));
-                            fromFromParse.add(object.getString("From"));
-                            destinationFromParse.add(object.getString("Destination"));
-                            capacityFromParse.add(String.valueOf(object.getInt("Capacity")));
-                            priceFromParse.add(String.valueOf(object.getInt("Price")));
+                            trip.add(
+                                    new Trip(
+                                            object.getObjectId()
+                                            ,object.getString(definitions.getDateKey())
+                                            ,object.getString(definitions.getTimeKey())
+                                            ,object.getString(definitions.getFromKey())
+                                            ,object.getString(definitions.getDestinationKey())
+                                            ,String.valueOf(object.getInt(definitions.getCapacityKey()))
+                                            ,String.valueOf(object.getInt(definitions.getPriceKey()))
+                                    )
+                            );
 
 
                             postActivity.notifyDataSetChanged();

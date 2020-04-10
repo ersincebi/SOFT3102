@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.chat.ChatList;
 import com.fmway.models.chat.Chat;
+import com.fmway.models.chat.ChatParseDefinitions;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -23,11 +24,6 @@ import java.util.List;
 
 public class tripChat extends AppCompatActivity {
 
-    public static final String className = "Chat";
-    public static final String tripIdKey = "tripId";
-    public static final String personIdKey = "personId";
-    public static final String messageKey = "message";
-
     private String tripId = "";
     private String personId = "";
 
@@ -37,6 +33,7 @@ public class tripChat extends AppCompatActivity {
 
     private ArrayList<Chat> adapterMessageList;
 
+    private ChatParseDefinitions definitions = new ChatParseDefinitions();
     private ChatList chatList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +62,11 @@ public class tripChat extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "This field cannot be empty!", Toast.LENGTH_LONG).show();
         }
         else {
-            ParseObject parseObject = new ParseObject(className);
+            ParseObject parseObject = new ParseObject(definitions.getClassName());
 
-            parseObject.put(tripIdKey, tripId);
-            parseObject.put(personIdKey, personId);
-            parseObject.put(messageKey, messageFromUser);
+            parseObject.put(definitions.getTripIdKey(), tripId);
+            parseObject.put(definitions.getPersonIdKey(), personId);
+            parseObject.put(definitions.getMessageKey(), messageFromUser);
 
             parseObject.saveInBackground(new SaveCallback() {
                 @Override
@@ -89,9 +86,9 @@ public class tripChat extends AppCompatActivity {
     }
 
     public void listMessages(String takeTripId){
-        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(className);
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(definitions.getClassName());
 
-        parseQuery.whereEqualTo(tripIdKey,takeTripId);
+        parseQuery.whereEqualTo(definitions.getTripIdKey(), takeTripId);
 
         parseQuery.findInBackground(new FindCallback<ParseObject>() {
                 @Override
@@ -101,9 +98,9 @@ public class tripChat extends AppCompatActivity {
                     }else{
                         if(objects.size()>0){
                             for(ParseObject object: objects){
-                                adapterMessageList.add(new Chat(object.getString(tripIdKey)
-                                                                ,object.getString(personIdKey)
-                                                                ,object.getString(messageKey)));
+                                adapterMessageList.add(new Chat(object.getString(definitions.getTripIdKey())
+                                                                ,object.getString(definitions.getPersonIdKey())
+                                                                ,object.getString(definitions.getMessageKey())));
 
                                 chatList.notifyDataSetChanged();
                             }
