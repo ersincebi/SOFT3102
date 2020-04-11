@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.driver;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -18,12 +18,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.userOperations.SignUpLoginActivity;
-import com.parse.GetCallback;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -31,10 +29,11 @@ import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditTripAdminActivity extends AppCompatActivity {
+public class AddTripActivity extends AppCompatActivity {
+
     Button dateButton;
     Button timeButton;
-    Button editTripButton;
+    Button addTripButton;
     TextView dateText;
     TextView timeText;
 
@@ -43,8 +42,8 @@ public class EditTripAdminActivity extends AppCompatActivity {
     EditText capacity;
     EditText price;
     Context context=this;
+    String userID;
 
-    String savedExtra;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,32 +71,31 @@ public class EditTripAdminActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edittrip);
+        setContentView(R.layout.addtrip_activity);
+
+        dateButton=findViewById(R.id.addTripDateButton);
+        timeButton=findViewById(R.id.addTripTimeButton);
+        addTripButton=findViewById(R.id.addTripButton);
+        dateText=findViewById(R.id.addTripDate);
+        timeText=findViewById(R.id.addTripTime);
+        from=findViewById(R.id.addTripFrom);
+        destination=findViewById(R.id.addTripDestination);
+        capacity=findViewById(R.id.addTripCapacity);
+        price=findViewById(R.id.addTripPrice);
+
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
 
         if(b!=null)
         {
-            savedExtra =(String) b.get("objectID");
+            userID =(String) b.get("userID");
 
         }
-        //savedExtra= getIntent().getStringExtra("objectID");
-
-        dateButton=findViewById(R.id.editTripDateButton);
-        timeButton=findViewById(R.id.editTripTimeButton);
-        editTripButton=findViewById(R.id.editTripEditButton);
-        dateText=findViewById(R.id.editTripDate);
-        timeText=findViewById(R.id.editTripTime);
-        from=findViewById(R.id.editTripFrom);
-        destination=findViewById(R.id.editTripDestination);
-        capacity=findViewById(R.id.editTripCapacity);
-        price=findViewById(R.id.editTripPrice);
-
-        download();
 
 
 
@@ -124,7 +122,7 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
 
-                if(!((Activity) EditTripAdminActivity.this).isFinishing())
+                if(!((Activity) AddTripActivity.this).isFinishing())
                 {
                     dpd.show();
                 }
@@ -159,30 +157,7 @@ public class EditTripAdminActivity extends AppCompatActivity {
             }
         });
     }
-    public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
-        query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (e != null) {
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                } else {
-
-                    dateText.setText(object.getString("Date"));
-                    timeText.setText(object.getString("Time"));
-                    from.setText(object.getString("From"));
-                    destination.setText(object.getString("Destination"));
-                    capacity.setText(String.valueOf(object.getInt("Capacity")));
-                    price.setText(String.valueOf(object.getInt("Price")));
-                }
-            }
-        });
-
-
-
-    }
-    public void editTrip(View view){
+    public void addTrip(View view){
         if (from.getText().toString().equals(destination.getText().toString()) ){
             Toast.makeText(getApplicationContext(), "From and Destination Cannot be same", Toast.LENGTH_LONG).show();
         }
@@ -192,36 +167,33 @@ public class EditTripAdminActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show();
         }
         else {
-            ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
-            query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            ParseObject object = new ParseObject("Trip");
+            object.put("Date", dateText.getText().toString());
+            object.put("Time", timeText.getText().toString());
+            object.put("From", from.getText().toString());
+            object.put("Destination", destination.getText().toString());
+            object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
+            object.put("Price",Integer.parseInt(price.getText().toString()));
+            object.put("TripCreatedBy",userID);
+            object.saveInBackground(new SaveCallback() {
                 @Override
-                public void done(ParseObject object, ParseException e) {
-                    object.put("Date", dateText.getText().toString());
-                    object.put("Time", timeText.getText().toString());
-                    object.put("From", from.getText().toString());
-                    object.put("Destination", destination.getText().toString());
-                    object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
-                    object.put("Price",Integer.parseInt(price.getText().toString()));
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Trip edited.", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
-                                startActivity(intent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Trip added.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                        intent.putExtra("userID",userID);
+                        startActivity(intent);
 
 
-                            }
 
-                        }
-                    });
+                       
+                    }
+
                 }
             });
-
         }
     }
 }
-

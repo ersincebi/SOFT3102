@@ -1,4 +1,4 @@
-package com.fmway.userOperations;
+package com.fmway.operations.commonActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.fmway.R;
-import com.parse.LogInCallback;
+import com.fmway.operations.admin.AdminActivity;
+import com.fmway.operations.driver.DriverActivity;
+import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -59,7 +61,7 @@ public class SignUpActivityMain extends AppCompatActivity {
                     if (userType.equals("admin")){
 
                         //intent for admin Login
-                        Intent intent = new Intent(getApplicationContext(),AdminActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                         startActivity(intent);
 
                     }
@@ -67,7 +69,7 @@ public class SignUpActivityMain extends AppCompatActivity {
                     //intent for passenger Login
                     else if (userType.equals("passenger")){
                         //intent
-                        Intent intent = new Intent(getApplicationContext(),PassengerActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
                         startActivity(intent);
 
                     }
@@ -76,7 +78,7 @@ public class SignUpActivityMain extends AppCompatActivity {
                     //intent for driver Login
                     else if (userType.equals("driver")){
                         //intent
-                        Intent intent = new Intent(getApplicationContext(),DriverActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
                         startActivity(intent);
                     }
 

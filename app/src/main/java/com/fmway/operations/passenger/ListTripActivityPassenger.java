@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.passenger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,11 +11,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fmway.R;
 import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
-import com.fmway.userOperations.PostActivity;
-import com.fmway.R;
-import com.fmway.userOperations.SignUpLoginActivity;
+import com.fmway.operations.commonActivities.PostActivity;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -28,15 +28,16 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ListTripActivityAdmin extends AppCompatActivity {
+public class ListTripActivityPassenger extends AppCompatActivity {
 
     ListView listView;
-    ArrayList<Trip> trip;
+    private ArrayList<Trip> trip;
     String selected=null;
 
-    PostActivity postActivity;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
+
+    PostActivity postActivity ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,7 +65,6 @@ public class ListTripActivityAdmin extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -78,7 +78,9 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
         listView = findViewById(R.id.listTripsList);
 
-        trip = new ArrayList<>();
+        trip= new ArrayList<>();
+
+
 
         postActivity= new PostActivity(trip,this);
 
@@ -90,10 +92,15 @@ public class ListTripActivityAdmin extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
 
-                Intent myIntent= new Intent(ListTripActivityAdmin.this, TripDetailsAdminActivity.class);
-                myIntent.putExtra(definitions.getObjectIdKey(), selected);
+
+
+
+                Intent myIntent= new Intent(ListTripActivityPassenger.this, TripDetailsPassengerActivity.class);
+                myIntent.putExtra("objectID", selected);
                 startActivity(myIntent);
             }
         });
@@ -112,6 +119,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
                     if(objects.size()>0){
                         for(ParseObject object: objects){
+
 
                             trip.add(
                                     new Trip(

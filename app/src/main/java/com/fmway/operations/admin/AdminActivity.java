@@ -1,4 +1,4 @@
-package com.fmway.userOperations;
+package com.fmway.operations.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.tripOperations.ListTripActivityAdmin;
-import com.fmway.tripOperations.ListTripActivityPassenger;
-import com.fmway.tripOperations.ListUserActivityAdmin;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;

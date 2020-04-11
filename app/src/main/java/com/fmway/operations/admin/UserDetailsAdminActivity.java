@@ -1,29 +1,17 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.admin;
 
-        import android.content.Context;
         import android.content.Intent;
         import android.os.Bundle;
         import android.view.Menu;
         import android.view.MenuInflater;
         import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.TextView;
         import android.widget.Toast;
 
         import com.fmway.R;
-        import com.fmway.userOperations.AdminActivity;
-        import com.fmway.userOperations.SignUpLoginActivity;
-        import com.parse.DeleteCallback;
-        import com.parse.FindCallback;
-        import com.parse.GetCallback;
+        import com.fmway.operations.commonActivities.SignUpLoginActivity;
         import com.parse.LogOutCallback;
         import com.parse.ParseException;
-        import com.parse.ParseObject;
-        import com.parse.ParseQuery;
         import com.parse.ParseUser;
-
-        import java.util.List;
 
         import androidx.appcompat.app.AppCompatActivity;
 

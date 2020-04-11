@@ -1,4 +1,4 @@
-package com.fmway.userOperations;
+package com.fmway.operations.driver;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.tripOperations.AddTripActivity;
-import com.fmway.tripOperations.ListMyTripsDriverActivity;
-import com.fmway.tripOperations.ListTripActivityAdmin;
-import com.fmway.tripOperations.ListTripActivityPassenger;
+import com.fmway.operations.passenger.ListTripActivityPassenger;
+import com.fmway.operations.commonActivities.Payment;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -84,7 +83,7 @@ public class DriverActivity extends AppCompatActivity {
     }
 
     public void balance(View view){
-        Intent intent = new Intent(getApplicationContext(),Payment.class);
+        Intent intent = new Intent(getApplicationContext(), Payment.class);
         startActivity(intent);
     }
     public void addTrip(View view){

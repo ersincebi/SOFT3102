@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.admin;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -18,8 +18,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.userOperations.DriverActivity;
-import com.fmway.userOperations.SignUpLoginActivity;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -32,7 +31,7 @@ import java.util.Calendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditTripDriverActivity extends AppCompatActivity {
+public class EditTripAdminActivity extends AppCompatActivity {
     Button dateButton;
     Button timeButton;
     Button editTripButton;
@@ -46,7 +45,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
     Context context=this;
 
     String savedExtra;
-    String userID;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,7 +83,7 @@ public class EditTripDriverActivity extends AppCompatActivity {
         if(b!=null)
         {
             savedExtra =(String) b.get("objectID");
-            userID=(String) b.get("userID");
+
         }
         //savedExtra= getIntent().getStringExtra("objectID");
 
@@ -126,7 +124,7 @@ public class EditTripDriverActivity extends AppCompatActivity {
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
 
-                if(!((Activity) EditTripDriverActivity.this).isFinishing())
+                if(!((Activity) EditTripAdminActivity.this).isFinishing())
                 {
                     dpd.show();
                 }
@@ -212,8 +210,7 @@ public class EditTripDriverActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), "Trip edited.", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
-                                intent.putExtra("userID",userID);
+                                Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
                                 startActivity(intent);
 
 

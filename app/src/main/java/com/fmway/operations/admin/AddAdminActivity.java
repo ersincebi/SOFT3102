@@ -1,4 +1,4 @@
-package com.fmway.userOperations;
+package com.fmway.operations.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,7 +59,7 @@ public class AddAdminActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(getApplicationContext(),"New admin account is created!",Toast.LENGTH_LONG).show();
 
-                        Intent intent = new Intent(getApplicationContext(),AdminActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                         startActivity(intent);
 
 

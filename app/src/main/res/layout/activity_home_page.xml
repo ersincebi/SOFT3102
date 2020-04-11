@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.fmway.userOperations.HomePage">
+    tools:context="com.fmway.operations.commonActivities.HomePage">
 
     <Button
         android:id="@+id/tripChat"

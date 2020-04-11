@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.driver;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
-import com.fmway.userOperations.PostActivity;
-import com.fmway.userOperations.SignUpLoginActivity;
+import com.fmway.operations.commonActivities.PostActivity;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -28,16 +28,17 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ListTripActivityPassenger extends AppCompatActivity {
-
+public class ListMyTripsDriverActivity extends AppCompatActivity {
     ListView listView;
-    private ArrayList<Trip> trip;
+    ArrayList<Trip> trip;
     String selected=null;
 
+    String userID;
 
-    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     PostActivity postActivity ;
+
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,6 +66,7 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -75,6 +77,14 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         setContentView(R.layout.listtrips_activity);
 
         ParseUser user = new ParseUser();
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
 
         listView = findViewById(R.id.listTripsList);
 
@@ -99,8 +109,9 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
 
 
-                Intent myIntent= new Intent(ListTripActivityPassenger.this, TripDetailsPassengerActivity.class);
+                Intent myIntent= new Intent(ListMyTripsDriverActivity.this, TripDetailsDriverActivity.class);
                 myIntent.putExtra("objectID", selected);
+                myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
@@ -109,6 +120,7 @@ public class ListTripActivityPassenger extends AppCompatActivity {
     }
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
+        query.whereEqualTo(definitions.getTripCreatedByKey(),userID);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -143,3 +155,4 @@ public class ListTripActivityPassenger extends AppCompatActivity {
     }
 
 }
+

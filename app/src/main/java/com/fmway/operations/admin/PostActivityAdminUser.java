@@ -1,4 +1,4 @@
-package com.fmway.userOperations;
+package com.fmway.operations.admin;
 
 import android.app.Activity;
 import android.widget.ArrayAdapter;

@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.commonActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

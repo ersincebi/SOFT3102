@@ -1,4 +1,4 @@
-package com.fmway.tripOperations;
+package com.fmway.operations.passenger;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,16 +6,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
-import com.fmway.userOperations.DriverActivity;
-import com.fmway.userOperations.SignUpLoginActivity;
-import com.parse.DeleteCallback;
-import com.parse.FindCallback;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -23,13 +19,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.List;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-public class TripDetailsDriverActivity extends AppCompatActivity {
-    Button editTripButton;
-    Button deleteTripButton;
+public class TripDetailsPassengerActivity extends AppCompatActivity {
+
+
+    Button joinButton;
+
     TextView dateText;
     TextView timeText;
 
@@ -38,9 +34,9 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
     TextView capacity;
     TextView price;
     Context context=this;
-    String userID;
 
     String savedExtra;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -70,7 +66,7 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tripdetailsadmin);
+        setContentView(R.layout.activity_tripdetailspassenger);
 
 
         Intent iin= getIntent();
@@ -79,63 +75,21 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
         if(b!=null)
         {
             savedExtra =(String) b.get("objectID");
-            userID=(String)b.get("userID");
+
         }
         savedExtra= getIntent().getStringExtra("objectID");
 
-        editTripButton = findViewById(R.id.detailsEditTripButton);
-        deleteTripButton = findViewById(R.id.detailsDeleteTripButton);
+
         dateText = findViewById(R.id.detailsTripDate);
         timeText = findViewById(R.id.detailsTripTime);
         from = findViewById(R.id.detailsTripFrom);
         destination = findViewById(R.id.detailsTripDestination);
         capacity = findViewById(R.id.detailsTripCapacity);
         price = findViewById(R.id.detailsTripPrice);
+        joinButton=findViewById(R.id.joinTripButton);
 
         download();
-        editTripButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent= new Intent(TripDetailsDriverActivity.this, EditTripDriverActivity.class);
-                myIntent.putExtra("objectID", savedExtra);
-                myIntent.putExtra("userID",userID);
-                startActivity(myIntent);
-            }
-        });
 
-        deleteTripButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
-// Query parameters based on the item name
-                query.whereEqualTo("objectId", savedExtra);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(final List<ParseObject> object, ParseException e) {
-                        if (e == null) {
-                            object.get(0).deleteInBackground(new DeleteCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
-                                        intent.putExtra("userID",userID);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
-            }
-        });
     }
 
 
@@ -165,7 +119,3 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
 
     }
 }
-
-
-
-
