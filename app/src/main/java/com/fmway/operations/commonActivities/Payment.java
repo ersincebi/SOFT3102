@@ -2,19 +2,25 @@ package com.fmway.operations.commonActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.operations.driver.DriverActivity;
+import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.List;
 
@@ -27,6 +33,8 @@ public class Payment extends AppCompatActivity {
     EditText cvc;
     Button pay;
     Double payBalance;
+    String userID;
+    TextView currentBalance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,41 +51,79 @@ public class Payment extends AppCompatActivity {
                 pay();
             }
         });
+        currentBalance = findViewById(R.id.currentBalance);
 
-    }
+        Intent iin = getIntent();
+        Bundle b = iin.getExtras();
 
-    public void pay(){
-        if(balance.getText().equals(" ")){
-            Toast.makeText(this, "Balance can not be empty", Toast.LENGTH_SHORT).show();
-        }else{
-           payBalance = Double.parseDouble(String.valueOf(balance));
-        }
-        if(cardNo.getText().equals(" ")){
-            Toast.makeText(this, "Card Number can not be empty", Toast.LENGTH_SHORT).show();
-        }
-        if(holderName.getText().equals(" ")){
-            Toast.makeText(this, "Holder name can not be empty", Toast.LENGTH_SHORT).show();
-        }
-        if(cvc.getText().equals(" ")){
-            Toast.makeText(this, "CVC can not be empty", Toast.LENGTH_SHORT).show();
+        if (b != null) {
+            userID = (String) b.get("userID");
+
+
         }
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-        query.getInBackground("uGbPARzclY", new GetCallback<ParseObject>() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(userID, new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseObject object, ParseException e) {
+            public void done(ParseUser object, ParseException e) {
                 if (e != null) {
                     e.printStackTrace();
                 } else {
-                    Double objectBalance = object.getDouble("balance");
-                    System.out.println(objectBalance);
-                    currentbalance = objectBalance;
-                }
-                    currentbalance = payBalance + currentbalance;
-                    object.put("balance",currentbalance);
+                    currentbalance = object.getDouble("balance");
+                    currentBalance.setText((String.valueOf(currentbalance)));
+
                 }
 
-    });
+            }
+        });
+    }
+
+    public void pay() {
+        if (balance.getText().equals("")) {
+            Toast.makeText(this, "Balance can not be empty", Toast.LENGTH_SHORT).show();
+        } else {
+            payBalance = Double.parseDouble(String.valueOf(balance.getText()));
+        }
+        if (cardNo.getText().equals("")) {
+            Toast.makeText(this, "Card Number can not be empty", Toast.LENGTH_SHORT).show();
+        }
+        if (holderName.getText().equals("")) {
+            Toast.makeText(this, "Holder name can not be empty", Toast.LENGTH_SHORT).show();
+        }
+        if (cvc.getText().equals("")) {
+            Toast.makeText(this, "CVC can not be empty", Toast.LENGTH_SHORT).show();
+        }
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(userID, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                } else {
+                    currentbalance = payBalance + currentbalance;
+                    object.put("balance", currentbalance);
+                    object.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
+                                intent.putExtra("userID", userID);
+                                startActivity(intent);
+
+
+                            }
+                        }
+                    });
+
+
+                }
+            }
+        });
     }
 }
 

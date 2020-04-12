@@ -24,11 +24,13 @@ public class PassengerActivity extends AppCompatActivity {
     Button listTripsButton;
     Button applyDriverButton;
     Button balanceButton;
+    String userID;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
+
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -61,6 +63,16 @@ public class PassengerActivity extends AppCompatActivity {
         listTripsButton=findViewById(R.id.listTripButton);
         applyDriverButton=findViewById(R.id.applyDriverButton);
         balanceButton=findViewById(R.id.balanceButton);
+
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
     }
 
     public void listTrips(View view){
@@ -70,6 +82,7 @@ public class PassengerActivity extends AppCompatActivity {
 
     public void balance(View view){
         Intent intent = new Intent(getApplicationContext(), Payment.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
 }
