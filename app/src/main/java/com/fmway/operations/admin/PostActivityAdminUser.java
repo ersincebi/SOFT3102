@@ -22,12 +22,12 @@ public class PostActivityAdminUser extends ArrayAdapter<String> {
     private final ArrayList<String> Email;    //string
     private final ArrayList<String> Name;   //string
     private final ArrayList<String> Surname;    //string
-
+    private final ArrayList<String> Phone;     //string
 
     private final Activity context;
 
     public PostActivityAdminUser(ArrayList<String> objectId,ArrayList<String> username,ArrayList<String> createdAt,ArrayList<String> Email, ArrayList<String> Name , ArrayList<String> Surname,
-                         Activity context){
+                        ArrayList<String> Phone, Activity context){
 
 
         super(context,R.layout.customview_listusers,objectId);
@@ -38,7 +38,7 @@ public class PostActivityAdminUser extends ArrayAdapter<String> {
         this.Email=Email;
         this.Name=Name;
         this.Surname=Surname;
-
+        this.Phone=Phone;
         this.context=context;
     }
     @NonNull
@@ -47,7 +47,7 @@ public class PostActivityAdminUser extends ArrayAdapter<String> {
 
         LayoutInflater layoutInflater=this.context.getLayoutInflater();
         View customView=layoutInflater.inflate(R.layout.customview_listusers,null,true);
-        TextView objectIdText=customView.findViewById(R.id.customView_objectid);
+        TextView objectIdText=customView.findViewById(R.id.customView_objectId);
         TextView usernameText=customView.findViewById(R.id.customView_username);
         TextView createdAtText=customView.findViewById(R.id.customView_createdAt);
         TextView EmailText=customView.findViewById(R.id.customView_email);
@@ -61,7 +61,7 @@ public class PostActivityAdminUser extends ArrayAdapter<String> {
         EmailText.setText(Email.get(position));
         NameText.setText(Name.get(position));
         SurnameText.setText(Surname.get(position));
-
+        PhoneText.setText(Phone.get(position));
 
 
 
