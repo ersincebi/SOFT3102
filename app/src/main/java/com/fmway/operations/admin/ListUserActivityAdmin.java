@@ -89,7 +89,7 @@ public class ListUserActivityAdmin extends AppCompatActivity {
 
 
 
-        PostActivityAdminUser= new PostActivityAdminUser(objectIdFromParse,usernameFromParse,createDateFromParse,emailFromParse,nameFromParse,surnameFromParse,phoneFromParse,this);
+        PostActivityAdminUser= new PostActivityAdminUser(objectIdFromParse,usernameFromParse,createDateFromParse,emailFromParse,nameFromParse,surnameFromParse,this);
 
         download();
         listView.setAdapter(PostActivityAdminUser);
@@ -115,10 +115,10 @@ public class ListUserActivityAdmin extends AppCompatActivity {
 
     }
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("User");
-        query.findInBackground(new FindCallback<ParseObject>() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.findInBackground(new FindCallback<ParseUser>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
+            public void done(List<ParseUser> objects, ParseException e) {
                 if(e!=null){
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
 
@@ -134,7 +134,7 @@ public class ListUserActivityAdmin extends AppCompatActivity {
                             emailFromParse.add(object.getString("Email"));
                             nameFromParse.add(object.getString("Name"));
                             surnameFromParse.add(object.getString("Surname"));
-                            phoneFromParse.add(object.getString("Phone"));
+
 
 
                             PostActivityAdminUser.notifyDataSetChanged();
@@ -142,6 +142,8 @@ public class ListUserActivityAdmin extends AppCompatActivity {
                     }
                 }
             }
+
+
         });
     }
 
