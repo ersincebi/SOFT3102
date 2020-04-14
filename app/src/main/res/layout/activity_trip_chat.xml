@@ -11,15 +11,15 @@
         android:layout_height="550dp" />
 
     <RelativeLayout
-        android:layout_alignParentBottom="true"
+        android:id="@+id/typeSection"
         android:layout_width="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
-        android:layout_below="@id/discussionList"
         android:layout_height="wrap_content"
-        android:windowSoftInputMode="adjustPan|adjustResize">
+        android:layout_below="@id/discussionList"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="0dp"
+        android:paddingTop="5dp"
+        android:paddingRight="0dp"
+        android:paddingBottom="10dp">
 
         <EditText
             android:id="@+id/message"
@@ -36,14 +36,14 @@
             android:id="@+id/send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Send"
-            android:onClick="sendMessage"
-            android:paddingRight="10dp"
-            android:layout_alignParentRight="true"
-            android:textSize="16sp"
             android:layout_alignParentEnd="true"
-            android:paddingEnd="10dp" />
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:onClick="sendMessage"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:text="Send"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 </RelativeLayout>

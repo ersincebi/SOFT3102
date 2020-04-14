@@ -2,11 +2,17 @@ package com.fmway.operations.commonActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
@@ -28,6 +34,8 @@ public class tripChat extends AppCompatActivity {
     private String personId = "";
 
     private ListView discussionList;
+
+    private RelativeLayout typeSection;
     private EditText message;
     private Button send;
 
@@ -51,6 +59,31 @@ public class tripChat extends AppCompatActivity {
 
         chatList = new ChatList(adapterMessageList, this);
         discussionList.setAdapter(chatList);
+
+        typeSection = (RelativeLayout) findViewById(R.id.typeSection);
+        message.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                typeSection.setTranslationY(-700f);
+                return false;
+            }
+        });
+
+        message.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(event != null &&
+                        (event.getKeyCode() == KeyEvent.KEYCODE_BACK)){
+                    InputMethodManager inputMethodManager
+                            = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    inputMethodManager.hideSoftInputFromWindow(message.getApplicationWindowToken()
+                            ,InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+
+                typeSection.setTranslationY(0f);
+                return false;
+            }
+        });
 
         listMessages(tripId);
     }
