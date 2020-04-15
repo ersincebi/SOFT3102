@@ -15,6 +15,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="50dp"
         android:background="#D61D1D"
+        android:onClick="forgotPassword"
         android:text="I forgot my password"
         app:layout_constraintBottom_toTopOf="@+id/create_Account"
         app:layout_constraintEnd_toStartOf="@+id/signup_login_loginButton"

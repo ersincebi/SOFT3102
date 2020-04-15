@@ -81,6 +81,21 @@ public class SignUpLoginActivity extends AppCompatActivity {
     }
 
 
+    public void forgotPassword(View view) {
+
+        Toast.makeText(getApplicationContext(),"Lütfen sistemde kayıtlı olan email adresinizi girin!",Toast.LENGTH_LONG).show();
+
+        //intent
+        Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
+        startActivity(intent);
+
+
+        };
+
+
+
+
+
     public void signUp_orientation (View view) {
 
         Toast.makeText(getApplicationContext(),"Lütfen gerekli kullanıcı bilgilerini doldurun!",Toast.LENGTH_LONG).show();

@@ -40,6 +40,7 @@
         <activity android:name=".operations.driver.EditTripDriverActivity"></activity>
         <activity android:name=".operations.driver.TripDetailsDriverActivity"></activity>
         <activity android:name=".operations.admin.AddAdminActivity"></activity>
+        <activity android:name=".operations.commonActivities.ForgotPasswordActivity"></activity>
         <activity android:name=".operations.commonActivities.tripChat" />
     </application>
 
