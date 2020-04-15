@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class PassengerActivity extends AppCompatActivity {
 
     Button profileButton;
+    Button uploadYourIssueButton;
     Button listTripsButton;
     Button applyDriverButton;
     Button balanceButton;
@@ -63,7 +64,7 @@ public class PassengerActivity extends AppCompatActivity {
         listTripsButton=findViewById(R.id.listTripButton);
         applyDriverButton=findViewById(R.id.applyDriverButton);
         balanceButton=findViewById(R.id.balanceButton);
-
+        uploadYourIssueButton=findViewById(R.id.upload_your_issue);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -83,6 +84,11 @@ public class PassengerActivity extends AppCompatActivity {
     public void balance(View view){
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         intent.putExtra("userID",userID);
+        startActivity(intent);
+    }
+
+    public void uploadYourIssue(View view){
+        Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
         startActivity(intent);
     }
 }
