@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.fmway.R;
 import com.fmway.operations.admin.AdminActivity;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
-import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -35,19 +35,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddTripActivity extends AppCompatActivity {
 
-    Button dateButton;
-    Button timeButton;
-    Button addTripButton;
-    TextView dateText;
-    TextView timeText;
+    private Button dateButton;
+    private Button timeButton;
+    private Button addTripButton;
+    private TextView dateText;
+    private TextView timeText;
+    private EditText from;
+    private EditText destination;
+    private EditText capacity;
+    private EditText price;
+    private Context context=this;
+    private String userID;
 
-    EditText from;
-    EditText destination;
-    EditText capacity;
-    EditText price;
-    Context context=this;
-    String userID;
-
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,12 +96,7 @@ public class AddTripActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-        {
             userID =(String) b.get("userID");
-
-        }
-
-
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,14 +120,9 @@ public class AddTripActivity extends AppCompatActivity {
                 dpd.setButton(DatePickerDialog.BUTTON_NEGATIVE,"Cancel",dpd);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
 
-
                 if(!((Activity) AddTripActivity.this).isFinishing())
-                {
                     dpd.show();
-                }
             }
-
-
         });
 
 
@@ -153,10 +143,9 @@ public class AddTripActivity extends AppCompatActivity {
                     }
                 }, hour, minute, true);
 
-
-// dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
-                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Seç", tpd);
-                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "İptal", tpd);
+                // dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
+                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Select", tpd);
+                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
                 tpd.show();
             }
         });
@@ -177,22 +166,23 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Price per person cannot exceed 20TL !", Toast.LENGTH_LONG).show();
         }
         else {
-
-
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
 
             builder.setMessage("Do you want to add this trip?").setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            ParseObject object = new ParseObject("Trip");
-                            object.put("Date", dateText.getText().toString());
-                            object.put("Time", timeText.getText().toString());
-                            object.put("From", from.getText().toString());
-                            object.put("Destination", destination.getText().toString());
-                            object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
-                            object.put("Price",Integer.parseInt(price.getText().toString()));
-                            object.put("TripCreatedBy",userID);
+                            ParseObject object = new ParseObject(definitions.getClassName());
+                            addTripToDb(
+                                    object
+                                    ,dateText.getText().toString()
+                                    ,timeText.getText().toString()
+                                    ,from.getText().toString()
+                                    ,destination.getText().toString()
+                                    ,Integer.parseInt(capacity.getText().toString())
+                                    ,Integer.parseInt(price.getText().toString())
+                                    ,userID
+                            );
                             object.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -215,10 +205,6 @@ public class AddTripActivity extends AppCompatActivity {
                                             intent.putExtra("userID", userID);
                                             startActivity(intent);
                                         }
-
-
-
-
                                     }
 
                                 }
@@ -234,5 +220,24 @@ public class AddTripActivity extends AppCompatActivity {
             AlertDialog alertDialog=builder.create();
             alertDialog.show();
         }
+    }
+
+    public void addTripToDb(
+            ParseObject object
+            ,String date
+            ,String time
+            ,String from
+            ,String destination
+            ,int capacity
+            ,int price
+            ,String uid
+    ){
+        object.put("Date", date);
+        object.put("Time", time);
+        object.put("From", from);
+        object.put("Destination", destination);
+        object.put("Capacity", capacity);
+        object.put("Price", price);
+        object.put("TripCreatedBy", uid);
     }
 }

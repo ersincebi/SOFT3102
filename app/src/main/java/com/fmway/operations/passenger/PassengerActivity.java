@@ -19,19 +19,17 @@ import com.parse.ParseUser;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PassengerActivity extends AppCompatActivity {
-
-    Button profileButton;
-    Button uploadYourIssueButton;
-    Button listTripsButton;
-    Button applyDriverButton;
-    Button balanceButton;
-    String userID;
+    private Button profileButton;
+    private Button uploadYourIssueButton;
+    private Button listTripsButton;
+    private Button applyDriverButton;
+    private Button balanceButton;
+    private String userID;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
-
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -70,10 +68,7 @@ public class PassengerActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-        {
             userID =(String) b.get("userID");
-
-        }
     }
 
     public void listTrips(View view){

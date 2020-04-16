@@ -29,14 +29,11 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ListMyTripsDriverActivity extends AppCompatActivity {
-    ListView listView;
-    ArrayList<Trip> trip;
-    String selected=null;
-
-    String userID;
-
-
-    PostActivity postActivity ;
+    private ListView listView;
+    private ArrayList<Trip> trip;
+    private String selected=null;
+    private String userID;
+    private PostActivity postActivity ;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
@@ -81,33 +78,22 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-        {
             userID =(String) b.get("userID");
-
-        }
 
         listView = findViewById(R.id.listTripsList);
 
         trip= new ArrayList<>();
-
-
 
         postActivity= new PostActivity(trip,this);
 
         download();
         listView.setAdapter(postActivity);
 
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
-
-
-
 
                 Intent myIntent= new Intent(ListMyTripsDriverActivity.this, TripDetailsDriverActivity.class);
                 myIntent.putExtra("objectID", selected);
@@ -115,8 +101,6 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
                 startActivity(myIntent);
             }
         });
-
-
     }
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
@@ -126,13 +110,10 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-
                 }else{
 
                     if(objects.size()>0){
                         for(ParseObject object: objects){
-
-
                             trip.add(
                                     new Trip(
                                             object.getObjectId()
@@ -144,8 +125,6 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
                                             ,String.valueOf(object.getInt(definitions.getPriceKey()))
                                     )
                             );
-
-
                             postActivity.notifyDataSetChanged();
                         }
                     }

@@ -1,19 +1,19 @@
 package com.fmway.operations.admin;
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.Menu;
-        import android.view.MenuInflater;
-        import android.view.MenuItem;
-        import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.Toast;
 
-        import com.fmway.R;
-        import com.fmway.operations.commonActivities.SignUpLoginActivity;
-        import com.parse.LogOutCallback;
-        import com.parse.ParseException;
-        import com.parse.ParseUser;
+import com.fmway.R;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class UserDetailsAdminActivity extends AppCompatActivity {
 

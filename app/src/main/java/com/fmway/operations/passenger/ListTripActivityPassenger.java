@@ -29,15 +29,13 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ListTripActivityPassenger extends AppCompatActivity {
-
-    ListView listView;
+    private ListView listView;
     private ArrayList<Trip> trip;
-    String selected=null;
-
+    private String selected=null;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
-    PostActivity postActivity ;
+    private PostActivity postActivity ;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,33 +78,24 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
         trip= new ArrayList<>();
 
-
-
         postActivity= new PostActivity(trip,this);
 
         download();
         listView.setAdapter(postActivity);
 
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
-
-
-
 
                 Intent myIntent= new Intent(ListTripActivityPassenger.this, TripDetailsPassengerActivity.class);
                 myIntent.putExtra("objectID", selected);
                 startActivity(myIntent);
             }
         });
-
-
     }
+
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -114,13 +103,9 @@ public class ListTripActivityPassenger extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
                     Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-
                 }else{
-
                     if(objects.size()>0){
                         for(ParseObject object: objects){
-
-
                             trip.add(
                                     new Trip(
                                             object.getObjectId()
@@ -132,8 +117,6 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                                             ,String.valueOf(object.getInt(definitions.getPriceKey()))
                                     )
                             );
-
-
                             postActivity.notifyDataSetChanged();
                         }
                     }
@@ -141,5 +124,4 @@ public class ListTripActivityPassenger extends AppCompatActivity {
             }
         });
     }
-
 }

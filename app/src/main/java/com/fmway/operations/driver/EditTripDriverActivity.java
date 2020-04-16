@@ -19,9 +19,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -34,20 +36,21 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditTripDriverActivity extends AppCompatActivity {
-    Button dateButton;
-    Button timeButton;
-    Button editTripButton;
-    TextView dateText;
-    TextView timeText;
+    private Button dateButton;
+    private Button timeButton;
+    private Button editTripButton;
+    private TextView dateText;
+    private TextView timeText;
+    private EditText from;
+    private EditText destination;
+    private EditText capacity;
+    private EditText price;
+    private Context context=this;
 
-    EditText from;
-    EditText destination;
-    EditText capacity;
-    EditText price;
-    Context context=this;
+    private String savedExtra;
+    private String userID;
 
-    String savedExtra;
-    String userID;
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,7 +91,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
             savedExtra =(String) b.get("objectID");
             userID=(String) b.get("userID");
         }
-        //savedExtra= getIntent().getStringExtra("objectID");
 
         dateButton=findViewById(R.id.editTripDateButton);
         timeButton=findViewById(R.id.editTripTimeButton);
@@ -101,8 +103,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
         price=findViewById(R.id.editTripPrice);
 
         download();
-
-
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +125,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
                 dpd.setButton(DatePickerDialog.BUTTON_POSITIVE,"Select",dpd);
                 dpd.setButton(DatePickerDialog.BUTTON_NEGATIVE,"Cancel",dpd);
                 dpd.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-
 
                 if(!((Activity) EditTripDriverActivity.this).isFinishing())
                 {
@@ -156,34 +155,29 @@ public class EditTripDriverActivity extends AppCompatActivity {
 
 
 // dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
-                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Seç", tpd);
-                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "İptal", tpd);
+                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Select", tpd);
+                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cencel", tpd);
                 tpd.show();
             }
         });
     }
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e != null) {
                     Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
                 } else {
-
-                    dateText.setText(object.getString("Date"));
-                    timeText.setText(object.getString("Time"));
-                    from.setText(object.getString("From"));
-                    destination.setText(object.getString("Destination"));
-                    capacity.setText(String.valueOf(object.getInt("Capacity")));
-                    price.setText(String.valueOf(object.getInt("Price")));
+                    dateText.setText(object.getString(definitions.getDateKey()));
+                    timeText.setText(object.getString(definitions.getTimeKey()));
+                    from.setText(object.getString(definitions.getFromKey()));
+                    destination.setText(object.getString(definitions.getDestinationKey()));
+                    capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
+                    price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
                 }
             }
         });
-
-
-
     }
     public void editTrip(View view){
         if (from.getText().toString().equals(destination.getText().toString()) ){
@@ -200,7 +194,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Price per person cannot exceed 20TL !", Toast.LENGTH_LONG).show();
         }
         else {
-
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setMessage("Do you want to edit this trip?").setCancelable(false).setPositiveButton("Yes",
                     new DialogInterface.OnClickListener() {
@@ -210,12 +203,15 @@ public class EditTripDriverActivity extends AppCompatActivity {
                             query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject object, ParseException e) {
-                                    object.put("Date", dateText.getText().toString());
-                                    object.put("Time", timeText.getText().toString());
-                                    object.put("From", from.getText().toString());
-                                    object.put("Destination", destination.getText().toString());
-                                    object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
-                                    object.put("Price",Integer.parseInt(price.getText().toString()));
+                                    editTripOnDb(
+                                            object
+                                            ,dateText.getText().toString()
+                                            ,timeText.getText().toString()
+                                            ,from.getText().toString()
+                                            ,destination.getText().toString()
+                                            ,Integer.parseInt(capacity.getText().toString())
+                                            ,Integer.parseInt(price.getText().toString())
+                                    );
                                     object.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -227,8 +223,6 @@ public class EditTripDriverActivity extends AppCompatActivity {
                                                 Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
                                                 intent.putExtra("userID",userID);
                                                 startActivity(intent);
-
-
                                             }
 
                                         }
@@ -244,10 +238,24 @@ public class EditTripDriverActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog=builder.create();
             alertDialog.show();
-
-
-
         }
+    }
+
+    public void editTripOnDb(
+            ParseObject object
+            ,String date
+            ,String time
+            ,String from
+            ,String destination
+            ,int capacity
+            ,int price
+    ){
+        object.put(definitions.getDateKey(), date);
+        object.put(definitions.getTimeKey(), time);
+        object.put(definitions.getFromKey(), from);
+        object.put(definitions.getDestinationKey(), destination);
+        object.put(definitions.getCapacityKey(), capacity);
+        object.put(definitions.getPriceKey(), price);
     }
 }
 
