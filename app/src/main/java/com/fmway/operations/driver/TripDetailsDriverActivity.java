@@ -1,6 +1,7 @@
 package com.fmway.operations.driver;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +25,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TripDetailsDriverActivity extends AppCompatActivity {
@@ -106,33 +108,49 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
+                AlertDialog.Builder builder=new AlertDialog.Builder(TripDetailsDriverActivity.this);
+                builder.setMessage("Do you want to delete this trip?").setCancelable(false).setPositiveButton("Yes"
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
 // Query parameters based on the item name
-                query.whereEqualTo("objectId", savedExtra);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(final List<ParseObject> object, ParseException e) {
-                        if (e == null) {
-                            object.get(0).deleteInBackground(new DeleteCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
-                                        intent.putExtra("userID",userID);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                query.whereEqualTo("objectId", savedExtra);
+                                query.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(final List<ParseObject> object, ParseException e) {
+                                        if (e == null) {
+                                            object.get(0).deleteInBackground(new DeleteCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
+                                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                                        intent.putExtra("userID",userID);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                        }
+                                        }
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+
+
             }
         });
     }

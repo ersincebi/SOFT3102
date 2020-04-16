@@ -77,7 +77,7 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
             savedExtra =(String) b.get("objectID");
 
         }
-        savedExtra= getIntent().getStringExtra("objectID");
+        //savedExtra= getIntent().getStringExtra("objectID");
 
 
         dateText = findViewById(R.id.detailsTripDate);

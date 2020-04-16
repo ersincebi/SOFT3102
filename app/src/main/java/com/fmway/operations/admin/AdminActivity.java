@@ -23,6 +23,9 @@ import androidx.appcompat.app.AppCompatActivity;
     Button editTripsButton;
     Button addAdminButton;
     Button approveDriversButton;
+    String userID;
+
+
 
 
      @Override
@@ -62,19 +65,32 @@ import androidx.appcompat.app.AppCompatActivity;
         approveDriversButton=findViewById(R.id.approveDriverButton);
 
 
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
+
+
     }
 
     public void editTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
 
      public void editUser(View view){
          Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
+         intent.putExtra("userID",userID);
          startActivity(intent);
      }
      public void addAdmin(View view){
          Intent intent = new Intent(getApplicationContext(), AddAdminActivity.class);
+         intent.putExtra("userID",userID);
          startActivity(intent);
      }
 

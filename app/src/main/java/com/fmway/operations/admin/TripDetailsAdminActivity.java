@@ -1,6 +1,7 @@
 package com.fmway.operations.admin;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.fmway.operations.driver.DriverActivity;
+import com.fmway.operations.driver.TripDetailsDriverActivity;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -25,6 +28,7 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TripDetailsAdminActivity extends AppCompatActivity {
@@ -39,9 +43,12 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
     TextView price;
     Context context=this;
 
+    String userID;
+
      String savedExtra;
 
      private TripParseDefinitions definitions = new TripParseDefinitions();
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -81,6 +88,7 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         {
            savedExtra =(String) b.get(definitions.getObjectIdKey());
 
+           userID=(String) b.get("userID");
         }
         savedExtra= getIntent().getStringExtra(definitions.getObjectIdKey());
 
@@ -99,6 +107,7 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent= new Intent(TripDetailsAdminActivity.this, EditTripAdminActivity.class);
                 myIntent.putExtra("objectID", savedExtra);
+                myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
@@ -107,32 +116,49 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
+                AlertDialog.Builder builder=new AlertDialog.Builder(TripDetailsAdminActivity.this);
+                builder.setMessage("Do you want to delete this trip?").setCancelable(false).setPositiveButton("Yes"
+                        , new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
 // Query parameters based on the item name
-                query.whereEqualTo("objectId", savedExtra);
-                query.findInBackground(new FindCallback<ParseObject>() {
-                    @Override
-                    public void done(final List<ParseObject> object, ParseException e) {
-                        if (e == null) {
-                            object.get(0).deleteInBackground(new DeleteCallback() {
-                                @Override
-                                public void done(ParseException e) {
-                                    if (e == null) {
-                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-                                    }
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                query.whereEqualTo("objectId", savedExtra);
+                                query.findInBackground(new FindCallback<ParseObject>() {
+                                    @Override
+                                    public void done(final List<ParseObject> object, ParseException e) {
+                                        if (e == null) {
+                                            object.get(0).deleteInBackground(new DeleteCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e == null) {
+                                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
+                                                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                                        intent.putExtra("userID",userID);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+                                            });
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                        }
+                                        }
+                                    }
+                                });
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
                 });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+
+
             }
         });
     }

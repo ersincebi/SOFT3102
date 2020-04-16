@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import com.parse.SaveCallback;
 
 import java.util.Calendar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditTripDriverActivity extends AppCompatActivity {
@@ -187,41 +189,63 @@ public class EditTripDriverActivity extends AppCompatActivity {
         if (from.getText().toString().equals(destination.getText().toString()) ){
             Toast.makeText(getApplicationContext(), "From and Destination Cannot be same", Toast.LENGTH_LONG).show();
         }
-        if(dateText.getText().toString().equals("") || timeText.getText().toString().equals("")||
+        else if(dateText.getText().toString().equals("") || timeText.getText().toString().equals("")||
                 from.getText().toString().equals("")||destination.getText().toString().equals("")||
                 capacity.getText().toString().equals("")|| price.getText().toString().equals("")){
             Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show();
         }
+        else if(Integer.parseInt(capacity.getText().toString())>6){
+            Toast.makeText(getApplicationContext(), "Capacity cannot exceed 6!", Toast.LENGTH_LONG).show();
+        }else if(Double.parseDouble(price.getText().toString())>20){
+            Toast.makeText(getApplicationContext(), "Price per person cannot exceed 20TL !", Toast.LENGTH_LONG).show();
+        }
         else {
-            ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
-            query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    object.put("Date", dateText.getText().toString());
-                    object.put("Time", timeText.getText().toString());
-                    object.put("From", from.getText().toString());
-                    object.put("Destination", destination.getText().toString());
-                    object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
-                    object.put("Price",Integer.parseInt(price.getText().toString()));
-                    object.saveInBackground(new SaveCallback() {
+
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setMessage("Do you want to edit this trip?").setCancelable(false).setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener() {
                         @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+                            query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+                                @Override
+                                public void done(ParseObject object, ParseException e) {
+                                    object.put("Date", dateText.getText().toString());
+                                    object.put("Time", timeText.getText().toString());
+                                    object.put("From", from.getText().toString());
+                                    object.put("Destination", destination.getText().toString());
+                                    object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
+                                    object.put("Price",Integer.parseInt(price.getText().toString()));
+                                    object.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            if (e != null) {
+                                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Trip edited.", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
-                                intent.putExtra("userID",userID);
-                                startActivity(intent);
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "Trip edited.", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                                intent.putExtra("userID",userID);
+                                                startActivity(intent);
 
 
-                            }
+                                            }
 
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    });
+                    }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
                 }
             });
+            AlertDialog alertDialog=builder.create();
+            alertDialog.show();
+
+
 
         }
     }

@@ -1,7 +1,9 @@
 package com.fmway.operations.commonActivities;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -96,50 +98,67 @@ public class Payment extends AppCompatActivity {
 
 
             else {
-            payBalance = Double.parseDouble(String.valueOf(balance.getText()));
 
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
 
-            ParseQuery<ParseUser> query = ParseUser.getQuery();
-            query.getInBackground(userID, new GetCallback<ParseUser>() {
-                @Override
-                public void done(ParseUser object, ParseException e) {
-                    if (e != null) {
-                        e.printStackTrace();
-                    } else {
-                        currentbalance = payBalance + currentbalance;
-                        object.put("balance", currentbalance);
-                        object.saveInBackground(new SaveCallback() {
+                builder.setMessage("Do you want to complete deposit?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                payBalance = Double.parseDouble(String.valueOf(balance.getText()));
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
 
-                                    ParseUser usr = ParseUser.getCurrentUser();
+                                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                                query.getInBackground(userID, new GetCallback<ParseUser>() {
+                                    @Override
+                                    public void done(ParseUser object, ParseException e) {
+                                        if (e != null) {
+                                            e.printStackTrace();
+                                        } else {
+                                            currentbalance = payBalance + currentbalance;
+                                            object.put("balance", currentbalance);
+                                            object.saveInBackground(new SaveCallback() {
+                                                @Override
+                                                public void done(ParseException e) {
+                                                    if (e != null) {
+                                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-                                    String usrType = usr.getString("userType");
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
 
-                                    if (usrType.equals("driver")) {
-                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
-                                        intent.putExtra("userID", userID);
-                                        startActivity(intent);
-                                    } else if (usrType.equals("passenger")) {
-                                        Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
-                                        intent.putExtra("userID", userID);
-                                        startActivity(intent);
+                                                        ParseUser usr = ParseUser.getCurrentUser();
+
+                                                        String usrType = usr.getString("userType");
+
+                                                        if (usrType.equals("driver")) {
+                                                            Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                                            intent.putExtra("userID", userID);
+                                                            startActivity(intent);
+                                                        } else if (usrType.equals("passenger")) {
+                                                            Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
+                                                            intent.putExtra("userID", userID);
+                                                            startActivity(intent);
+                                                        }
+
+
+                                                    }
+                                                }
+                                            });
+
+
+                                        }
                                     }
-
-
-                                }
+                                });
                             }
-                        });
-
-
+                        }) .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
                     }
-                }
-            });
+                });
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
+
         }
     }
 }

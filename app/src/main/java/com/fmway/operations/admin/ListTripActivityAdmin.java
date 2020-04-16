@@ -33,6 +33,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
     ListView listView;
     ArrayList<Trip> trip;
     String selected=null;
+    String userID;
 
     PostActivity postActivity;
 
@@ -74,7 +75,15 @@ public class ListTripActivityAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listtrips_activity);
 
-        ParseUser user = new ParseUser();
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+        {
+            userID =(String) b.get("userID");
+
+        }
 
         listView = findViewById(R.id.listTripsList);
 
@@ -94,6 +103,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
                 Intent myIntent= new Intent(ListTripActivityAdmin.this, TripDetailsAdminActivity.class);
                 myIntent.putExtra(definitions.getObjectIdKey(), selected);
+                myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
