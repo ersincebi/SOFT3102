@@ -79,11 +79,13 @@ public class DriverActivity extends AppCompatActivity {
 
     public void listTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityPassenger.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
 
     public void balance(View view){
         Intent intent = new Intent(getApplicationContext(), Payment.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
     public void addTrip(View view){

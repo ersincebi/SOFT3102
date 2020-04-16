@@ -79,51 +79,68 @@ public class Payment extends AppCompatActivity {
     }
 
     public void pay() {
-        if (balance.getText().equals("")) {
-            Toast.makeText(this, "Balance can not be empty", Toast.LENGTH_SHORT).show();
-        } else {
+        if (balance.getText().toString().equals("")|| cardNo.getText().toString().equals("") || holderName.getText().toString().equals("") ||
+                cvc.getText().toString().equals("") ) {
+            Toast.makeText(this, "Fields can not be empty!", Toast.LENGTH_SHORT).show();
+        } else if(Double.parseDouble(balance.getText().toString())>500){
+            Toast.makeText(this, "You cannot deposit more than 500TL in one try!", Toast.LENGTH_SHORT).show();
+        }
+        else if(cardNo.getText().toString().length()!=16){
+            Toast.makeText(this, "Please enter the card number correctly!", Toast.LENGTH_SHORT).show();
+        }
+       else  if(cvc.getText().toString().length()!=3){
+            Toast.makeText(this, "Please enter the CVC correctly!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+            else {
             payBalance = Double.parseDouble(String.valueOf(balance.getText()));
-        }
-        if (cardNo.getText().equals("")) {
-            Toast.makeText(this, "Card Number can not be empty", Toast.LENGTH_SHORT).show();
-        }
-        if (holderName.getText().equals("")) {
-            Toast.makeText(this, "Holder name can not be empty", Toast.LENGTH_SHORT).show();
-        }
-        if (cvc.getText().equals("")) {
-            Toast.makeText(this, "CVC can not be empty", Toast.LENGTH_SHORT).show();
-        }
-
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.getInBackground(userID, new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser object, ParseException e) {
-                if (e != null) {
-                    e.printStackTrace();
-                } else {
-                    currentbalance = payBalance + currentbalance;
-                    object.put("balance", currentbalance);
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                            } else {
-                                Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
-                                intent.putExtra("userID", userID);
-                                startActivity(intent);
 
 
+            ParseQuery<ParseUser> query = ParseUser.getQuery();
+            query.getInBackground(userID, new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser object, ParseException e) {
+                    if (e != null) {
+                        e.printStackTrace();
+                    } else {
+                        currentbalance = payBalance + currentbalance;
+                        object.put("balance", currentbalance);
+                        object.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Payment successful", Toast.LENGTH_LONG).show();
+
+                                    ParseUser usr = ParseUser.getCurrentUser();
+
+                                    String usrType = usr.getString("userType");
+
+                                    if (usrType.equals("driver")) {
+                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                        intent.putExtra("userID", userID);
+                                        startActivity(intent);
+                                    } else if (usrType.equals("passenger")) {
+                                        Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
+                                        intent.putExtra("userID", userID);
+                                        startActivity(intent);
+                                    }
+
+
+                                }
                             }
-                        }
-                    });
+                        });
 
 
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 }
 
