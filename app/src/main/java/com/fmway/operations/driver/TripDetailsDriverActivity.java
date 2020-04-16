@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -29,19 +30,22 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TripDetailsDriverActivity extends AppCompatActivity {
-    Button editTripButton;
-    Button deleteTripButton;
-    TextView dateText;
-    TextView timeText;
+    private Button editTripButton;
+    private Button deleteTripButton;
+    private TextView dateText;
+    private TextView timeText;
+    private TextView from;
+    private TextView destination;
+    private TextView capacity;
+    private TextView price;
 
-    TextView from;
-    TextView destination;
-    TextView capacity;
-    TextView price;
-    Context context=this;
-    String userID;
+    private Context context=this;
 
-    String savedExtra;
+    private String userID;
+    private String savedExtra;
+
+    private TripParseDefinitions definitions = new TripParseDefinitions();
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -136,7 +140,6 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
                                             });
                                         } else {
                                             Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
                                         }
                                     }
                                 });
@@ -149,37 +152,27 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
                 });
                 AlertDialog alertDialog=builder.create();
                 alertDialog.show();
-
-
             }
         });
     }
 
-
-
-
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e != null) {
                     Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
                 } else {
-
-                    dateText.setText(object.getString("Date"));
-                    timeText.setText(object.getString("Time"));
-                    from.setText(object.getString("From"));
-                    destination.setText(object.getString("Destination"));
-                    capacity.setText(String.valueOf(object.getInt("Capacity")));
-                    price.setText(String.valueOf(object.getInt("Price")));
+                    dateText.setText(object.getString(definitions.getDateKey()));
+                    timeText.setText(object.getString(definitions.getTimeKey()));
+                    from.setText(object.getString(definitions.getFromKey()));
+                    destination.setText(object.getString(definitions.getDestinationKey()));
+                    capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
+                    price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
                 }
             }
         });
-
-
-
     }
 }
 

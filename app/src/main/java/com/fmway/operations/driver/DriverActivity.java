@@ -21,13 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class DriverActivity extends AppCompatActivity {
 
-    Button profileButton;
-    Button listTripsButton;
-    Button listMyTripsButton;
-    Button balanceButton;
-    Button addTripButton;
+    private Button profileButton;
+    private Button listTripsButton;
+    private Button listMyTripsButton;
+    private Button balanceButton;
+    private Button addTripButton;
 
-    String userID;
+    private String userID;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -71,10 +71,7 @@ public class DriverActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-        {
-            userID =(String) b.get("userID");
-
-        }
+            userID = (String) b.get("userID");
     }
 
     public void listTrips(View view){

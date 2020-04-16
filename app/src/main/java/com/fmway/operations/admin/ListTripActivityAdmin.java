@@ -30,12 +30,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ListTripActivityAdmin extends AppCompatActivity {
 
-    ListView listView;
-    ArrayList<Trip> trip;
-    String selected=null;
-    String userID;
+    private String userID;
+    private ListView listView;
+    private ArrayList<Trip> trip;
+    private String selected=null;
 
-    PostActivity postActivity;
+    private PostActivity postActivity;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
@@ -80,10 +80,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-        {
             userID =(String) b.get("userID");
-
-        }
 
         listView = findViewById(R.id.listTripsList);
 
@@ -134,8 +131,6 @@ public class ListTripActivityAdmin extends AppCompatActivity {
                                             ,String.valueOf(object.getInt(definitions.getPriceKey()))
                                     )
                             );
-
-
                             postActivity.notifyDataSetChanged();
                         }
                     }

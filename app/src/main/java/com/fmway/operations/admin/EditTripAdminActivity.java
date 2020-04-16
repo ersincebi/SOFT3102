@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.fmway.operations.driver.DriverActivity;
 import com.parse.GetCallback;
@@ -35,20 +36,22 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class EditTripAdminActivity extends AppCompatActivity {
-    Button dateButton;
-    Button timeButton;
-    Button editTripButton;
-    TextView dateText;
-    TextView timeText;
+    private Button dateButton;
+    private Button timeButton;
+    private Button editTripButton;
+    private TextView dateText;
+    private TextView timeText;
 
-    EditText from;
-    EditText destination;
-    EditText capacity;
-    EditText price;
-    Context context=this;
+    private EditText from;
+    private EditText destination;
+    private EditText capacity;
+    private EditText price;
+    private Context context=this;
 
-    String savedExtra;
-    String userID;
+    private String userID;
+    private String savedExtra;
+
+    private TripParseDefinitions definitions = new TripParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,7 +81,6 @@ public class EditTripAdminActivity extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edittrip);
         Intent iin= getIntent();
@@ -86,10 +88,9 @@ public class EditTripAdminActivity extends AppCompatActivity {
 
         if(b!=null)
         {
-            savedExtra =(String) b.get("objectID");
+            savedExtra =(String) b.get(definitions.getObjectIdKey());
             userID=(String) b.get("userID");
         }
-        //savedExtra= getIntent().getStringExtra("objectID");
 
         dateButton=findViewById(R.id.editTripDateButton);
         timeButton=findViewById(R.id.editTripTimeButton);
@@ -102,8 +103,6 @@ public class EditTripAdminActivity extends AppCompatActivity {
         price=findViewById(R.id.editTripPrice);
 
         download();
-
-
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,8 +154,7 @@ public class EditTripAdminActivity extends AppCompatActivity {
                     }
                 }, hour, minute, true);
 
-
-// dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
+                // dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
                 tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Seç", tpd);
                 tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "İptal", tpd);
                 tpd.show();
@@ -164,7 +162,7 @@ public class EditTripAdminActivity extends AppCompatActivity {
         });
     }
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
@@ -173,12 +171,12 @@ public class EditTripAdminActivity extends AppCompatActivity {
 
                 } else {
 
-                    dateText.setText(object.getString("Date"));
-                    timeText.setText(object.getString("Time"));
-                    from.setText(object.getString("From"));
-                    destination.setText(object.getString("Destination"));
-                    capacity.setText(String.valueOf(object.getInt("Capacity")));
-                    price.setText(String.valueOf(object.getInt("Price")));
+                    dateText.setText(object.getString(definitions.getDateKey()));
+                    timeText.setText(object.getString(definitions.getTimeKey()));
+                    from.setText(object.getString(definitions.getFromKey()));
+                    destination.setText(object.getString(definitions.getDestinationKey()));
+                    capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
+                    price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
                 }
             }
         });
@@ -209,12 +207,17 @@ public class EditTripAdminActivity extends AppCompatActivity {
                             query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
                                 @Override
                                 public void done(ParseObject object, ParseException e) {
-                                    object.put("Date", dateText.getText().toString());
-                                    object.put("Time", timeText.getText().toString());
-                                    object.put("From", from.getText().toString());
-                                    object.put("Destination", destination.getText().toString());
-                                    object.put("Capacity",Integer.parseInt(capacity.getText().toString()));
-                                    object.put("Price",Integer.parseInt(price.getText().toString()));
+
+                                    editTripData(
+                                            object
+                                            ,dateText.getText().toString()
+                                            ,timeText.getText().toString()
+                                            ,from.getText().toString()
+                                            ,destination.getText().toString()
+                                            ,Integer.parseInt(capacity.getText().toString())
+                                            ,Integer.parseInt(price.getText().toString())
+                                    );
+
                                     object.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {
@@ -245,6 +248,23 @@ public class EditTripAdminActivity extends AppCompatActivity {
             alertDialog.show();
 
         }
+    }
+
+    public void editTripData(
+            ParseObject object
+            ,String date
+            ,String time
+            ,String from
+            ,String destination
+            ,int capacity
+            ,int price
+    ){
+        object.put(definitions.getDateKey(), date);
+        object.put(definitions.getTimeKey(), time);
+        object.put(definitions.getFromKey(), from);
+        object.put(definitions.getDestinationKey(), destination);
+        object.put(definitions.getCapacityKey(), capacity);
+        object.put(definitions.getPriceKey(), price);
     }
 }
 

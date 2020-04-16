@@ -32,23 +32,22 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class TripDetailsAdminActivity extends AppCompatActivity {
-    Button editTripButton;
-    Button deleteTripButton;
-    TextView dateText;
-    TextView timeText;
+    private Button editTripButton;
+    private Button deleteTripButton;
+    private TextView dateText;
+    private TextView timeText;
 
-    TextView from;
-    TextView destination;
-    TextView capacity;
-    TextView price;
-    Context context=this;
+    private TextView from;
+    private TextView destination;
+    private TextView capacity;
+    private TextView price;
+    private Context context=this;
 
-    String userID;
+    private String userID;
 
-     String savedExtra;
+    private String savedExtra;
 
-     private TripParseDefinitions definitions = new TripParseDefinitions();
-
+    private TripParseDefinitions definitions = new TripParseDefinitions();
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -106,8 +105,8 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent myIntent= new Intent(TripDetailsAdminActivity.this, EditTripAdminActivity.class);
-                myIntent.putExtra("objectID", savedExtra);
                 myIntent.putExtra("userID",userID);
+                myIntent.putExtra(definitions.getObjectIdKey(), savedExtra);
                 startActivity(myIntent);
             }
         });
@@ -115,14 +114,13 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         deleteTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder=new AlertDialog.Builder(TripDetailsAdminActivity.this);
                 builder.setMessage("Do you want to delete this trip?").setCancelable(false).setPositiveButton("Yes"
                         , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
-// Query parameters based on the item name
+                                // Query parameters based on the item name
                                 query.whereEqualTo("objectId", savedExtra);
                                 query.findInBackground(new FindCallback<ParseObject>() {
                                     @Override
@@ -163,32 +161,25 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         });
     }
 
+    public void download(){
+        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
 
-
-
-        public void download(){
-            ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
-            query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
-
-                    } else {
-
-                        dateText.setText(object.getString("Date"));
-                        timeText.setText(object.getString("Time"));
-                        from.setText(object.getString("From"));
-                        destination.setText(object.getString("Destination"));
-                        capacity.setText(String.valueOf(object.getInt("Capacity")));
-                        price.setText(String.valueOf(object.getInt("Price")));
-                    }
-                }
-            });
-
-
-
+                } else {
+                    dateText.setText(object.getString(definitions.getDateKey()));
+                    timeText.setText(object.getString(definitions.getTimeKey()));
+                    from.setText(object.getString(definitions.getFromKey()));
+                    destination.setText(object.getString(definitions.getDestinationKey()));
+                    capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
+                    price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
                 }
             }
+        });
+    }
+}
 
 
