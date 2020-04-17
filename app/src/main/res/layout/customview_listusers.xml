@@ -28,14 +28,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/customView_createdAt"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/customView_email"
             android:layout_width="20dp"
             android:layout_height="wrap_content"

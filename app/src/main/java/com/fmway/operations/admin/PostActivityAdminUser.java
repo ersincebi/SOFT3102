@@ -14,21 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.fmway.R;
-import com.fmway.models.user.User;
 
-public class PostActivityAdminUser extends ArrayAdapter<User> {
-    private final ArrayList<User> userList;
+public class PostActivityAdminUser extends ArrayAdapter<String> {
+    private final ArrayList<String> objectId;
+    private final ArrayList<String> username;   //string
+    private final ArrayList<String> Email;    //string
+    private final ArrayList<String> Name;   //string
+    private final ArrayList<String> Surname;    //string
+
 
 
     private final Activity context;
 
-    public PostActivityAdminUser(ArrayList<User> userList
-                                ,Activity context){
+    public PostActivityAdminUser(ArrayList<String> objectId,ArrayList<String> username,ArrayList<String> Email, ArrayList<String> Name , ArrayList<String> Surname,
+                         Activity context){
 
 
-        super(context,R.layout.customview_listusers,userList);
+        super(context,R.layout.customview_listusers,objectId);
 
-        this.userList=userList;
+        this.objectId=objectId;
+        this.username=username;
+        this.Email=Email;
+        this.Name=Name;
+        this.Surname=Surname;
 
         this.context=context;
     }
@@ -40,18 +48,20 @@ public class PostActivityAdminUser extends ArrayAdapter<User> {
         View customView=layoutInflater.inflate(R.layout.customview_listusers,null,true);
         TextView objectIdText=customView.findViewById(R.id.customView_objectid);
         TextView usernameText=customView.findViewById(R.id.customView_username);
-        TextView createdAtText=customView.findViewById(R.id.customView_createdAt);
         TextView EmailText=customView.findViewById(R.id.customView_email);
         TextView NameText=customView.findViewById(R.id.customView_name);
         TextView SurnameText=customView.findViewById(R.id.customView_surname);
-        TextView PhoneText=customView.findViewById(R.id.customView_phone);
 
-        objectIdText.setText(userList.get(position).getObjectId());
-        usernameText.setText(userList.get(position).getUsername());
-        createdAtText.setText(userList.get(position).getCreatedAt());
-        EmailText.setText(userList.get(position).getEmail());
-        NameText.setText(userList.get(position).getName());
-        SurnameText.setText(userList.get(position).getSurname());
+
+        objectIdText.setText(objectId.get(position));
+        usernameText.setText(username.get(position));
+        EmailText.setText(Email.get(position));
+        NameText.setText(Name.get(position));
+        SurnameText.setText(Surname.get(position));
+
+
+
+
 
         return customView;
     }

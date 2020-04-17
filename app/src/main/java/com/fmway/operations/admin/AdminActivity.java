@@ -19,11 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
  public class AdminActivity extends AppCompatActivity {
 
-    private Button editUserButton;
-    private Button editTripsButton;
-    private Button addAdminButton;
-    private Button approveDriversButton;
-    private String userID;
+    Button editUserButton;
+    Button editTripsButton;
+    Button addAdminButton;
+    Button approveDriversButton;
+
 
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,32 +55,26 @@ import androidx.appcompat.app.AppCompatActivity;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
+
         editTripsButton=findViewById(R.id.editTripsButton);
         editUserButton=findViewById(R.id.editProfilesButton);
         addAdminButton=findViewById(R.id.addAdminButton);
         approveDriversButton=findViewById(R.id.approveDriverButton);
 
-        Intent iin= getIntent();
-        Bundle b = iin.getExtras();
 
-        if(b!=null)
-            userID =(String) b.get("userID");
     }
 
     public void editTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
-        intent.putExtra("userID",userID);
         startActivity(intent);
     }
 
      public void editUser(View view){
          Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
-         intent.putExtra("userID",userID);
          startActivity(intent);
      }
      public void addAdmin(View view){
          Intent intent = new Intent(getApplicationContext(), AddAdminActivity.class);
-         intent.putExtra("userID",userID);
          startActivity(intent);
      }
 
