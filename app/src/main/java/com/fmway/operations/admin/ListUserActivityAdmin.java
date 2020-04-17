@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
@@ -81,6 +84,25 @@ public class ListUserActivityAdmin extends AppCompatActivity {
 
         download();
         listView.setAdapter(PostActivityAdminUser);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+                //     selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
+
+
+
+
+                Intent myIntent= new Intent(ListUserActivityAdmin.this, UserDetailsAdminActivity.class);
+                myIntent.putExtra(definitions.getObjectIdKey(), selected);
+                startActivity(myIntent);
+            }
+        });
+
 
     }
     public void download(){

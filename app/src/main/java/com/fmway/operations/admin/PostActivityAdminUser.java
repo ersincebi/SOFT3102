@@ -55,7 +55,6 @@ public class PostActivityAdminUser extends ArrayAdapter<User> {
 
         objectIdText.setText(userList.get(position).getObjectId());
         usernameText.setText(userList.get(position).getUsername());
-        createdAtText.setText(userList.get(position).getCreatedAt());
         EmailText.setText(userList.get(position).getEmail());
         NameText.setText(userList.get(position).getName());
         SurnameText.setText(userList.get(position).getSurname());
