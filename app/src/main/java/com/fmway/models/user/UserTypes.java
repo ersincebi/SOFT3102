@@ -3,7 +3,8 @@ package com.fmway.models.user;
 public enum UserTypes {
     ADMIN ("admin")
     ,PASSENGER ("passenger")
-    ,DRIVER ("driver");
+    ,DRIVER ("driver")
+    ,BLOCKED ("blocked");
 
     private final String shortCode;
 

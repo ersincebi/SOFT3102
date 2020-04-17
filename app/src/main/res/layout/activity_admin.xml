@@ -37,7 +37,7 @@
         android:layout_marginLeft="120dp"
         android:layout_marginTop="420dp"
         android:onClick="addDriver"
-        android:text="Approve / Add Drivers"
+        android:text="Add Drivers"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
