@@ -97,7 +97,7 @@ public class ListTripActivityPassenger extends AppCompatActivity {
     }
 
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
+        ParseQuery<ParseObject> query = ParseQuery.getQuery(definitions.getClassName());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -124,4 +124,5 @@ public class ListTripActivityPassenger extends AppCompatActivity {
             }
         });
     }
+
 }

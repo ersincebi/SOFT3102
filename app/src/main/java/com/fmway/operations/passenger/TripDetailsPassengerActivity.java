@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,12 +14,14 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.fmway.operations.driver.DriverActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -36,6 +39,9 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
     private String savedExtra;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
+    Double userBalance;
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -83,6 +89,27 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
         joinButton=findViewById(R.id.joinTripButton);
 
         download();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                } else {
+                    userBalance = object.getDouble("balance");
+                    userBalance.setText((String.valueOf(userBalance)));
+
+                }
+
+            }
+        });
+
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinTrip();
+            }
+        });
     }
 
     public void download(){
@@ -103,4 +130,37 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void joinTrip(){
+        final ParseObject object = new ParseObject("Trip");
+        object.put("Users",ParseUser.getCurrentUser());
+        object.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+             if(e != null){
+                 Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+             }else{
+                final int tripPrice = (int) object.get("Price");
+                 ParseQuery<ParseUser> query = ParseUser.getQuery();
+                 query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
+                     @Override
+                     public void done(ParseUser object, ParseException e) {
+                         if (e != null) {
+                             e.printStackTrace();
+                         }else{
+                             Double newBalance = userBalance - tripPrice;
+                             object.put("balance", newBalance);
+                         }
+                     }
+                 });
+
+
+
+                 Toast.makeText(getApplicationContext(),"Joined Trip",Toast.LENGTH_LONG).show();
+
+             }
+            }
+        });
+    }
+
 }
