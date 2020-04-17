@@ -78,6 +78,11 @@ import androidx.appcompat.app.AppCompatActivity;
          startActivity(intent);
      }
 
+     public void addDriver(View view){
+         Intent intent = new Intent(getApplicationContext(), AddDriverActivity.class);
+         startActivity(intent);
+     }
+
 
 
 }
