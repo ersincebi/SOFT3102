@@ -124,5 +124,4 @@ public class ListTripActivityPassenger extends AppCompatActivity {
             }
         });
     }
-
 }

@@ -6,6 +6,7 @@ public enum UserTypes {
     ,DRIVER ("driver")
     ,BLOCKED ("blocked");
 
+
     private final String shortCode;
 
     UserTypes(String role) {

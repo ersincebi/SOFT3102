@@ -19,10 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
  public class AdminActivity extends AppCompatActivity {
 
-    Button editUserButton;
-    Button editTripsButton;
-    Button addAdminButton;
-    Button approveDriversButton;
+
+    private Button editUserButton;
+    private Button editTripsButton;
+    private Button addAdminButton;
+    private Button approveDriversButton;
+    private String userID;
 
 
      @Override
@@ -55,12 +57,17 @@ import androidx.appcompat.app.AppCompatActivity;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
 
-
         editTripsButton=findViewById(R.id.editTripsButton);
         editUserButton=findViewById(R.id.editProfilesButton);
         addAdminButton=findViewById(R.id.addAdminButton);
         approveDriversButton=findViewById(R.id.approveDriverButton);
 
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+            userID =(String) b.get("userID");
 
     }
 

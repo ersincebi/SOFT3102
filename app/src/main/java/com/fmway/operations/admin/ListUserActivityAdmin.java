@@ -1,44 +1,40 @@
-
-
 package com.fmway.operations.admin;
 
-        import android.content.Intent;
-        import android.os.Bundle;
-        import android.view.Menu;
-        import android.view.MenuInflater;
-        import android.view.MenuItem;
-        import android.view.View;
-        import android.widget.AdapterView;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
 
-        import com.fmway.R;
-        import com.fmway.operations.commonActivities.SignUpLoginActivity;
-        import com.parse.FindCallback;
-        import com.parse.LogOutCallback;
-        import com.parse.ParseException;
-        import com.parse.ParseObject;
-        import com.parse.ParseQuery;
-        import com.parse.ParseUser;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import com.fmway.R;
+import com.fmway.models.user.User;
+import com.fmway.models.user.UserParseDefinitions;
+import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.parse.FindCallback;
+import com.parse.LogOutCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
-        import androidx.appcompat.app.AppCompatActivity;
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ListUserActivityAdmin extends AppCompatActivity {
 
-    ListView listView;
-    ArrayList<String> objectIdFromParse;
-    ArrayList<String> usernameFromParse;
-    ArrayList<String> emailFromParse;
-    ArrayList<String> nameFromParse;
-    ArrayList<String> surnameFromParse;
-    String selected=null;
+    private ListView listView;
+    private ArrayList<User> userList;
+    private String selected=null;
 
 
-    PostActivityAdminUser PostActivityAdminUser ;
+    private PostActivityAdminUser PostActivityAdminUser;
+
+    private UserParseDefinitions definitions = new UserParseDefinitions();
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,43 +72,15 @@ public class ListUserActivityAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.listuser_activity);
 
-        ParseUser user = new ParseUser();  //kullanılmıyor.
-
         listView = findViewById(R.id.listUserList);
 
-        objectIdFromParse= new ArrayList<>();
-        usernameFromParse= new ArrayList<>();
-        emailFromParse= new ArrayList<>();
-        nameFromParse=new ArrayList<>();
-        surnameFromParse=new ArrayList<>();
 
+        userList= new ArrayList<>();
 
-
-
-
-        PostActivityAdminUser= new PostActivityAdminUser(objectIdFromParse,usernameFromParse,emailFromParse,nameFromParse,surnameFromParse,this);
+        PostActivityAdminUser= new PostActivityAdminUser(userList,this);
 
         download();
         listView.setAdapter(PostActivityAdminUser);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-
-           //     selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
-
-
-
-
-                Intent myIntent= new Intent(ListUserActivityAdmin.this, UserDetailsAdminActivity.class);
-                myIntent.putExtra("objectID", selected);
-                startActivity(myIntent);
-            }
-        });
-
 
     }
     public void download(){
@@ -128,14 +96,14 @@ public class ListUserActivityAdmin extends AppCompatActivity {
                     if(objects.size()>0){
                         for(ParseObject object: objects){
 
-
-                            objectIdFromParse.add(object.getObjectId());
-                            usernameFromParse.add(object.getString("username"));
-                            emailFromParse.add(object.getString("Email"));
-                            nameFromParse.add(object.getString("Name"));
-                            surnameFromParse.add(object.getString("Surname"));
-
-
+                            userList.add(new User(
+                                    object.getObjectId()
+                                    ,object.getString(definitions.getCreatedAtKey())
+                                    ,object.getString(definitions.getNameKey())
+                                    ,object.getString(definitions.getSurnameKey())
+                                    ,object.getString(definitions.getUsernameKey())
+                                    ,object.getString(definitions.getEmailKey())
+                            ));
 
                             PostActivityAdminUser.notifyDataSetChanged();
                         }
