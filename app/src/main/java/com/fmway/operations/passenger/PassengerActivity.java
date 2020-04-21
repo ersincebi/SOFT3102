@@ -86,4 +86,9 @@ public class PassengerActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
         startActivity(intent);
     }
+
+    public void applyDriver(View view){
+        Intent intent = new Intent(getApplicationContext(), UploadLicenceActivity.class);
+        startActivity(intent);
+    }
 }
