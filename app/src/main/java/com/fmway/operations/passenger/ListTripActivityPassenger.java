@@ -23,8 +23,12 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -80,7 +84,11 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
         postActivity= new PostActivity(trip,this);
 
-        download();
+        try {
+            download();
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
         listView.setAdapter(postActivity);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -96,8 +104,11 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         });
     }
 
-    public void download(){
+    public void download() throws java.text.ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(definitions.getClassName());
+        final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        final String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        final Date currenDate=formatter.parse(currentDate);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
@@ -106,6 +117,19 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                 }else{
                     if(objects.size()>0){
                         for(ParseObject object: objects){
+                            String objDate=object.getString((definitions.getDateKey()));
+
+                            try {
+                                Date date1 = formatter.parse(objDate);
+
+                                if (date1.compareTo(currenDate)<0) {
+
+                                    continue;
+                                }
+                            }
+                                catch (java.text.ParseException ex) {
+                                ex.printStackTrace();
+                            }
                             trip.add(
                                     new Trip(
                                             object.getObjectId()
