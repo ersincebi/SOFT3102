@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
-import com.fmway.operations.commonActivities.PostActivity;
+import com.fmway.models.trip.PostActivity;
 import com.fmway.R;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.FindCallback;
@@ -32,7 +32,6 @@ import java.util.Locale;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class ListTripActivityAdmin extends AppCompatActivity {
-
     private String userID;
     private ListView listView;
     private ArrayList<Trip> trip;
@@ -42,6 +41,11 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -50,6 +54,11 @@ public class ListTripActivityAdmin extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return returns the selected option item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -57,9 +66,12 @@ public class ListTripActivityAdmin extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -73,6 +85,12 @@ public class ListTripActivityAdmin extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
+
+    /**
+     * admin trip listing page
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,28 +123,35 @@ public class ListTripActivityAdmin extends AppCompatActivity {
 
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
 
-                Intent myIntent= new Intent(ListTripActivityAdmin.this, TripDetailsAdminActivity.class);
+                Intent myIntent= new Intent(ListTripActivityAdmin.this
+                                            ,TripDetailsAdminActivity.class);
                 myIntent.putExtra(definitions.getObjectIdKey(), selected);
                 myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
-
-
     }
+
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download() throws java.text.ParseException {
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
+
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        final String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        final String currentDate = new SimpleDateFormat("dd/MM/yyyy"
+                                                        ,Locale.getDefault()).format(new Date());
         final Date currenDate=formatter.parse(currentDate);
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 }else{
-
                     if(objects.size()>0){
                         for(ParseObject object: objects){
                             String objDate=object.getString((definitions.getDateKey()));
@@ -161,5 +186,4 @@ public class ListTripActivityAdmin extends AppCompatActivity {
             }
         });
     }
-
 }

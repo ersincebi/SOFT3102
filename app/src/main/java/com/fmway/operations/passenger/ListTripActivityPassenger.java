@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
-import com.fmway.operations.commonActivities.PostActivity;
+import com.fmway.models.trip.PostActivity;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
@@ -25,7 +25,6 @@ import com.parse.ParseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,8 +38,13 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
-    private PostActivity postActivity ;
+    private PostActivity postActivity;
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -49,6 +53,11 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -67,10 +76,17 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
+
+    /**
+     * passenger trip listing page
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,49 +113,55 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
 
-                Intent myIntent= new Intent(ListTripActivityPassenger.this, TripDetailsPassengerActivity.class);
+                Intent myIntent= new Intent(ListTripActivityPassenger.this
+                                            ,TripDetailsPassengerActivity.class);
                 myIntent.putExtra("objectID", selected);
                 startActivity(myIntent);
             }
         });
     }
 
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download() throws java.text.ParseException {
         ParseQuery<ParseObject> query = ParseQuery.getQuery(definitions.getClassName());
+
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        final String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        final Date currenDate=formatter.parse(currentDate);
+        final String currentDate = new SimpleDateFormat("dd/MM/yyyy"
+                                                        ,Locale.getDefault()).format(new Date());
+        final Date currenDate = formatter.parse(currentDate);
+
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 }else{
                     if(objects.size()>0){
                         for(ParseObject object: objects){
                             String objDate=object.getString((definitions.getDateKey()));
-
                             try {
                                 Date date1 = formatter.parse(objDate);
-
-                                if (date1.compareTo(currenDate)<0) {
-
+                                if (date1.compareTo(currenDate)<0)
                                     continue;
-                                }
                             }
                                 catch (java.text.ParseException ex) {
                                 ex.printStackTrace();
                             }
                             trip.add(
-                                    new Trip(
-                                            object.getObjectId()
-                                            ,object.getString(definitions.getDateKey())
-                                            ,object.getString(definitions.getTimeKey())
-                                            ,object.getString(definitions.getFromKey())
-                                            ,object.getString(definitions.getDestinationKey())
-                                            ,String.valueOf(object.getInt(definitions.getCapacityKey()))
-                                            ,String.valueOf(object.getInt(definitions.getPriceKey()))
-                                    )
+                                new Trip(
+                                        object.getObjectId()
+                                        ,object.getString(definitions.getDateKey())
+                                        ,object.getString(definitions.getTimeKey())
+                                        ,object.getString(definitions.getFromKey())
+                                        ,object.getString(definitions.getDestinationKey())
+                                        ,String.valueOf(object.getInt(definitions.getCapacityKey()))
+                                        ,String.valueOf(object.getInt(definitions.getPriceKey()))
+                                )
                             );
                             postActivity.notifyDataSetChanged();
                         }

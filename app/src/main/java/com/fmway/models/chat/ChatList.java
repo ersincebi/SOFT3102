@@ -21,6 +21,11 @@ public class ChatList  extends ArrayAdapter<Chat> {
 
     private TextView messageBody;
 
+    /**
+     * takes the chat type array list and lists the messaging instantly
+     * @param messageList the arraylist contains all the data for populating
+     * @param context
+     */
     public ChatList(ArrayList<Chat> messageList
                     , Activity context){
         super(context, 0, messageList);
@@ -28,6 +33,13 @@ public class ChatList  extends ArrayAdapter<Chat> {
         this.messageList = messageList;
     }
 
+    /**
+     * instant interacting with the user interface
+     * @param position
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

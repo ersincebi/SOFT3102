@@ -26,6 +26,11 @@ public class PassengerActivity extends AppCompatActivity {
     private Button balanceButton;
     private String userID;
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -34,6 +39,11 @@ public class PassengerActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -41,9 +51,12 @@ public class PassengerActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -53,6 +66,12 @@ public class PassengerActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * passenger add trip page
+     * activity constructor
+     * also takes userID by intent
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,22 +90,38 @@ public class PassengerActivity extends AppCompatActivity {
             userID =(String) b.get("userID");
     }
 
+    /**
+     * button action for opening list trip activity
+     * @param view
+     */
     public void listTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityPassenger.class);
         startActivity(intent);
     }
 
+    /**
+     * button action for opening payment activity
+     * @param view
+     */
     public void balance(View view){
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
 
+    /**
+     * button action for opening support page
+     * @param view
+     */
     public void uploadYourIssue(View view){
         Intent intent = new Intent(getApplicationContext(), UploadActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * button action for opening driver application page
+     * @param view
+     */
     public void applyDriver(View view){
         Intent intent = new Intent(getApplicationContext(), UploadLicenceActivity.class);
         startActivity(intent);

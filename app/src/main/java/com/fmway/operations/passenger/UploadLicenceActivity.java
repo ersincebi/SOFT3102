@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 
 import com.fmway.R;
+import com.fmway.models.user.upload.LicenseParseDefinitions;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -30,13 +31,19 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-
 public class UploadLicenceActivity extends AppCompatActivity {
 
-    EditText uploadText;
-    ImageView imageView;
-    Bitmap chosenImage;
+    private EditText uploadText;
+    private ImageView imageView;
+    private Bitmap chosenImage;
 
+    private LicenseParseDefinitions definitions = new LicenseParseDefinitions();
+
+    /**
+     * passenger license upload page
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,10 @@ public class UploadLicenceActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * button handling for license photo
+     * @param view
+     */
     public void upload (View view) {
 
         String upload = uploadText.getText().toString();
@@ -55,20 +66,24 @@ public class UploadLicenceActivity extends AppCompatActivity {
         chosenImage.compress(Bitmap.CompressFormat.PNG, 50,byteArrayOutputStream);
         byte[] bytes = byteArrayOutputStream.toByteArray();
 
-        ParseFile parseFile = new ParseFile ("licence.png",bytes);
+        ParseFile parseFile = new ParseFile (definitions.getFileName(),bytes);
 
 
-        ParseObject object = new ParseObject("Licences");
-        object.put("image",parseFile);
-        object.put("upload", upload);
-        object.put("username", ParseUser.getCurrentUser().getUsername());
+        ParseObject object = new ParseObject(definitions.getClassName());
+        object.put(definitions.getImageKey(),parseFile);
+        object.put(definitions.getUploadKey(), upload);
+        object.put(definitions.getUsernameKey(), ParseUser.getCurrentUser().getUsername());
         object.saveInBackground(new SaveCallback() {
             @Override
             public void done(com.parse.ParseException e) {
                 if (e!= null) {
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),"Ehliyetiniz sisteme yüklenmiştir !",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,"Your driver license been uploaded successfully!"
+                                    ,Toast.LENGTH_LONG).show();
                     Intent intent = new Intent (getApplicationContext(),PassengerActivity.class);
                     startActivity(intent);
                 }}
@@ -76,24 +91,17 @@ public class UploadLicenceActivity extends AppCompatActivity {
 
     }
 
-
-
     public void chooseImage (View view){
-
-// if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {  //kullanıcının galerisine erişim izni
-
-        Intent intent = new Intent (Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {  //kullanıcının galerisine erişim izni
+        Intent intent = new Intent (Intent.ACTION_PICK
+                                    ,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent,1);
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-
             Uri imageData =data.getData();
-
             try {
                 if (Build.VERSION.SDK_INT >= 28){
                     ImageDecoder.Source source = ImageDecoder.createSource(this.getContentResolver(),imageData);
@@ -106,13 +114,9 @@ public class UploadLicenceActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }
 
 

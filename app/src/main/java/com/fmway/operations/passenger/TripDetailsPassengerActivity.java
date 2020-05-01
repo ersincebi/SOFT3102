@@ -40,7 +40,11 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
-
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -49,6 +53,11 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -67,6 +76,13 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * passenger add trip page
+     * activity constructor
+     * also takes objectID by intent
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +106,10 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {

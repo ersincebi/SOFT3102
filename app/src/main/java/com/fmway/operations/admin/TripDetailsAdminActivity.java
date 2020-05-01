@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
-import com.fmway.operations.driver.DriverActivity;
-import com.fmway.operations.driver.TripDetailsDriverActivity;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -48,6 +46,12 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
     private String savedExtra;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
+
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -56,6 +60,11 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return returns the selected option item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -63,9 +72,12 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -74,6 +86,15 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * admin trip detail page
+     * activity constructor
+     *
+     * also makes button handling of
+     * edit and delete trip
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +125,8 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         editTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent= new Intent(TripDetailsAdminActivity.this, EditTripAdminActivity.class);
+                Intent myIntent= new Intent(TripDetailsAdminActivity.this
+                                            ,EditTripAdminActivity.class);
                 myIntent.putExtra("userID",userID);
                 myIntent.putExtra(definitions.getObjectIdKey(), savedExtra);
                 startActivity(myIntent);
@@ -115,11 +137,14 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder=new AlertDialog.Builder(TripDetailsAdminActivity.this);
-                builder.setMessage("Do you want to delete this trip?").setCancelable(false).setPositiveButton("Yes"
+                builder.setMessage("Do you want to delete this trip?")
+                        .setCancelable(false)
+                        .setPositiveButton("Yes"
                         , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
+                                ParseQuery<ParseObject> query = ParseQuery
+                                                                .getQuery(definitions.getClassName());
                                 // Query parameters based on the item name
                                 query.whereEqualTo("objectId", savedExtra);
                                 query.findInBackground(new FindCallback<ParseObject>() {
@@ -130,18 +155,25 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
                                                 @Override
                                                 public void done(ParseException e) {
                                                     if (e == null) {
-                                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                                        Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                                        Toast.makeText(getApplicationContext()
+                                                                        ,"Trip deleted."
+                                                                        ,Toast.LENGTH_LONG).show();
+                                                        Intent intent = new Intent(getApplicationContext()
+                                                                                    ,AdminActivity.class);
                                                         intent.putExtra("userID",userID);
                                                         startActivity(intent);
                                                         finish();
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext()
+                                                                        ,e.getLocalizedMessage()
+                                                                        ,Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext()
+                                                            ,e.getLocalizedMessage()
+                                                            ,Toast.LENGTH_LONG).show();
 
                                         }
                                     }
@@ -161,13 +193,19 @@ public class TripDetailsAdminActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download(){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery("Trip");
+        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e != null) {
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
 
                 } else {
                     dateText.setText(object.getString(definitions.getDateKey()));

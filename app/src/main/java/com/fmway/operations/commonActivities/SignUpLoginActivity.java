@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fmway.R;
 import com.fmway.operations.admin.AdminActivity;
-import com.fmway.operations.commonActivities.SignUpActivityMain;
 import com.fmway.operations.driver.DriverActivity;
 import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.LogInCallback;
@@ -18,10 +17,12 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 public class SignUpLoginActivity extends AppCompatActivity {
+    private EditText usernameText, passwordText;
 
-    EditText usernameText, passwordText;
-
-
+    /**
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,83 +30,74 @@ public class SignUpLoginActivity extends AppCompatActivity {
 
         usernameText = findViewById(R.id.signup_login_username);
         passwordText = findViewById(R.id.signup_login_password);
-
     }
 
+    /**
+     * login direction handler
+     * after user logs in their info
+     * finds the user role and redirect required page activity
+     * @param view
+     */
     public void login(View view) {
-
-        ParseUser.logInInBackground(usernameText.getText().toString(), passwordText.getText().toString(), new LogInCallback() {
+        ParseUser.logInInBackground(usernameText.getText().toString()
+                                    ,passwordText.getText().toString()
+                                    ,new LogInCallback() {
 
             @Override
             public void done(ParseUser user, ParseException e) {
                 if (e!= null) {
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),"Giriş Yapıldı -> "+ user.getUsername(),Toast.LENGTH_LONG).show();
-
-
+                    Toast.makeText(getApplicationContext()
+                                    ,"Login is Successful -> " + user.getUsername()
+                                    ,Toast.LENGTH_LONG).show();
                     String userID=user.getObjectId();
-
                     String userType=user.getString("userType");
                     if (userType.equals("admin")){
-
-                        //intent for admin Login
                         Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
-
-                    }
-
-                    //intent for passenger Login
-                    else if (userType.equals("passenger")){
-                        //intent
+                    } else if (userType.equals("passenger")){
                         Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
-
-                    }
-
-
-                    //intent for driver Login
-                    else if (userType.equals("driver")){
-                        //intent
+                    } else if (userType.equals("driver")){
                         Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
                     }
-
                 }
             }
         });
-
     }
 
-
+    /**
+     * button handler for password save for user
+     * @param view
+     */
     public void forgotPassword(View view) {
+        Toast.makeText(getApplicationContext()
+                        ,"Please enter a registered e-mail!"
+                        ,Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getApplicationContext(),"Lütfen sistemde kayıtlı olan email adresinizi girin!",Toast.LENGTH_LONG).show();
-
-        //intent
         Intent intent = new Intent(getApplicationContext(), ForgotPasswordActivity.class);
         startActivity(intent);
-
-
-        };
-
-
-
-
-
-    public void signUp_orientation (View view) {
-
-        Toast.makeText(getApplicationContext(),"Lütfen gerekli kullanıcı bilgilerini doldurun!",Toast.LENGTH_LONG).show();
-
-        //intent for new user
-        Intent intent = new Intent(getApplicationContext(), SignUpActivityMain.class);
-        startActivity(intent);
-
     }
 
+    /**
+     * button handler for sign up user
+     * @param view
+     */
+    public void signUp_orientation (View view) {
+        Toast.makeText(getApplicationContext()
+                        ,"Please fill the required user information!"
+                        ,Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(getApplicationContext(), SignUpActivityMain.class);
+        startActivity(intent);
+    }
 }
 
 

@@ -1,6 +1,9 @@
 package com.fmway.models.user;
 
 public class UserParseDefinitions {
+    /**
+     * each string represents a key on parse database under user class
+     */
     public String className = "User";
     public String objectIdKey = "objectId";
     public String createdAtKey = "createdAt";

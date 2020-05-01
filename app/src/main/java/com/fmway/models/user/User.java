@@ -7,6 +7,18 @@ public class User {
     private String surname;
     private String username;
     private String email;
+
+    /**
+     * This class is for listing the user list on parse database
+     *
+     * each parameter represents a key on parse database
+     * @param objectId
+     * @param createdAt
+     * @param name
+     * @param surname
+     * @param username
+     * @param email
+     */
     public User(
             String objectId
             ,String createdAt

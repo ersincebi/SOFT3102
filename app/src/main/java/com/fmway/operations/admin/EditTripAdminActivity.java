@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
-import com.fmway.operations.driver.DriverActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -53,6 +52,11 @@ public class EditTripAdminActivity extends AppCompatActivity {
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -61,6 +65,11 @@ public class EditTripAdminActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return returns the selected option item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -68,9 +77,12 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -79,6 +91,13 @@ public class EditTripAdminActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * admin trip edit page
+     * activity constructor
+     * also makes button handling date and time
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +131,8 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                final DatePickerDialog dpd= new DatePickerDialog(context,new DatePickerDialog.OnDateSetListener(){
+                final DatePickerDialog dpd= new DatePickerDialog(context
+                        ,new DatePickerDialog.OnDateSetListener(){
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int day) {
@@ -128,12 +148,8 @@ public class EditTripAdminActivity extends AppCompatActivity {
 
 
                 if(!((Activity) EditTripAdminActivity.this).isFinishing())
-                {
                     dpd.show();
-                }
             }
-
-
         });
 
 
@@ -155,22 +171,28 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 }, hour, minute, true);
 
                 // dialog penceresinin button bilgilerini ayarlıyoruz ve ekranda gösteriyoruz.
-                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Seç", tpd);
-                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "İptal", tpd);
+                tpd.setButton(TimePickerDialog.BUTTON_POSITIVE, "Select", tpd);
+                tpd.setButton(TimePickerDialog.BUTTON_NEGATIVE, "Cancel", tpd);
                 tpd.show();
             }
         });
     }
+
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e != null) {
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
 
                 } else {
-
                     dateText.setText(object.getString(definitions.getDateKey()));
                     timeText.setText(object.getString(definitions.getTimeKey()));
                     from.setText(object.getString(definitions.getFromKey()));
@@ -180,26 +202,41 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
+
+    /**
+     * button handling for submitting
+     * the changes on fields for trip
+     * @param view
+     */
     public void editTrip(View view){
         if (from.getText().toString().equals(destination.getText().toString()) ){
-            Toast.makeText(getApplicationContext(), "From and Destination Cannot be same", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext()
+                            ,"From and Destination Cannot be same"
+                            ,Toast.LENGTH_LONG).show();
         }
-        else if(dateText.getText().toString().equals("") || timeText.getText().toString().equals("")||
-                from.getText().toString().equals("")||destination.getText().toString().equals("")||
-                capacity.getText().toString().equals("")|| price.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show();
+        else if(dateText.getText().toString().equals("")
+                || timeText.getText().toString().equals("")
+                || from.getText().toString().equals("")
+                || destination.getText().toString().equals("")
+                || capacity.getText().toString().equals("")
+                || price.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext()
+                            ,"Fields cannot be empty!"
+                            ,Toast.LENGTH_LONG).show();
         } else if(Integer.parseInt(capacity.getText().toString())>6){
-            Toast.makeText(getApplicationContext(), "Capacity cannot exceed 6!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext()
+                            ,"Capacity cannot exceed 6!"
+                            ,Toast.LENGTH_LONG).show();
         }else if(Double.parseDouble(price.getText().toString())>20){
-            Toast.makeText(getApplicationContext(), "Price per person cannot exceed 20TL !", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext()
+                            ,"Price per person cannot exceed 20TL !"
+                            ,Toast.LENGTH_LONG).show();
         }
         else {
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setMessage("Do you want to edit this trip?").setCancelable(false).setPositiveButton("Yes",
+            builder.setMessage("Do you want to edit this trip?")
+                    .setCancelable(false).setPositiveButton("Yes",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -222,17 +259,19 @@ public class EditTripAdminActivity extends AppCompatActivity {
                                         @Override
                                         public void done(ParseException e) {
                                             if (e != null) {
-                                                Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                Toast.makeText(getApplicationContext()
+                                                                ,e.getLocalizedMessage()
+                                                                ,Toast.LENGTH_LONG).show();
 
                                             } else {
-                                                Toast.makeText(getApplicationContext(), "Trip edited.", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                                Toast.makeText(getApplicationContext()
+                                                                ,"Trip edited."
+                                                                ,Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getApplicationContext()
+                                                                            ,AdminActivity.class);
                                                 intent.putExtra("userID",userID);
                                                 startActivity(intent);
-
-
                                             }
-
                                         }
                                     });
                                 }
@@ -246,10 +285,21 @@ public class EditTripAdminActivity extends AppCompatActivity {
             });
             AlertDialog alertDialog=builder.create();
             alertDialog.show();
-
         }
     }
 
+    /**
+     * this class helps to edit trip editing on database
+     * its created separately because for testing
+     *
+     * @param object variable is inherits the ParseObject class
+     * @param date
+     * @param time
+     * @param from
+     * @param destination
+     * @param capacity
+     * @param price
+     */
     public void editTripData(
             ParseObject object
             ,String date

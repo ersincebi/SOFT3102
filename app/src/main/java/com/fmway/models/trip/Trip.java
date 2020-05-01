@@ -9,6 +9,18 @@ public class Trip {
     public String Capacity;
     public String Price;
 
+    /**
+     * This class is for listing the trip list on parse database
+     *
+     * each parameter represents a key on parse database
+     * @param objectId
+     * @param Date
+     * @param Time
+     * @param From
+     * @param Destination
+     * @param Capacity
+     * @param Price
+     */
     public Trip(String objectId
                 ,String Date
                 ,String Time

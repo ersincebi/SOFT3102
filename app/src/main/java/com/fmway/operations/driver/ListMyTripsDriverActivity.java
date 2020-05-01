@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
-import com.fmway.operations.commonActivities.PostActivity;
+import com.fmway.models.trip.PostActivity;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
@@ -36,18 +36,27 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
     private ArrayList<Trip> trip;
     private String selected=null;
     private String userID;
-    private PostActivity postActivity ;
+    private PostActivity postActivity;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return returns the selected option item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -55,9 +64,12 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -71,6 +83,15 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
     }
+
+    /**
+     * admin trip listing page
+     * activity constructor
+     * also takes userID by intent
+     * and makes button handling for
+     * opening required trip
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,13 +102,13 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
         Bundle b = iin.getExtras();
 
         if(b!=null)
-            userID =(String) b.get("userID");
+            userID = (String) b.get("userID");
 
         listView = findViewById(R.id.listTripsList);
 
         trip= new ArrayList<>();
 
-        postActivity= new PostActivity(trip,this);
+        postActivity = new PostActivity(trip,this);
 
         try {
             download();
@@ -99,40 +120,44 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 selected = ((TextView) view.findViewById(R.id.customView_objectId)).getText().toString();
-
-                Intent myIntent= new Intent(ListMyTripsDriverActivity.this, TripDetailsDriverActivity.class);
+                Intent myIntent= new Intent(ListMyTripsDriverActivity.this
+                                            ,TripDetailsDriverActivity.class);
                 myIntent.putExtra("objectID", selected);
                 myIntent.putExtra("userID",userID);
                 startActivity(myIntent);
             }
         });
     }
+
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download() throws java.text.ParseException {
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
+
         final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        final String currentDate = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        final String currentDate = new SimpleDateFormat("dd/MM/yyyy"
+                                                        ,Locale.getDefault()).format(new Date());
         final Date currenDate=formatter.parse(currentDate);
+
         query.whereEqualTo(definitions.getTripCreatedByKey(),userID);
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 }else{
-
                     if(objects.size()>0){
                         for(ParseObject object: objects){
                             String objDate=object.getString((definitions.getDateKey()));
-
                             try {
                                 Date date1 = formatter.parse(objDate);
-
-                                if (date1.compareTo(currenDate)<0) {
-
+                                if (date1.compareTo(currenDate)<0)
                                     continue;
-                                }
                             }
                             catch (java.text.ParseException ex) {
                                 ex.printStackTrace();
@@ -155,6 +180,5 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
             }
         });
     }
-
 }
 

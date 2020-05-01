@@ -19,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.user.UserTypes;
 import com.fmway.operations.admin.AdminActivity;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
@@ -47,8 +48,14 @@ public class AddTripActivity extends AppCompatActivity {
     private Context context=this;
     private String userID;
 
+    UserTypes role;
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -57,6 +64,11 @@ public class AddTripActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -64,9 +76,12 @@ public class AddTripActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -76,9 +91,15 @@ public class AddTripActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * driver add trip page
+     * activity constructor
+     * also takes userID by intent
+     * and makes button handling date and time selectors
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addtrip_activity);
 
@@ -150,24 +171,37 @@ public class AddTripActivity extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * button handler for adding trip info
+     * entered by driver
+     * also makes error e-handling for entered info
+     * @param view
+     */
     public void addTrip(View view){
         if (from.getText().toString().equals(destination.getText().toString()) ){
-            Toast.makeText(getApplicationContext(), "From and Destination Cannot be same", Toast.LENGTH_LONG).show();
-        }
-
-        else if(dateText.getText().toString().equals("") || timeText.getText().toString().equals("")||
-                from.getText().toString().equals("")||destination.getText().toString().equals("")||
-                capacity.getText().toString().equals("")|| price.getText().toString().equals("")){
-            Toast.makeText(getApplicationContext(), "Fields cannot be empty!", Toast.LENGTH_LONG).show();
-        }
-        else if(Integer.parseInt(capacity.getText().toString())>6){
-            Toast.makeText(getApplicationContext(), "Capacity cannot exceed 6!", Toast.LENGTH_LONG).show();
-        }else if(Double.parseDouble(price.getText().toString())>20){
-            Toast.makeText(getApplicationContext(), "Price per person cannot exceed 20TL !", Toast.LENGTH_LONG).show();
-        }
-        else {
+            Toast.makeText(getApplicationContext()
+                            ,"From and Destination Cannot be same"
+                            ,Toast.LENGTH_LONG).show();
+        } else if(dateText.getText().toString().equals("")
+                    || timeText.getText().toString().equals("")
+                    || from.getText().toString().equals("")
+                    || destination.getText().toString().equals("")
+                    || capacity.getText().toString().equals("")
+                    || price.getText().toString().equals("")){
+            Toast.makeText(getApplicationContext()
+                            ,"Fields cannot be empty!"
+                            ,Toast.LENGTH_LONG).show();
+        } else if(Integer.parseInt(capacity.getText().toString())>6){
+            Toast.makeText(getApplicationContext()
+                            ,"Capacity cannot exceed 6!"
+                            ,Toast.LENGTH_LONG).show();
+        } else if(Double.parseDouble(price.getText().toString())>20){
+            Toast.makeText(getApplicationContext()
+                            ,"Price per person cannot exceed 20TL !"
+                            ,Toast.LENGTH_LONG).show();
+        } else {
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
-
             builder.setMessage("Do you want to add this trip?").setCancelable(false)
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -187,26 +221,31 @@ public class AddTripActivity extends AppCompatActivity {
                                 @Override
                                 public void done(ParseException e) {
                                     if (e != null) {
-                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext()
+                                                        ,e.getLocalizedMessage()
+                                                        ,Toast.LENGTH_LONG).show();
 
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Trip added.", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext()
+                                                        ,"Trip added."
+                                                        ,Toast.LENGTH_LONG).show();
 
                                         ParseUser usr = ParseUser.getCurrentUser();
 
                                         String usrType = usr.getString("userType");
 
-                                        if (usrType.equals("driver")) {
-                                            Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                        if (usrType.equals(role.DRIVER.getUserType())) {
+                                            Intent intent = new Intent(getApplicationContext()
+                                                                        ,DriverActivity.class);
                                             intent.putExtra("userID", userID);
                                             startActivity(intent);
-                                        } else if (usrType.equals("admin")) {
-                                            Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                        } else if (usrType.equals(role.ADMIN.getUserType())) {
+                                            Intent intent = new Intent(getApplicationContext()
+                                                                        ,AdminActivity.class);
                                             intent.putExtra("userID", userID);
                                             startActivity(intent);
                                         }
                                     }
-
                                 }
                             });
                         }
@@ -216,12 +255,24 @@ public class AddTripActivity extends AppCompatActivity {
                     dialogInterface.cancel();
                 }
             });
-
             AlertDialog alertDialog=builder.create();
             alertDialog.show();
         }
     }
 
+    /**
+     * this class helps to create trip creation on database
+     * its created separately because for testing
+     *
+     * @param object variable is for the ParseObject class
+     * @param date
+     * @param time
+     * @param from
+     * @param destination
+     * @param capacity
+     * @param price
+     * @param uid
+     */
     public void addTripToDb(
             ParseObject object
             ,String date
@@ -232,12 +283,12 @@ public class AddTripActivity extends AppCompatActivity {
             ,int price
             ,String uid
     ){
-        object.put("Date", date);
-        object.put("Time", time);
-        object.put("From", from);
-        object.put("Destination", destination);
-        object.put("Capacity", capacity);
-        object.put("Price", price);
-        object.put("TripCreatedBy", uid);
+        object.put(definitions.getDateKey(), date);
+        object.put(definitions.getTimeKey(), time);
+        object.put(definitions.getFromKey(), from);
+        object.put(definitions.getDestinationKey(), destination);
+        object.put(definitions.getCapacityKey(), capacity);
+        object.put(definitions.getPriceKey(), price);
+        object.put(definitions.getTripCreatedByKey(), uid);
     }
 }

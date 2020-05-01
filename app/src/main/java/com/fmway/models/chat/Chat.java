@@ -5,7 +5,14 @@ public class Chat{
     private String personId;
     private String message;
 
-
+    /**
+     * This class is for listing the chat list on parse database
+     *
+     * each parameter represents a key on parse database
+     * @param tripId
+     * @param personId
+     * @param message
+     */
     public Chat(String tripId
                 , String personId
                 , String message){

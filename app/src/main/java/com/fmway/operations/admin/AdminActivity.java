@@ -26,7 +26,11 @@ import androidx.appcompat.app.AppCompatActivity;
     private Button approveDriversButton;
     private String userID;
 
-
+     /**
+      * menu option creator handler
+      * @param menu
+      * @return
+      */
      @Override
      public boolean onCreateOptionsMenu(Menu menu) {
          MenuInflater menuInflater = getMenuInflater();
@@ -34,6 +38,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
          return super.onCreateOptionsMenu(menu);
      }
+
+     /**
+      * logout button activity
+      * @param item
+      * @return
+      */
      @Override
      public boolean onOptionsItemSelected(MenuItem item) {
          if (item.getItemId() == R.id.Logout) {
@@ -41,9 +51,12 @@ import androidx.appcompat.app.AppCompatActivity;
                  @Override
                  public void done(ParseException e) {
                      if (e != null) {
-                         Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                         Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                      } else {
-                         Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                         Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                          startActivity(intent);
                          finish();
                      }
@@ -52,6 +65,13 @@ import androidx.appcompat.app.AppCompatActivity;
          }
          return super.onOptionsItemSelected(item);
      }
+
+     /**
+      * admin main page
+      * activity constructor
+      * also takes userID by intent
+      * @param savedInstanceState
+      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,20 +91,37 @@ import androidx.appcompat.app.AppCompatActivity;
 
     }
 
+     /**
+      * button action for opening list trip activity
+      * @param view
+      */
     public void editTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityAdmin.class);
         startActivity(intent);
     }
 
+     /**
+      * button action for opening list user activity
+      * @param view
+      */
      public void editUser(View view){
          Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
          startActivity(intent);
      }
+
+     /**
+      * button action for opening add admin activity
+      * @param view
+      */
      public void addAdmin(View view){
          Intent intent = new Intent(getApplicationContext(), AddAdminActivity.class);
          startActivity(intent);
      }
 
+     /**
+      * button action for opening add admin activity
+      * @param view
+      */
      public void addDriver(View view){
          Intent intent = new Intent(getApplicationContext(), AddDriverActivity.class);
          startActivity(intent);

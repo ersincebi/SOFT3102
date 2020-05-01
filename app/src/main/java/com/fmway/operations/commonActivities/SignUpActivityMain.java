@@ -24,23 +24,30 @@ public class SignUpActivityMain extends AppCompatActivity {
 
     private UserTypes roles;
 
+    /**
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity_main);
-
         nameText = findViewById(R.id.user_name);
         surnameText = findViewById(R.id.user_surname);
         emailText = findViewById(R.id.user_email);
         phoneText = findViewById(R.id.user_phone);
         usernameText = findViewById(R.id.user_username);
         passwordText = findViewById(R.id.user_password);
-
     }
 
+    /**
+     * records the new user to the database
+     * according to given information in the fields
+     * and redirects to the activity according to user role
+     * @param view
+     */
     public void signUp (View view) {
         final ParseUser user = new ParseUser();
-
         userSignUp(
                 user
                 ,nameText.getText().toString()
@@ -50,33 +57,25 @@ public class SignUpActivityMain extends AppCompatActivity {
                 ,usernameText.getText().toString()
                 ,passwordText.getText().toString()
         );
-
         user.signUpInBackground(new SignUpCallback() {
-
-
             @Override
             public void done(ParseException e) {
                 if (e!= null) {
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show(); //geçersiz isim şifre vs.
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),"Yeni Kullanıcı Oluşturuldu!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,"New User Created!"
+                                    ,Toast.LENGTH_LONG).show();
                     String userType=user.getString(definitions.getUserTypeKey());
                     if (userType.equals(roles.ADMIN.getUserType())){
-                        //intent for admin Login
                         Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                         startActivity(intent);
-                    }
-
-                    //intent for passenger Login
-                    else if (userType.equals(roles.PASSENGER.getUserType())){
-                        //intent
+                    } else if (userType.equals(roles.PASSENGER.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
                         startActivity(intent);
-                    }
-
-                    //intent for driver Login
-                    else if (userType.equals(roles.DRIVER.getUserType())){
-                        //intent
+                    } else if (userType.equals(roles.DRIVER.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
                         startActivity(intent);
                     }
@@ -85,6 +84,18 @@ public class SignUpActivityMain extends AppCompatActivity {
         });
     }
 
+    /**
+     * this class helps to create user on database
+     * its created separately because for testing
+     * every user is given passenger role as default
+     * @param user variable is inherits the ParseUser class
+     * @param name
+     * @param surname
+     * @param email
+     * @param phone
+     * @param username
+     * @param password
+     */
     public void userSignUp(
             ParseUser user
             ,String name

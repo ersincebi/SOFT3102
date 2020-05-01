@@ -43,6 +43,11 @@ public class tripChat extends AppCompatActivity {
 
     private ChatParseDefinitions definitions = new ChatParseDefinitions();
     private ChatList chatList;
+
+    /**
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,11 +93,17 @@ public class tripChat extends AppCompatActivity {
         listMessages(tripId);
     }
 
+    /**
+     * button handler for sending entered massage
+     * @param view
+     */
     public void sendMessage(View view){
         String messageFromUser = String.valueOf(message.getText());
 
         if(messageFromUser.equals("")){
-            Toast.makeText(getApplicationContext(), "This field cannot be empty!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext()
+                            ,"This field cannot be empty!"
+                            ,Toast.LENGTH_LONG).show();
         }
         else {
             ParseObject parseObject = new ParseObject(definitions.getClassName());
@@ -105,9 +116,13 @@ public class tripChat extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getApplicationContext(), "Message sent.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,"Message sent."
+                                        ,Toast.LENGTH_LONG).show();
 
                         adapterMessageList.clear();
 
@@ -118,6 +133,10 @@ public class tripChat extends AppCompatActivity {
         }
     }
 
+    /**
+     * message listing handler for the trip chat
+     * @param takeTripId
+     */
     public void listMessages(String takeTripId){
         ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(definitions.getClassName());
 
@@ -127,14 +146,19 @@ public class tripChat extends AppCompatActivity {
                 @Override
                 public void done(List<ParseObject> objects, ParseException e) {
                     if(e!=null){
-                        Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     }else{
                         if(objects.size()>0){
                             for(ParseObject object: objects){
-                                adapterMessageList.add(new Chat(object.getString(definitions.getTripIdKey())
-                                                                ,object.getString(definitions.getPersonIdKey())
-                                                                ,object.getString(definitions.getMessageKey())));
-
+                                adapterMessageList.add(
+                                    new Chat(
+                                            object.getString(definitions.getTripIdKey())
+                                            ,object.getString(definitions.getPersonIdKey())
+                                            ,object.getString(definitions.getMessageKey())
+                                    )
+                                );
                                 chatList.notifyDataSetChanged();
                             }
                         }

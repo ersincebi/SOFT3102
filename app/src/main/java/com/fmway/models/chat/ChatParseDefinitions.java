@@ -1,6 +1,10 @@
 package com.fmway.models.chat;
 
 public class ChatParseDefinitions {
+
+    /**
+     * each string represents a key on parse database under chat class
+     */
     public String className = "Chat";
     public String objectIdKey = "objectId";
     public String createdAtKey = "createdAt";

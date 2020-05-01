@@ -1,6 +1,10 @@
 package com.fmway.models.trip;
 
 public class TripParseDefinitions {
+
+    /**
+     * each string represents a key on parse database under trip class
+     */
     public String className = "Trip";
     public String objectIdKey = "objectId";
     public String TripCreatedByKey = "TripCreatedBy";

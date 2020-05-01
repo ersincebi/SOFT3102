@@ -24,6 +24,10 @@ public class AddDriverActivity extends AppCompatActivity {
     private UserParseDefinitions definitions = new UserParseDefinitions();
     private UserTypes roles;
 
+    /**
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +44,10 @@ public class AddDriverActivity extends AppCompatActivity {
 
     }
 
-
+    /**
+     * Button action for driver user creation
+     * @param view
+     */
     public void addDriverAccount (View view) {
         user = new ParseUser();
 
@@ -58,9 +65,13 @@ public class AddDriverActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e!= null) {
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show(); //geçersiz isim şifre vs.
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),"New driver account is created!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,"New driver account is created!"
+                                    ,Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                     startActivity(intent);
                 }
@@ -68,6 +79,18 @@ public class AddDriverActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * this class helps to create user creation on database
+     * its created separately because for testing
+     *
+     * @param user variable is inherits the ParseUser class
+     * @param name
+     * @param surname
+     * @param email
+     * @param phone
+     * @param username
+     * @param password
+     */
     public void addUserToDb(
             ParseUser user
             ,String name

@@ -46,6 +46,11 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -54,6 +59,11 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return returns the selected option item
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -61,9 +71,12 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
                 @Override
                 public void done(ParseException e) {
                     if (e != null) {
-                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext()
+                                        ,e.getLocalizedMessage()
+                                        ,Toast.LENGTH_LONG).show();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), SignUpLoginActivity.class);
+                        Intent intent = new Intent(getApplicationContext()
+                                                    ,SignUpLoginActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -72,6 +85,15 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**
+     * admin trip detail page
+     * activity constructor
+     * also makes button handling for
+     * opening trip edit activity
+     * and trip delete
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,14 +133,14 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
         deleteTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 AlertDialog.Builder builder=new AlertDialog.Builder(TripDetailsDriverActivity.this);
-                builder.setMessage("Do you want to delete this trip?").setCancelable(false).setPositiveButton("Yes"
+                builder.setMessage("Do you want to delete this trip?")
+                        .setCancelable(false).setPositiveButton("Yes"
                         , new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
-// Query parameters based on the item name
+                                // Query parameters based on the item name
                                 query.whereEqualTo("objectId", savedExtra);
                                 query.findInBackground(new FindCallback<ParseObject>() {
                                     @Override
@@ -128,18 +150,25 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
                                                 @Override
                                                 public void done(ParseException e) {
                                                     if (e == null) {
-                                                        Toast.makeText(getApplicationContext(), "Trip deleted.", Toast.LENGTH_LONG).show();
-                                                        Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
+                                                        Toast.makeText(getApplicationContext()
+                                                                        ,"Trip deleted."
+                                                                        ,Toast.LENGTH_LONG).show();
+                                                        Intent intent = new Intent(getApplicationContext()
+                                                                                    ,DriverActivity.class);
                                                         intent.putExtra("userID",userID);
                                                         startActivity(intent);
                                                         finish();
                                                     } else {
-                                                        Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                                        Toast.makeText(getApplicationContext()
+                                                                ,e.getLocalizedMessage()
+                                                                ,Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                             });
                                         } else {
-                                            Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext()
+                                                            ,e.getLocalizedMessage()
+                                                            ,Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 });
@@ -156,13 +185,19 @@ public class TripDetailsDriverActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * searches for the trip details on database
+     * and fills the fields
+     */
     public void download(){
         ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
         query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject object, ParseException e) {
                 if (e != null) {
-                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
                     dateText.setText(object.getString(definitions.getDateKey()));
                     timeText.setText(object.getString(definitions.getTimeKey()));

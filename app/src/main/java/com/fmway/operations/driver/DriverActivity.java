@@ -29,6 +29,11 @@ public class DriverActivity extends AppCompatActivity {
 
     private String userID;
 
+    /**
+     * menu option creator handler
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -37,6 +42,11 @@ public class DriverActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /**
+     * logout button activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.Logout) {
@@ -56,6 +66,12 @@ public class DriverActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * driver activity page
+     * activity constructor
+     * also takes userID by intent
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,22 +90,40 @@ public class DriverActivity extends AppCompatActivity {
             userID = (String) b.get("userID");
     }
 
+    /**
+     * button action for opening list trip activity
+     * @param view
+     */
     public void listTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityPassenger.class);
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
 
+    /**
+     * button action for opening payment activity
+     * @param view
+     */
     public void balance(View view){
         Intent intent = new Intent(getApplicationContext(), Payment.class);
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
+
+    /**
+     * button action for opening add trip activity
+     * @param view
+     */
     public void addTrip(View view){
         Intent intent = new Intent(getApplicationContext(), AddTripActivity.class);
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
+
+    /**
+     * button action for opening list created by owned trip activity
+     * @param view
+     */
     public void listMyTrips(View view){
         Intent intent= new Intent(getApplicationContext(), ListMyTripsDriverActivity.class);
         intent.putExtra("userID",userID);

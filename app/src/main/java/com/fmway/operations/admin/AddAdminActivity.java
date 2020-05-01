@@ -23,11 +23,14 @@ public class AddAdminActivity extends AppCompatActivity {
     private UserParseDefinitions definitions = new UserParseDefinitions();
     private UserTypes roles;
 
+    /**
+     * activity constructor
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addadmin);
-
 
         nameText = findViewById(R.id.addAdminName);
         surnameText = findViewById(R.id.addAdminSurname);
@@ -40,6 +43,10 @@ public class AddAdminActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Button action for admin user creation
+     * @param view
+     */
     public void addAdminAccount (View view) {
         user = new ParseUser();
 
@@ -57,9 +64,13 @@ public class AddAdminActivity extends AppCompatActivity {
             @Override
             public void done(ParseException e) {
                 if (e!= null) {
-                    Toast.makeText(getApplicationContext(),e.getLocalizedMessage(),Toast.LENGTH_LONG).show(); //geçersiz isim şifre vs.
+                    Toast.makeText(getApplicationContext()
+                                    ,e.getLocalizedMessage()
+                                    ,Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),"New admin account is created!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext()
+                                    ,"New admin account is created!"
+                                    ,Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                     startActivity(intent);
                 }
@@ -67,6 +78,18 @@ public class AddAdminActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * this class helps to create user creation on database
+     * its created separately because for testing
+     *
+     * @param user variable is for the ParseUser class
+     * @param name
+     * @param surname
+     * @param email
+     * @param phone
+     * @param username
+     * @param password
+     */
     public void addUserToDb(
             ParseUser user
             ,String name
