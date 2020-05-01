@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fmway.R;
+import com.fmway.models.user.UserTypes;
 import com.fmway.operations.admin.AdminActivity;
 import com.fmway.operations.driver.DriverActivity;
 import com.fmway.operations.passenger.PassengerActivity;
@@ -18,6 +19,8 @@ import com.parse.ParseUser;
 
 public class SignUpLoginActivity extends AppCompatActivity {
     private EditText usernameText, passwordText;
+
+    private UserTypes role;
 
     /**
      * activity constructor
@@ -55,15 +58,15 @@ public class SignUpLoginActivity extends AppCompatActivity {
                                     ,Toast.LENGTH_LONG).show();
                     String userID=user.getObjectId();
                     String userType=user.getString("userType");
-                    if (userType.equals("admin")){
+                    if (userType.equals(role.ADMIN.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
-                    } else if (userType.equals("passenger")){
+                    } else if (userType.equals(role.PASSENGER.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
-                    } else if (userType.equals("driver")){
+                    } else if (userType.equals(role.DRIVER.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), DriverActivity.class);
                         intent.putExtra("userID",userID);
                         startActivity(intent);

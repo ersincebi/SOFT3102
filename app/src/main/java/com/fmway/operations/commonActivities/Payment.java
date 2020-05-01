@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.user.UserTypes;
 import com.fmway.operations.driver.DriverActivity;
 import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.GetCallback;
@@ -33,6 +34,8 @@ public class Payment extends AppCompatActivity {
     private Double payBalance;
     private String userID;
     private TextView currentBalance;
+
+    private UserTypes role;
 
     /**
      * activity constructor
@@ -141,12 +144,12 @@ public class Payment extends AppCompatActivity {
 
                                                     String usrType = usr.getString("userType");
 
-                                                    if (usrType.equals("driver")) {
+                                                    if (usrType.equals(role.DRIVER.getUserType())) {
                                                         Intent intent = new Intent(getApplicationContext()
                                                                 ,DriverActivity.class);
                                                         intent.putExtra("userID", userID);
                                                         startActivity(intent);
-                                                    } else if (usrType.equals("passenger")) {
+                                                    } else if (usrType.equals(role.PASSENGER.getUserType())) {
                                                         Intent intent = new Intent(getApplicationContext()
                                                                 ,PassengerActivity.class);
                                                         intent.putExtra("userID", userID);
