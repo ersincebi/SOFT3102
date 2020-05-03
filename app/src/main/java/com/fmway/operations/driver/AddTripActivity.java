@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -23,13 +25,17 @@ import com.fmway.models.user.UserTypes;
 import com.fmway.operations.admin.AdminActivity;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,8 +47,8 @@ public class AddTripActivity extends AppCompatActivity {
     private Button addTripButton;
     private TextView dateText;
     private TextView timeText;
-    private EditText from;
-    private EditText destination;
+    private Spinner fromSpinner;
+    private Spinner destSpinner;
     private EditText capacity;
     private EditText price;
     private Context context=this;
@@ -96,6 +102,7 @@ public class AddTripActivity extends AppCompatActivity {
      * activity constructor
      * also takes userID by intent
      * and makes button handling date and time selectors
+     * Defines from and destination places as spinner
      * @param savedInstanceState
      */
     @Override
@@ -108,8 +115,8 @@ public class AddTripActivity extends AppCompatActivity {
         addTripButton=findViewById(R.id.addTripButton);
         dateText=findViewById(R.id.addTripDate);
         timeText=findViewById(R.id.addTripTime);
-        from=findViewById(R.id.addTripFrom);
-        destination=findViewById(R.id.addTripDestination);
+        fromSpinner=findViewById(R.id.fromSpinner);
+        destSpinner=findViewById(R.id.destSpinner);
         capacity=findViewById(R.id.addTripCapacity);
         price=findViewById(R.id.addTripPrice);
 
@@ -118,6 +125,29 @@ public class AddTripActivity extends AppCompatActivity {
 
         if(b!=null)
             userID =(String) b.get("userID");
+
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("County");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    ArrayList<String> countyList = new ArrayList<>();
+                    for(ParseObject object : list) {
+                        countyList.add(object.getString("destName"));
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter(
+                            getApplicationContext(),android.R.layout.simple_list_item_1 ,countyList);
+                    fromSpinner.setAdapter(adapter);
+                    destSpinner.setAdapter(adapter);
+                } else {
+
+                }
+            }
+        });
+
+
+
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,14 +209,18 @@ public class AddTripActivity extends AppCompatActivity {
      * @param view
      */
     public void addTrip(View view){
-        if (from.getText().toString().equals(destination.getText().toString()) ){
+        if (fromSpinner.getSelectedItem().toString().equals(destSpinner.getSelectedItem().toString()) ) {
             Toast.makeText(getApplicationContext()
-                            ,"From and Destination Cannot be same"
-                            ,Toast.LENGTH_LONG).show();
+                    , "From and Destination Cannot be same"
+                    , Toast.LENGTH_LONG).show();
+        }else if(!fromSpinner.getSelectedItem().toString().equals("Şile") && !destSpinner.getSelectedItem().toString().equals("Şile")){
+            Toast.makeText(getApplicationContext()
+                    , "One of the choices must be Şile."
+                    , Toast.LENGTH_LONG).show();
         } else if(dateText.getText().toString().equals("")
                     || timeText.getText().toString().equals("")
-                    || from.getText().toString().equals("")
-                    || destination.getText().toString().equals("")
+                    || fromSpinner.getSelectedItem().toString().equals("")
+                    || destSpinner.getSelectedItem().toString().equals("")
                     || capacity.getText().toString().equals("")
                     || price.getText().toString().equals("")){
             Toast.makeText(getApplicationContext()
@@ -211,8 +245,8 @@ public class AddTripActivity extends AppCompatActivity {
                                     object
                                     ,dateText.getText().toString()
                                     ,timeText.getText().toString()
-                                    ,from.getText().toString()
-                                    ,destination.getText().toString()
+                                    ,fromSpinner.getSelectedItem().toString()
+                                    ,destSpinner.getSelectedItem().toString()
                                     ,Integer.parseInt(capacity.getText().toString())
                                     ,Integer.parseInt(price.getText().toString())
                                     ,userID

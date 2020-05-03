@@ -33,8 +33,8 @@
         android:id="@+id/addTripDestinationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginLeft="184dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginLeft="224dp"
         android:layout_marginTop="16dp"
         android:text="DESTINATION"
         android:textSize="24sp"
@@ -91,37 +91,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/addTripFrom"
-        android:layout_width="124dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="72dp"
-        android:ems="10"
-        android:hint="Starting location:"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/addTripDestination"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="164dp"
-        android:layout_marginLeft="164dp"
-        android:layout_marginTop="64dp"
-        android:ems="10"
-        android:hint="Reaching location:"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
         android:id="@+id/addTripCapacity"
         android:layout_width="147dp"
         android:layout_height="47dp"
         android:layout_marginTop="168dp"
         android:ems="10"
         android:hint="Capacity of the vehicle:"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -134,7 +110,7 @@
         android:layout_marginTop="332dp"
         android:ems="10"
         android:hint="Price per person:"
-        android:inputType="textPersonName"
+        android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -187,6 +163,26 @@
         android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="320dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/fromSpinner"
+        android:layout_width="155dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/destSpinner"
+        android:layout_width="191dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginLeft="208dp"
+        android:layout_marginTop="72dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -29,7 +32,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,8 +46,8 @@ public class EditTripAdminActivity extends AppCompatActivity {
     private TextView dateText;
     private TextView timeText;
 
-    private EditText from;
-    private EditText destination;
+    private Spinner from;
+    private Spinner destination;
     private EditText capacity;
     private EditText price;
     private Context context=this;
@@ -116,12 +121,31 @@ public class EditTripAdminActivity extends AppCompatActivity {
         editTripButton=findViewById(R.id.editTripEditButton);
         dateText=findViewById(R.id.editTripDate);
         timeText=findViewById(R.id.editTripTime);
-        from=findViewById(R.id.editTripFrom);
-        destination=findViewById(R.id.editTripDestination);
+        from=findViewById(R.id.editFromSpinner);
+        destination=findViewById(R.id.editDestSpinner);
         capacity=findViewById(R.id.editTripCapacity);
         price=findViewById(R.id.editTripPrice);
 
         download();
+
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("County");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    ArrayList<String> countyList = new ArrayList<>();
+                    for(ParseObject object : list) {
+                        countyList.add(object.getString("destName"));
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter(
+                            getApplicationContext(),android.R.layout.simple_list_item_1 ,countyList);
+                    from.setAdapter(adapter);
+                    destination.setAdapter(adapter);
+                } else {
+
+                }
+            }
+        });
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,8 +219,6 @@ public class EditTripAdminActivity extends AppCompatActivity {
                 } else {
                     dateText.setText(object.getString(definitions.getDateKey()));
                     timeText.setText(object.getString(definitions.getTimeKey()));
-                    from.setText(object.getString(definitions.getFromKey()));
-                    destination.setText(object.getString(definitions.getDestinationKey()));
                     capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
                     price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
                 }
@@ -210,15 +232,18 @@ public class EditTripAdminActivity extends AppCompatActivity {
      * @param view
      */
     public void editTrip(View view){
-        if (from.getText().toString().equals(destination.getText().toString()) ){
+        if (from.getSelectedItem().toString().equals(destination.getSelectedItem().toString()) ){
             Toast.makeText(getApplicationContext()
                             ,"From and Destination Cannot be same"
                             ,Toast.LENGTH_LONG).show();
-        }
-        else if(dateText.getText().toString().equals("")
+        }else if(!from.getSelectedItem().toString().equals("Şile") && !destination.getSelectedItem().toString().equals("Şile")) {
+            Toast.makeText(getApplicationContext()
+                    , "One of the choices must be Şile."
+                    , Toast.LENGTH_LONG).show();
+        }else if(dateText.getText().toString().equals("")
                 || timeText.getText().toString().equals("")
-                || from.getText().toString().equals("")
-                || destination.getText().toString().equals("")
+                || from.getSelectedItem().toString().equals("")
+                || destination.getSelectedItem().toString().equals("")
                 || capacity.getText().toString().equals("")
                 || price.getText().toString().equals("")){
             Toast.makeText(getApplicationContext()
@@ -249,8 +274,8 @@ public class EditTripAdminActivity extends AppCompatActivity {
                                             object
                                             ,dateText.getText().toString()
                                             ,timeText.getText().toString()
-                                            ,from.getText().toString()
-                                            ,destination.getText().toString()
+                                            ,from.getSelectedItem().toString()
+                                            ,destination.getSelectedItem().toString()
                                             ,Integer.parseInt(capacity.getText().toString())
                                             ,Integer.parseInt(price.getText().toString())
                                     );
