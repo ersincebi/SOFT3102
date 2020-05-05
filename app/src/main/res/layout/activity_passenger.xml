@@ -6,18 +6,6 @@
     android:layout_height="match_parent">
 
     <Button
-        android:id="@+id/balanceButton"
-        android:layout_width="173dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="480dp"
-        android:onClick="balance"
-        android:text="Balance"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/applyDriverButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,6 +65,7 @@
         android:layout_marginLeft="96dp"
         android:layout_marginTop="308dp"
         android:text="PROFILE"
+        android:onClick="openProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,9 +73,9 @@
         android:id="@+id/upload_your_issue"
         android:layout_width="178dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="535dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="480dp"
         android:onClick="uploadYourIssue"
         android:text="Upload Your Issue"
         app:layout_constraintStart_toStartOf="parent"

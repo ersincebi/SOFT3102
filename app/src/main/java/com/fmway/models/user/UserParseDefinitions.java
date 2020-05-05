@@ -10,9 +10,11 @@ public class UserParseDefinitions {
     public String nameKey = "Name";
     public String surnameKey = "Surname";
     public String usernameKey = "username";
+    public String balanceKey = "balance";
     public String emailKey = "Email";
     public String phoneKey = "Phone";
     public String userTypeKey = "userType";
+    public String tripKey = "Trip";
 
     public String getClassName() {
         return className;
@@ -38,6 +40,10 @@ public class UserParseDefinitions {
         return usernameKey;
     }
 
+    public String getBalanceKey() {
+        return balanceKey;
+    }
+
     public String getEmailKey() {
         return emailKey;
     }
@@ -48,5 +54,9 @@ public class UserParseDefinitions {
 
     public String getUserTypeKey() {
         return userTypeKey;
+    }
+
+    public String getTripKey() {
+        return tripKey;
     }
 }

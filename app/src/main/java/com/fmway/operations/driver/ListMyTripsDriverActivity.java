@@ -85,7 +85,7 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
     }
 
     /**
-     * admin trip listing page
+     * driver trip listing page
      * activity constructor
      * also takes userID by intent
      * and makes button handling for

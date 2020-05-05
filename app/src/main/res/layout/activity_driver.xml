@@ -14,6 +14,7 @@
         android:layout_marginLeft="96dp"
         android:layout_marginTop="356dp"
         android:text="PROFILE"
+        android:onClick="openProfile"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,18 +27,6 @@
         android:layout_marginTop="416dp"
         android:onClick="listTrips"
         android:text="Lıst Trıps"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/balanceButtonDriver"
-        android:layout_width="173dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginLeft="96dp"
-        android:layout_marginTop="544dp"
-        android:onClick="balance"
-        android:text="Balance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

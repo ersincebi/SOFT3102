@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.operations.commonActivities.Profile;
 import com.fmway.operations.passenger.ListTripActivityPassenger;
 import com.fmway.operations.commonActivities.Payment;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
@@ -24,7 +25,6 @@ public class DriverActivity extends AppCompatActivity {
     private Button profileButton;
     private Button listTripsButton;
     private Button listMyTripsButton;
-    private Button balanceButton;
     private Button addTripButton;
 
     private String userID;
@@ -81,7 +81,6 @@ public class DriverActivity extends AppCompatActivity {
         listTripsButton=findViewById(R.id.listTripButtonDriver);
         listMyTripsButton=findViewById(R.id.listMyTripsButton);
         addTripButton=findViewById(R.id.addTripButtonDriver);
-        balanceButton=findViewById(R.id.balanceButtonDriver);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
@@ -96,16 +95,6 @@ public class DriverActivity extends AppCompatActivity {
      */
     public void listTrips(View view){
         Intent intent = new Intent(getApplicationContext(), ListTripActivityPassenger.class);
-        intent.putExtra("userID",userID);
-        startActivity(intent);
-    }
-
-    /**
-     * button action for opening payment activity
-     * @param view
-     */
-    public void balance(View view){
-        Intent intent = new Intent(getApplicationContext(), Payment.class);
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
@@ -130,5 +119,14 @@ public class DriverActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * button action for opening driver profile page
+     * @param view
+     */
+    public void openProfile(View view){
+        Intent intent = new Intent(getApplicationContext(), Profile.class);
+        intent.putExtra("userID",userID);
+        startActivity(intent);
+    }
 }
 

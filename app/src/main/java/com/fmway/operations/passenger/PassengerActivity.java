@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.fmway.R;
 import com.fmway.operations.commonActivities.Payment;
+import com.fmway.operations.commonActivities.Profile;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -23,7 +24,6 @@ public class PassengerActivity extends AppCompatActivity {
     private Button uploadYourIssueButton;
     private Button listTripsButton;
     private Button applyDriverButton;
-    private Button balanceButton;
     private String userID;
 
     /**
@@ -80,7 +80,6 @@ public class PassengerActivity extends AppCompatActivity {
         profileButton=findViewById(R.id.profileButton);
         listTripsButton=findViewById(R.id.listTripButton);
         applyDriverButton=findViewById(R.id.applyDriverButton);
-        balanceButton=findViewById(R.id.balanceButton);
         uploadYourIssueButton=findViewById(R.id.upload_your_issue);
 
         Intent iin= getIntent();
@@ -100,16 +99,6 @@ public class PassengerActivity extends AppCompatActivity {
     }
 
     /**
-     * button action for opening payment activity
-     * @param view
-     */
-    public void balance(View view){
-        Intent intent = new Intent(getApplicationContext(), Payment.class);
-        intent.putExtra("userID",userID);
-        startActivity(intent);
-    }
-
-    /**
      * button action for opening support page
      * @param view
      */
@@ -124,6 +113,16 @@ public class PassengerActivity extends AppCompatActivity {
      */
     public void applyDriver(View view){
         Intent intent = new Intent(getApplicationContext(), UploadLicenceActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * button action for opening driver profile page
+     * @param view
+     */
+    public void openProfile(View view){
+        Intent intent = new Intent(getApplicationContext(), Profile.class);
+        intent.putExtra("userID",userID);
         startActivity(intent);
     }
 }
