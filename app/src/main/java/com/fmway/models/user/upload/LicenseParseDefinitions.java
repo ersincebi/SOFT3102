@@ -4,7 +4,7 @@ public class LicenseParseDefinitions {
     /**
      * each string represents a key on parse database under license class
      */
-    public String className = "Issues";
+    public String className = "Licences";
     public String imageKey = "image";
     public String uploadKey = "upload";
     public String fileName = "licence.png";

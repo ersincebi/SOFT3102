@@ -7,7 +7,7 @@ public class IssuesParseDefinitions {
     public String className = "Issues";
     public String imageKey = "image";
     public String uploadKey = "upload";
-    public String fileName = "image.png";
+    public String fileName = "issue.png";
     public String usernameKey = "username";
 
     public String getClassName() {
