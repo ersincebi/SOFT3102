@@ -110,7 +110,6 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseUser object, ParseException e) {
                         object.put("userType","blocked");
-
                         object.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
