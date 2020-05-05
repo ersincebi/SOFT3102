@@ -12,11 +12,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.fmway.operations.driver.DriverActivity;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,6 +26,12 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
 
 public class TripDetailsPassengerActivity extends AppCompatActivity {
     private Button joinButton;
@@ -39,6 +47,13 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
     private String savedExtra;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
+    Double userBalance;
+    String tripId;
+    TextView currentBalance;
+    String userId;
+    int tripPrice;
+    boolean checkUser;
+
 
     /**
      * menu option creator handler
@@ -85,6 +100,7 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tripdetailspassenger);
 
@@ -101,9 +117,29 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
         capacity = findViewById(R.id.detailsTripCapacity);
         price = findViewById(R.id.detailsTripPrice);
         joinButton=findViewById(R.id.joinTripButton);
-
+        userId = ParseUser.getCurrentUser().getObjectId();
         download();
 
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (e != null) {
+                    e.printStackTrace();
+                } else {
+                    userBalance = object.getDouble("balance");
+
+                }
+
+            }
+        });
+
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                joinTrip();
+            }
+        });
     }
 
     /**
@@ -124,10 +160,93 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     destination.setText(object.getString(definitions.getDestinationKey()));
                     capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
                     price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
+
                 }
             }
         });
+    }
 
+    public void joinTrip(){
+        ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Trip");
+        query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                tripPrice = (int) object.get("Price");
+            }
+        });
+        ParseQuery<ParseUser> userquery = ParseUser.getQuery();
+        userquery.getInBackground(userId, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                int balance = user.getInt("balance");
+                if(balance < tripPrice){
+                    Toast.makeText(getApplicationContext(), "Not Enough Balance", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                else{
+                    System.out.println(userCheck());
+                    if(userCheck() != true){
+                        System.out.println(userCheck());
+                        Toast.makeText(getApplicationContext(), "You already joined this trip", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                    int finalbal = balance- tripPrice;
+                    user.put("balance",finalbal);
+                    user.addUnique("Trip",savedExtra);
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+
+                        }
+                    });
+                    Toast.makeText(getApplicationContext(),"Joined Trip",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+        query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                object.put("Passengers", ParseUser.getCurrentUser().getObjectId());
+                object.addUnique("Passenger",ParseUser.getCurrentUser().getObjectId());
+                object.increment("Capacity",-1);
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                    }
+                });
+
+                finish();
+            }
+        });
+
+
+    }
+
+    public boolean userCheck(){
+        final ParseQuery<ParseObject> query = ParseQuery.getQuery("Trip");
+        query.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                JSONArray a = object.getJSONArray("Passenger");
+                try {
+                    for(int i = 0; i< a.length();i++){
+                        String uid = (String) a.get(i);
+                        System.out.println(uid);
+                        if(ParseUser.getCurrentUser().getObjectId() == uid){
+                            checkUser = false;
+                        }
+
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        });
+
+
+        return checkUser;
     }
 
 }

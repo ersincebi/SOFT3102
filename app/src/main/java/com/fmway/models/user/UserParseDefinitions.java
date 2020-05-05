@@ -11,7 +11,7 @@ public class UserParseDefinitions {
     public String surnameKey = "Surname";
     public String usernameKey = "username";
     public String balanceKey = "balance";
-    public String emailKey = "Email";
+    public String emailKey = "email";
     public String phoneKey = "Phone";
     public String userTypeKey = "userType";
     public String tripKey = "Trip";

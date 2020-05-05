@@ -107,7 +107,7 @@ public class SignUpActivityMain extends AppCompatActivity {
     ){
         user.put(definitions.getNameKey(), name);
         user.put(definitions.getSurnameKey(), surname);
-        user.put(definitions.getEmailKey(), email);
+        user.setEmail(emailText.getText().toString());
         user.put(definitions.getPhoneKey(), phone);
         user.setUsername(username);
         user.setPassword(password);
