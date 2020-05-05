@@ -184,7 +184,6 @@ public class listMyTrips extends AppCompatActivity {
                             ,Toast.LENGTH_LONG).show();
                 }else{
                     if(objects.size()>0){
-                        System.out.println(objects.get(0).getString(tripParseDefinitions.getDestinationKey()));
                         trip.add(
                             new Trip(
                                 objects.get(0).getObjectId()

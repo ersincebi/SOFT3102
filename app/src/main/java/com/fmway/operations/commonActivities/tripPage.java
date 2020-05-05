@@ -17,6 +17,7 @@ import com.fmway.models.trip.TripParseDefinitions;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -106,14 +107,14 @@ public class tripPage extends AppCompatActivity {
      * Fills trips info into page
      */
     public void getTrip(){
-        ParseQuery<ParseUser> parseQuery = ParseQuery.getQuery(definitions.getClassName());
+        ParseQuery<ParseObject> parseQuery = ParseQuery.getQuery(definitions.getClassName());
 
         parseQuery.whereEqualTo(definitions.getObjectIdKey(), tripID);
 
         parseQuery.findInBackground(
-                new FindCallback<ParseUser>() {
+                new FindCallback<ParseObject>() {
                     @Override
-                    public void done(List<ParseUser> objects, ParseException e) {
+                    public void done(List<ParseObject> objects, ParseException e) {
                         if(e!=null){
                             Toast.makeText(getApplicationContext()
                                     ,e.getLocalizedMessage()
@@ -121,14 +122,14 @@ public class tripPage extends AppCompatActivity {
                         }else{
                             if(objects.size()>0){
                                 from.setText(
-                                        objects.get(0).get(definitions.getFromKey()) + ""
+                                        objects.get(0).getString(definitions.getFromKey()) + " "
                                 );
                                 destination.setText(
-                                        objects.get(0).get(definitions.getDestinationKey()) + ""
+                                        objects.get(0).getString(definitions.getDestinationKey()) + " "
                                 );
                                 fullDate.setText(
-                                        objects.get(0).get(definitions.getDateKey()) + " " +
-                                                objects.get(0).get(definitions.getTimeKey())
+                                        objects.get(0).getString(definitions.getDateKey()) + " " +
+                                                objects.get(0).getString(definitions.getTimeKey())
                                 );
                             }
                         }
