@@ -48,6 +48,7 @@
         <activity android:name=".operations.commonActivities.tripChat" />
         <activity android:name=".operations.passenger.UploadLicenceActivity" />
         <activity android:name=".operations.admin.DriverLicenseListActivity" />
+        <activity android:name=".operations.admin.IssueListActivity" />
     </application>
 
 </manifest>

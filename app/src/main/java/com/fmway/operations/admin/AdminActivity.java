@@ -138,4 +138,9 @@ import androidx.appcompat.app.AppCompatActivity;
          startActivity(intent);
      }
 
+     public void listIssue(View view){
+         Intent intent = new Intent(getApplicationContext(), IssueListActivity.class);
+         startActivity(intent);
+     }
+
 }
