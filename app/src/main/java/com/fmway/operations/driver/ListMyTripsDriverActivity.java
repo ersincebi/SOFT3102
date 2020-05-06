@@ -95,7 +95,7 @@ public class ListMyTripsDriverActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listtrips_activity);
+        setContentView(R.layout.listmytrips_activity);
 
         ParseUser user = new ParseUser();
         Intent iin= getIntent();

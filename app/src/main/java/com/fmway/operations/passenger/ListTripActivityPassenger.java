@@ -7,7 +7,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,9 @@ public class ListTripActivityPassenger extends AppCompatActivity {
     private ListView listView;
     private ArrayList<Trip> trip;
     private String selected=null;
+    private Spinner filterSpinner;
+    private Button filterButton;
+    String filterWord;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
@@ -95,7 +101,39 @@ public class ListTripActivityPassenger extends AppCompatActivity {
         ParseUser user = new ParseUser();
 
         listView = findViewById(R.id.listTripsList);
+        filterSpinner=findViewById(R.id.filterSpinner);
+        filterButton=findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                filterWord= filterSpinner.getSelectedItem().toString();
+                try {
+                     trip.clear();
+                     postActivity.notifyDataSetChanged();
+                    download();
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("County");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> list, ParseException e) {
+                if (e == null) {
+                    ArrayList<String> countyList = new ArrayList<>();
+                    for(ParseObject object : list) {
+                        countyList.add(object.getString("destName"));
+                    }
+                    ArrayAdapter adapter = new ArrayAdapter(
+                            getApplicationContext(),android.R.layout.simple_list_item_1 ,countyList);
+                    filterSpinner.setAdapter(adapter);
+                } else {
+
+                }
+            }
+        });
         trip= new ArrayList<>();
 
         postActivity= new PostActivity(trip,this);
@@ -133,7 +171,10 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                                                         ,Locale.getDefault()).format(new Date());
         final Date currenDate = formatter.parse(currentDate);
 
-        query.findInBackground(new FindCallback<ParseObject>() {
+            if(filterWord!=null) {
+                query.whereEqualTo("Destination", filterWord);
+            }
+            query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if(e!=null){
@@ -170,4 +211,5 @@ public class ListTripActivityPassenger extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -94,7 +94,7 @@ public class ListTripActivityAdmin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listtrips_activity);
+        setContentView(R.layout.listtrip_activity_admin);
 
 
         Intent iin= getIntent();
