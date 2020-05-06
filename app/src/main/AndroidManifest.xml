@@ -16,7 +16,6 @@
         <activity android:name=".operations.commonActivities.listMyTrips" />
         <activity android:name=".operations.commonActivities.Profile" />
         <activity android:name=".operations.commonActivities.Payment" />
-        <activity android:name=".operations.commonActivities.HomePage" />
         <activity android:name=".operations.commonActivities.SignUpLoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +26,6 @@
         <activity android:name=".operations.driver.AddTripActivity" />
         <activity android:name=".operations.admin.ListTripActivityAdmin" />
         <activity android:name=".operations.passenger.driverFeedback" />
-        <activity android:name=".operations.driver.passengerFeedback" />
         <activity android:name=".operations.admin.TripDetailsAdminActivity" />
         <activity android:name=".operations.admin.EditTripAdminActivity" />
         <activity android:name=".operations.admin.AdminActivity" />

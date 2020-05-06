@@ -14,6 +14,7 @@ public class TripParseDefinitions {
     public String DestinationKey = "Destination";
     public String CapacityKey = "Capacity";
     public String PriceKey = "Price";
+    public String PassengerKey = "Passenger";
 
     public String getClassName() {
         return className;
@@ -49,5 +50,9 @@ public class TripParseDefinitions {
 
     public String getPriceKey() {
         return PriceKey;
+    }
+
+    public String getPassengerKey() {
+        return PassengerKey;
     }
 }

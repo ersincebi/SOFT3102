@@ -2,40 +2,37 @@ package com.fmway.operations.passenger;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fmway.R;
-import com.fmway.libs.*;
+import com.fmway.models.user.passenger.RatingParseDefinitions;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
 
 public class driverFeedback extends AppCompatActivity {
-
-    // Library declarations
-    private Commons commons = new Commons();
-
-    private TextView feedbackText;
     private RatingBar qualityRating;
-    private RatingBar communicationRating;
-    private RatingBar priceRating;
-    private Button feedbackSend;
     private EditText commentText;
+
+    private String tripID;
+    private String userID;
+
+    private RatingParseDefinitions definitions = new RatingParseDefinitions();
 
     /**
      * before call this activity
      * this activity requires two parameter via intent
-     * @param personName is drivers name
-     * @param personId is drivers unique id
+     * @param userID is person who rating
+     * @param tripID is trips unique id
      * function will create a json formatted data like:
      *                 {
-     *                      "driverId": driverId => "who is rated"
-     *                      ,"passengerId": passengerId => "who is been rated"
+     *                      "userID": driverId => "who is rated"
      *                      ,"status": float => "the rating can be 0.0 to 5.0"
      *                      ,"comment": text => "this is the passenger thoughts about the driver"
-     *                      ,"date": date => "when is rated"
      *                 }
      */
     @Override
@@ -43,41 +40,71 @@ public class driverFeedback extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.driver_feedback);
 
-        String driverName = getIntent().getStringExtra("personName");
-        final String personId = getIntent().getStringExtra("personId");
-
-        feedbackText = (TextView)findViewById(R.id.feedbackText);
-        feedbackText.setText("How was your trip with " + driverName + "?");
+        tripID = getIntent().getStringExtra("tripID");
+        userID = getIntent().getStringExtra("userID");
 
         qualityRating = (RatingBar)findViewById(R.id.quality);
-        communicationRating = (RatingBar)findViewById(R.id.communication);
 
         commentText = (EditText)findViewById(R.id.commentText);
 
-        feedbackSend = (Button)findViewById(R.id.send);
-        feedbackSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                float qualityValue = qualityRating.getRating();
-                float communicationValue = communicationRating.getRating();
-                String comment = String.valueOf(commentText.getText());
+    }
 
+    /**
+     *
+     * @param view
+     */
+    public void sendFeedback(View view){
+        float qualityValue = qualityRating.getRating();
+        String comment = String.valueOf(commentText.getText());
+        if(qualityValue==0
+                || comment.equals("")){
+            Toast.makeText(getApplicationContext()
+                    ,"Fields cannot be empty!"
+                    ,Toast.LENGTH_LONG).show();
+        } else {
+            ParseObject object = new ParseObject(definitions.getClassName());
+            addRatingToDb(
+                object
+                ,qualityValue
+                ,comment
+            );
+            object.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Toast.makeText(getApplicationContext()
+                                ,e.getLocalizedMessage()
+                                ,Toast.LENGTH_LONG).show();
 
-                /**
-                 * TODO: will be deleted after implementation
-                 * dummy display of ration value
-                 */
-                System.out.println("\nCurrent Date: "
-                        + commons.currentDate("yyyy-MM-dd")
-                        +"\nid of driver :"
-                        + personId
-                        + "\nRating of the driver qualityRating: "
-                        + qualityValue
-                        + "\nRating of the driver communicationRating: "
-                        + communicationValue
-                        + "\nPassenger comment to driver: "
-                        + comment);
-            }
-        });
+                    } else {
+                        Toast.makeText(getApplicationContext()
+                                        ,"You have rated the trip."
+                                        ,Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        finish();
+
+    }
+
+    /**
+     * this class helps to create rating on a trip on database
+     * its created separately because for testing
+     *
+     * @param object variable is for the ParseObject class
+     * @param userID
+     * @param qualityValue
+     * @param comment
+     */
+    public void addRatingToDb(
+            ParseObject object
+            ,float qualityValue
+            ,String comment
+    ){
+        object.put(definitions.getUserIdKey(), userID);
+        object.put(definitions.getTripIdKey(), tripID);
+        object.put(definitions.getRatingValueKey(), qualityValue);
+        object.put(definitions.getCommentKey(), comment);
     }
 }

@@ -7,18 +7,20 @@
 
     <ImageView
         android:id="@+id/personImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="184dp"
+        android:layout_height="177dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/todo" />
+        android:contentDescription="@string/todo"
+        tools:srcCompat="@drawable/profile" />
 
     <TextView
         android:id="@+id/feedbackText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/personImage"
+        android:textSize="18dp"
+        android:text="How was your trip?"
         android:layout_centerHorizontal="true"/>
 
     <RatingBar
@@ -28,18 +30,11 @@
         android:layout_below="@id/feedbackText"
         android:layout_centerHorizontal="true" />
 
-    <RatingBar
-        android:id="@+id/communication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/quality"
-        android:layout_centerHorizontal="true" />
-
     <EditText
         android:id="@+id/commentText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/communication"
+        android:layout_below="@id/quality"
         android:ems="10"
         android:inputType="textPersonName"
         android:layout_centerHorizontal="true"
@@ -50,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/commentText"
-
+        android:onClick="sendFeedback"
         android:layout_centerHorizontal="true"
         android:text="Send" />
 

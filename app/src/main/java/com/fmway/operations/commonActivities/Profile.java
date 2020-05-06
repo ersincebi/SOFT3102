@@ -12,8 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fmway.R;
+import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.models.user.User;
 import com.fmway.models.user.UserParseDefinitions;
+import com.fmway.models.user.UserTypes;
+import com.fmway.models.user.passenger.RatingParseDefinitions;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
@@ -29,9 +32,13 @@ public class Profile extends AppCompatActivity {
     private TextView balance;
 
     private String userID;
+    private String userRole;
 
+    private TripParseDefinitions tripParseDefinitions = new TripParseDefinitions();
+    private RatingParseDefinitions ratingParseDefinitions = new RatingParseDefinitions();
     private UserParseDefinitions definitions = new UserParseDefinitions();
     private User user;
+    private UserTypes userTypes;
     /**
      * menu option creator handler
      * @param menu
@@ -105,20 +112,88 @@ public class Profile extends AppCompatActivity {
                                 ,Toast.LENGTH_LONG).show();
                     }else{
                         if(objects.size()>0){
+                            userRole = objects.get(0).getString(definitions.getUserTypeKey());
                             fullName.setText(
                                     objects.get(0).get(definitions.getNameKey()) + " " +
                                             objects.get(0).get(definitions.getSurnameKey())
                             );
                             role.setText(
-                                    objects.get(0).get(definitions.getUserTypeKey()) + ""
+                                    userRole
                             );
                             balance.setText(
                                     objects.get(0).get(definitions.getBalanceKey()) + " ₺"
                             );
+
+                            if(userRole.equals(userTypes.DRIVER.getUserType()))
+                                getUserRating();
                         }
                     }
                 }
             }
+        );
+    }
+
+    /**
+     * find all trips created by users
+     */
+    public void getUserRating(){
+        ParseQuery<ParseObject> parseQuery =
+                ParseQuery.getQuery(tripParseDefinitions.getClassName());
+
+        parseQuery.whereEqualTo(tripParseDefinitions.getTripCreatedByKey(), userID);
+
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e!=null){
+                    Toast.makeText(getApplicationContext()
+                            ,e.getLocalizedMessage()
+                            ,Toast.LENGTH_LONG).show();
+                }else{
+                    if(objects.size()>0){
+                        for (ParseObject item: objects) {
+                            calculateRating(
+                                    item.getObjectId());
+                            System.out.println(item.getObjectId());
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * find and calculate all the rating
+     */
+    public void calculateRating(String tripID){
+        final float[] rating = {0};
+        ParseQuery<ParseObject> parseQuery =
+                ParseQuery.getQuery(ratingParseDefinitions.getClassName());
+
+        parseQuery.whereEqualTo(ratingParseDefinitions.getUserIdKey(), tripID);
+
+        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if(e!=null){
+                    Toast.makeText(getApplicationContext()
+                            ,e.getLocalizedMessage()
+                            ,Toast.LENGTH_LONG).show();
+                }else{
+                    int len = objects.size();
+                    if(objects.size()>0){
+                        int sum = 0;
+                        for (ParseObject item: objects) {
+                            sum += item.getDouble(ratingParseDefinitions.getRatingValueKey());
+                        }
+                        rating[0] += sum / len;
+                    }
+                }
+            }
+        });
+
+        role.setText(
+                role.getText() + " Rating: " + rating[0]
         );
     }
 

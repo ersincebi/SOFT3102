@@ -79,8 +79,19 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="444dp"
         android:gravity="center_horizontal"
+        android:onClick="rateTheTrip"
         android:text="RATE THIS TRIP"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="504dp"
+        android:gravity="center_horizontal"
+        android:onClick="leaveTrip"
+        android:text="LEAVE TRIP"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
