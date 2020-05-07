@@ -7,20 +7,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.fmway.R;
-import com.fmway.operations.admin.AdminActivity;
-import com.fmway.operations.driver.DriverActivity;
-import com.fmway.operations.passenger.PassengerActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
-import com.parse.SignUpCallback;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
-
-    EditText emailText;
-    Button newpass;
-
-
+    private EditText emailText;
+    private Button newpass;
 
     /**
      * activity constructor
@@ -45,10 +38,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             Toast.makeText(getApplicationContext(), "Check your " + emailText.getText().toString() + " to reset your password", Toast.LENGTH_LONG).show();
-
                         } else {
                             Toast.makeText(getApplicationContext(), emailText.getText().toString() + " is not valid email", Toast.LENGTH_LONG).show();
-
                         }
                         finish();
                     }
@@ -59,8 +50,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
         });
-
-
     }
 }
 

@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.models.user.User;
+import com.fmway.models.user.UserParseDefinitions;
+import com.fmway.models.user.UserTypes;
 import com.fmway.operations.commonActivities.SignUpLoginActivity;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -40,19 +42,19 @@ import java.util.List;
 public class UserDetailsAdminActivity extends AppCompatActivity {
 
 
-    Button blockUserButton;
+    private Button blockUserButton;
+    private TextView usernameText;
+    private TextView emailText;
+    private TextView nameText;
+    private TextView surnameText;
+    private Context context = this ;
+    private String savedExtra;
 
-    TextView usernameText;
-    TextView emailText;
-    TextView nameText;
-    TextView surnameText;
-    Context context = this ;
-    public String savedExtra;
-
+    private UserParseDefinitions definitions = new UserParseDefinitions();
+    private UserTypes role;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -109,8 +111,8 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
                 query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
                     @Override
                     public void done(ParseUser object, ParseException e) {
-                        object.put("userType","blocked");
 
+                        banUser(object);
                         object.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
@@ -125,5 +127,15 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
         });
     }
 
-
+    /**
+     * this class helps to ban a user on system
+     * its created separately because for testing
+     *
+     * @param object variable is inherits the ParseObject class
+     */
+    public void banUser(
+            ParseUser object
+    ){
+        object.put(definitions.getUserTypeKey(), role.BLOCKED.getUserType());
+    }
 }

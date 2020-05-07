@@ -25,6 +25,7 @@ import com.fmway.models.chat.Chat;
 import com.fmway.models.chat.ChatParseDefinitions;
 import com.parse.FindCallback;
 import com.parse.LogOutCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -154,9 +155,10 @@ public class tripChat extends AppCompatActivity {
         else {
             ParseObject parseObject = new ParseObject(definitions.getClassName());
 
-            parseObject.put(definitions.getTripIdKey(), tripId);
-            parseObject.put(definitions.getPersonIdKey(), personId);
-            parseObject.put(definitions.getMessageKey(), messageFromUser);
+            saveMessageToDatabase(
+                    parseObject
+                    ,messageFromUser
+            );
 
             parseObject.saveInBackground(new SaveCallback() {
                 @Override
@@ -212,5 +214,14 @@ public class tripChat extends AppCompatActivity {
                 }
             }
         );
+    }
+
+    public void saveMessageToDatabase(
+            ParseObject parseObject
+            ,String messageFromUser
+    ){
+        parseObject.put(definitions.getTripIdKey(), tripId);
+        parseObject.put(definitions.getPersonIdKey(), personId);
+        parseObject.put(definitions.getMessageKey(), messageFromUser);
     }
 }
