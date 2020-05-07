@@ -39,6 +39,7 @@ public class Profile extends AppCompatActivity {
     private UserParseDefinitions definitions = new UserParseDefinitions();
     private User user;
     private UserTypes userTypes;
+    private float rating = 0;
     /**
      * menu option creator handler
      * @param menu
@@ -152,10 +153,12 @@ public class Profile extends AppCompatActivity {
                 }else{
                     if(objects.size()>0){
                         for (ParseObject item: objects) {
-                            calculateRating(
-                                    item.getObjectId());
-                            System.out.println(item.getObjectId());
+                            calculateRating(item.getObjectId());
                         }
+
+                        role.setText(
+                                role.getText() + " Rating: " + rating
+                        );
                     }
                 }
             }
@@ -164,9 +167,9 @@ public class Profile extends AppCompatActivity {
 
     /**
      * find and calculate all the rating
+     * @return
      */
     public void calculateRating(String tripID){
-        final float[] rating = {0};
         ParseQuery<ParseObject> parseQuery =
                 ParseQuery.getQuery(ratingParseDefinitions.getClassName());
 
@@ -186,15 +189,11 @@ public class Profile extends AppCompatActivity {
                         for (ParseObject item: objects) {
                             sum += item.getDouble(ratingParseDefinitions.getRatingValueKey());
                         }
-                        rating[0] += sum / len;
+                        rating += sum / len;
                     }
                 }
             }
         });
-
-        role.setText(
-                role.getText() + " Rating: " + rating[0]
-        );
     }
 
     /**
