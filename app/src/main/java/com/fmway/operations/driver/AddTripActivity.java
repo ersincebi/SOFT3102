@@ -213,9 +213,10 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext()
                     , "From and Destination Cannot be same"
                     , Toast.LENGTH_LONG).show();
-        }else if(!fromSpinner.getSelectedItem().toString().equals("Şile") && !destSpinner.getSelectedItem().toString().equals("Şile")){
+        }else if(!fromSpinner.getSelectedItem().toString().equals("Sile")
+                && !destSpinner.getSelectedItem().toString().equals("Sile")){
             Toast.makeText(getApplicationContext()
-                    , "One of the choices must be Şile."
+                    , "One of the choices must be Sile."
                     , Toast.LENGTH_LONG).show();
         } else if(dateText.getText().toString().equals("")
                     || timeText.getText().toString().equals("")
