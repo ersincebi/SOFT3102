@@ -14,6 +14,7 @@ public class UserParseDefinitions {
     public String emailKey = "email";
     public String phoneKey = "Phone";
     public String userTypeKey = "userType";
+    public String imageKey = "image";
     public String tripKey = "Trip";
 
     public String getClassName() {
@@ -54,6 +55,10 @@ public class UserParseDefinitions {
 
     public String getUserTypeKey() {
         return userTypeKey;
+    }
+
+    public String getImageKey() {
+        return imageKey;
     }
 
     public String getTripKey() {

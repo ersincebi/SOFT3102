@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView5"
+        android:id="@+id/profileImage"
         android:layout_width="166dp"
         android:layout_height="166dp"
         android:layout_marginTop="88dp"
@@ -69,7 +69,7 @@
         android:layout_marginTop="384dp"
         android:gravity="center_horizontal"
         android:onClick="myJoinedTrips"
-        android:text="Joıned Trıps"
+        android:text="JOINED TRIPS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +80,7 @@
         android:layout_marginTop="444dp"
         android:gravity="center_horizontal"
         android:onClick="balance"
-        android:text="balance"
+        android:text="BALANCE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,7 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="504dp"
         android:gravity="center_horizontal"
-        android:text="settıngs"
+        android:onClick="openSettings"
+        android:text="SETTINGS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

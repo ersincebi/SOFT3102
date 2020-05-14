@@ -19,6 +19,7 @@ import com.fmway.models.trip.Trip;
 import com.fmway.models.trip.TripParseDefinitions;
 import com.fmway.models.user.UserParseDefinitions;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -97,7 +98,7 @@ public class listMyTrips extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.listtrips_activity);
+        setContentView(R.layout.listmytrips_activity);
 
 
         ParseUser user = new ParseUser();
@@ -172,31 +173,24 @@ public class listMyTrips extends AppCompatActivity {
      */
     public void listUserLists(String tripId){
         ParseQuery<ParseObject> parseQuery= ParseQuery.getQuery(tripParseDefinitions.getClassName());
-
-        parseQuery.whereEqualTo(tripParseDefinitions.getObjectIdKey(), tripId);
-
-        parseQuery.findInBackground(new FindCallback<ParseObject>() {
+        parseQuery.getInBackground(tripId, new GetCallback<ParseObject>() {
             @Override
-            public void done(List<ParseObject> objects, ParseException e) {
-                if(e!=null){
-                    Toast.makeText(getApplicationContext()
-                            ,e.getLocalizedMessage()
-                            ,Toast.LENGTH_LONG).show();
-                }else{
-                    if(objects.size()>0){
-                        trip.add(
-                            new Trip(
-                                objects.get(0).getObjectId()
-                                ,objects.get(0).getString(tripParseDefinitions.getDateKey())
-                                ,objects.get(0).getString(tripParseDefinitions.getTimeKey())
-                                ,objects.get(0).getString(tripParseDefinitions.getFromKey())
-                                ,objects.get(0).getString(tripParseDefinitions.getDestinationKey())
-                                ,String.valueOf(objects.get(0).getInt(tripParseDefinitions.getCapacityKey()))
-                                ,String.valueOf(objects.get(0).getInt(tripParseDefinitions.getPriceKey()))
-                            )
-                        );
-                        postActivity.notifyDataSetChanged();
-                    }
+            public void done(ParseObject object, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+                } else {
+                    trip.add(
+                        new Trip(
+                            object.getObjectId()
+                            ,object.getString(tripParseDefinitions.getDateKey())
+                            ,object.getString(tripParseDefinitions.getTimeKey())
+                            ,object.getString(tripParseDefinitions.getFromKey())
+                            ,object.getString(tripParseDefinitions.getDestinationKey())
+                            ,object.getString(tripParseDefinitions.getCapacityKey())
+                            ,object.getString(tripParseDefinitions.getPriceKey()
+                        )
+                    ));
+                    postActivity.notifyDataSetChanged();
                 }
             }
         });

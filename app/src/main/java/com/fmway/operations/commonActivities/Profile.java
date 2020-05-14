@@ -3,11 +3,14 @@ package com.fmway.operations.commonActivities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import com.fmway.models.user.UserParseDefinitions;
 import com.fmway.models.user.UserTypes;
 import com.fmway.models.user.passenger.RatingParseDefinitions;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -27,6 +31,7 @@ import com.parse.ParseUser;
 import java.util.List;
 
 public class Profile extends AppCompatActivity {
+    private ImageView profileImage;
     private TextView fullName;
     private TextView role;
     private TextView balance;
@@ -82,6 +87,7 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        profileImage = findViewById(R.id.profileImage);
         fullName = findViewById(R.id.fullName);
         role = findViewById(R.id.role);
         balance = findViewById(R.id.balance);
@@ -100,34 +106,42 @@ public class Profile extends AppCompatActivity {
      */
     public void getUser(){
         ParseQuery<ParseUser> parseQuery = ParseUser.getQuery();
+        parseQuery.getInBackground(userID, new GetCallback<ParseUser>() {
+            @Override
+            public void done(ParseUser object, ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getApplicationContext()
+                            ,e.getLocalizedMessage()
+                            ,Toast.LENGTH_LONG).show();
+                } else {
+                    byte [] imageData = object.getBytes(definitions.getImageKey());
+                    if(imageData != null){
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData
+                                                                        ,0
+                                                                        ,imageData.length);
+                        Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth()
+                                                                    ,bitmap.getHeight()
+                                                                    ,bitmap.getConfig());
 
-        parseQuery.whereEqualTo(definitions.getObjectIdKey(), userID);
+                        if(!bitmap.sameAs(emptyBitmap))
+                            profileImage.setImageBitmap(
+                                    bitmap
+                            );
+                    }
+                    userRole = object.getString(definitions.getUserTypeKey());
+                    fullName.setText(
+                            object.get(definitions.getNameKey()) + " " +
+                                    object.get(definitions.getSurnameKey())
+                    );
+                    role.setText(
+                            userRole
+                    );
+                    balance.setText(
+                            object.get(definitions.getBalanceKey()) + " ₺"
+                    );
 
-        parseQuery.findInBackground(
-            new FindCallback<ParseUser>() {
-                @Override
-                public void done(List<ParseUser> objects, ParseException e) {
-                    if(e!=null){
-                        Toast.makeText(getApplicationContext()
-                                ,e.getLocalizedMessage()
-                                ,Toast.LENGTH_LONG).show();
-                    }else{
-                        if(objects.size()>0){
-                            userRole = objects.get(0).getString(definitions.getUserTypeKey());
-                            fullName.setText(
-                                    objects.get(0).get(definitions.getNameKey()) + " " +
-                                            objects.get(0).get(definitions.getSurnameKey())
-                            );
-                            role.setText(
-                                    userRole
-                            );
-                            balance.setText(
-                                    objects.get(0).get(definitions.getBalanceKey()) + " ₺"
-                            );
-
-                            if(userRole.equals(userTypes.DRIVER.getUserType()))
-                                getUserRating();
-                        }
+                    if(userRole.equals(userTypes.DRIVER.getUserType()))
+                        getUserRating();
                     }
                 }
             }
@@ -212,6 +226,16 @@ public class Profile extends AppCompatActivity {
      */
     public void myJoinedTrips(View view){
         Intent intent = new Intent(getApplicationContext(), listMyTrips.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
+    }
+
+    /**
+     * button action for opening settings activity
+     * @param view
+     */
+    public void openSettings(View view){
+        Intent intent = new Intent(getApplicationContext(), profileSettings.class);
         intent.putExtra("userID", userID);
         startActivity(intent);
     }
