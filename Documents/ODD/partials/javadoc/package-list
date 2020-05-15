@@ -1,0 +1,12 @@
+com.fmway.libs
+com.fmway.models.chat
+com.fmway.models.trip
+com.fmway.models.user
+com.fmway.models.user.admin
+com.fmway.models.user.passenger
+com.fmway.models.user.upload
+com.fmway.operations.admin
+com.fmway.operations.commonActivities
+com.fmway.operations.driver
+com.fmway.operations.passenger
+com.fmway.userOperations
