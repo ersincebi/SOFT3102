@@ -39,8 +39,11 @@ public class ListTripActivityPassenger extends AppCompatActivity {
     private ArrayList<Trip> trip;
     private String selected=null;
     private Spinner filterSpinner;
+    private Spinner filterSpinner2;
     private Button filterButton;
-    String filterWord;
+    private String filterWord;
+    private String filterWord2;
+    private Button showAllButton;
 
     private TripParseDefinitions definitions = new TripParseDefinitions();
 
@@ -102,14 +105,32 @@ public class ListTripActivityPassenger extends AppCompatActivity {
 
         listView = findViewById(R.id.listTripsList);
         filterSpinner=findViewById(R.id.filterSpinner);
+        filterSpinner2=findViewById(R.id.filterSpinner2);
         filterButton=findViewById(R.id.filterButton);
+        showAllButton=findViewById(R.id.shotAllButton);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 filterWord= filterSpinner.getSelectedItem().toString();
+                filterWord2=filterSpinner2.getSelectedItem().toString();
                 try {
                      trip.clear();
                      postActivity.notifyDataSetChanged();
+                    download();
+                } catch (java.text.ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        showAllButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               filterWord=null;
+               filterWord2=null;
+                try {
+                    trip.clear();
+                    postActivity.notifyDataSetChanged();
                     download();
                 } catch (java.text.ParseException e) {
                     e.printStackTrace();
@@ -129,6 +150,7 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                     ArrayAdapter adapter = new ArrayAdapter(
                             getApplicationContext(),android.R.layout.simple_list_item_1 ,countyList);
                     filterSpinner.setAdapter(adapter);
+                    filterSpinner2.setAdapter(adapter);
                 } else {
 
                 }
@@ -171,8 +193,10 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                                                         ,Locale.getDefault()).format(new Date());
         final Date currenDate = formatter.parse(currentDate);
 
-            if(filterWord!=null) {
+            if(filterWord!=null  || filterWord2!=null) {
                 query.whereEqualTo("Destination", filterWord);
+                query.whereEqualTo("From",filterWord2);
+
             }
             query.findInBackground(new FindCallback<ParseObject>() {
             @Override
@@ -185,9 +209,12 @@ public class ListTripActivityPassenger extends AppCompatActivity {
                     if(objects.size()>0){
                         for(ParseObject object: objects){
                             String objDate=object.getString((definitions.getDateKey()));
+                            int capac=object.getInt("Capacity");
                             try {
                                 Date date1 = formatter.parse(objDate);
                                 if (date1.compareTo(currenDate)<0)
+                                    continue;
+                                else if(capac<1)
                                     continue;
                             }
                                 catch (java.text.ParseException ex) {

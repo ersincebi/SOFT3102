@@ -213,8 +213,8 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext()
                     , "From and Destination Cannot be same"
                     , Toast.LENGTH_LONG).show();
-        }else if(!fromSpinner.getSelectedItem().toString().equals("Sile")
-                && !destSpinner.getSelectedItem().toString().equals("Sile")){
+        }else if(!fromSpinner.getSelectedItem().toString().equals("Şile")
+                && !destSpinner.getSelectedItem().toString().equals("Şile")){
             Toast.makeText(getApplicationContext()
                     , "One of the choices must be Sile."
                     , Toast.LENGTH_LONG).show();
@@ -231,10 +231,18 @@ public class AddTripActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext()
                             ,"Capacity cannot exceed 6!"
                             ,Toast.LENGTH_LONG).show();
+        } else if(Integer.parseInt(capacity.getText().toString())<1){
+            Toast.makeText(getApplicationContext()
+                    ,"Minimum capacity has to be 1!"
+                    ,Toast.LENGTH_LONG).show();
         } else if(Double.parseDouble(price.getText().toString())>20){
             Toast.makeText(getApplicationContext()
                             ,"Price per person cannot exceed 20TL !"
                             ,Toast.LENGTH_LONG).show();
+        } else if(Double.parseDouble(price.getText().toString())<5){
+            Toast.makeText(getApplicationContext()
+                    ,"Minimum price has to be 5 TL"
+                    ,Toast.LENGTH_LONG).show();
         } else {
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setMessage("Do you want to add this trip?").setCancelable(false)
