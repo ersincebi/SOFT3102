@@ -90,30 +90,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/addTripCapacity"
-        android:layout_width="147dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="168dp"
-        android:ems="10"
-        android:hint="Capacity of the vehicle:"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/addTripPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="196dp"
-        android:layout_marginLeft="196dp"
-        android:layout_marginTop="332dp"
-        android:ems="10"
-        android:hint="Price per person:"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/addTripDateText"
         android:layout_width="wrap_content"
@@ -167,6 +143,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
+
+        android:spinnerMode="dialog"
         android:id="@+id/fromSpinner"
         android:layout_width="155dp"
         android:layout_height="42dp"
@@ -177,12 +155,33 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
+        android:spinnerMode="dialog"
         android:id="@+id/destSpinner"
         android:layout_width="191dp"
         android:layout_height="48dp"
         android:layout_marginStart="208dp"
         android:layout_marginLeft="208dp"
         android:layout_marginTop="72dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:spinnerMode="dialog"
+        android:id="@+id/capacitySpinner"
+        android:layout_width="165dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="160dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:spinnerMode="dialog"
+        android:id="@+id/priceSpinner"
+        android:layout_width="165dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="228dp"
+        android:layout_marginLeft="228dp"
+        android:layout_marginTop="332dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

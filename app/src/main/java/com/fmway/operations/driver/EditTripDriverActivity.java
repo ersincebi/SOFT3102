@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,17 +40,20 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class EditTripDriverActivity extends AppCompatActivity {
+public class EditTripDriverActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private Button dateButton;
     private Button timeButton;
     private Button editTripButton;
     private TextView dateText;
     private TextView timeText;
-    private Spinner from;
-    private Spinner destination;
-    private EditText capacity;
-    private EditText price;
+    private TextView from;
+    private TextView destination;
     private Context context=this;
+    private Spinner capacitySpinner;
+    private Spinner priceSpinner;
+    private int priceValue;
+    private int capacityValue;
+
 
     private String savedExtra;
     private String userID;
@@ -115,36 +119,36 @@ public class EditTripDriverActivity extends AppCompatActivity {
             userID=(String) b.get("userID");
         }
 
+
         dateButton=findViewById(R.id.editTripDateButton);
         timeButton=findViewById(R.id.editTripTimeButton);
         editTripButton=findViewById(R.id.editTripEditButton);
         dateText=findViewById(R.id.editTripDate);
         timeText=findViewById(R.id.editTripTime);
-        from=findViewById(R.id.editFromSpinner);
-        destination=findViewById(R.id.editDestSpinner);
-        capacity=findViewById(R.id.editTripCapacity);
-        price=findViewById(R.id.editTripPrice);
+        from=findViewById(R.id.fromText);
+        destination=findViewById(R.id.destinationText);
+        capacitySpinner=findViewById(R.id.capacitySpinner);
+        priceSpinner=findViewById(R.id.priceSpinner);
 
         download();
 
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("County");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            @Override
-            public void done(List<ParseObject> list, ParseException e) {
-                if (e == null) {
-                    ArrayList<String> countyList = new ArrayList<>();
-                    for(ParseObject object : list) {
-                        countyList.add(object.getString("destName"));
-                    }
-                    ArrayAdapter adapter = new ArrayAdapter(
-                            getApplicationContext(),android.R.layout.simple_list_item_1 ,countyList);
-                    from.setAdapter(adapter);
-                    destination.setAdapter(adapter);
-                } else {
+        ArrayAdapter<CharSequence> capacityAdapter= ArrayAdapter.createFromResource(this,R.array.capacity,android.R.layout.simple_spinner_item);
+        capacityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        capacitySpinner.setAdapter(capacityAdapter);
+        capacitySpinner.setOnItemSelectedListener(this);
+        capacitySpinner.setPrompt("Select the Capacity");
 
-                }
-            }
-        });
+
+
+
+        ArrayAdapter<CharSequence> priceAdapter= ArrayAdapter.createFromResource(this,R.array.price,android.R.layout.simple_spinner_item);
+        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+        priceSpinner.setOnItemSelectedListener(this);
+        priceSpinner.setPrompt("Select the Price per person");
+
+
+
 
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,6 +203,8 @@ public class EditTripDriverActivity extends AppCompatActivity {
                 tpd.show();
             }
         });
+
+
     }
 
     /**
@@ -213,11 +219,28 @@ public class EditTripDriverActivity extends AppCompatActivity {
                 if (e != null) {
                     Toast.makeText(getApplicationContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 } else {
+                    from.setText(object.getString(definitions.getFromKey()));
+                    destination.setText(object.getString(definitions.getDestinationKey()));
                     dateText.setText(object.getString(definitions.getDateKey()));
                     timeText.setText(object.getString(definitions.getTimeKey()));
+                    capacityValue=object.getInt(definitions.getCapacityKey());
+                    priceValue=object.getInt(definitions.getPriceKey());
 
-                    capacity.setText(String.valueOf(object.getInt(definitions.getCapacityKey())));
-                    price.setText(String.valueOf(object.getInt(definitions.getPriceKey())));
+                    int ii=0;
+                    while(Integer.parseInt(capacitySpinner.getSelectedItem().toString())!=(capacityValue)){
+                        capacitySpinner.setSelection(ii);
+
+                        ii++;
+                    }
+                    capacitySpinner.setSelection(ii-1);
+
+                    int iy=0;
+                    while(Integer.parseInt(priceSpinner.getSelectedItem().toString())!=(priceValue)){
+                        priceSpinner.setSelection(iy);
+                        iy++;
+                    }
+                    priceSpinner.setSelection(iy-1);
+
                 }
             }
         });
@@ -229,34 +252,14 @@ public class EditTripDriverActivity extends AppCompatActivity {
      * @param view
      */
     public void editTrip(View view){
-        if (from.getSelectedItem().toString().equals(destination.getSelectedItem().toString()) ){
-            Toast.makeText(getApplicationContext()
-                            ,"From and Destination Cannot be same"
-                            ,Toast.LENGTH_LONG).show();
-         }else if(!from.getSelectedItem().toString().equals("Sile")
-                && !destination.getSelectedItem().toString().equals("Sile")) {
-            Toast.makeText(getApplicationContext()
-                    , "One of the choices must be Sile."
-                    , Toast.LENGTH_LONG).show();
-        }else if(dateText.getText().toString().equals("")
+         if(dateText.getText().toString().equals("")
                 || timeText.getText().toString().equals("")
-                || from.getSelectedItem().toString().equals("")
-                || destination.getSelectedItem().toString().equals("")
-                || capacity.getText().toString().equals("")
-                || price.getText().toString().equals("")){
+                ){
             Toast.makeText(getApplicationContext()
                             ,"Fields cannot be empty!"
                             , Toast.LENGTH_LONG).show();
         }
-        else if(Integer.parseInt(capacity.getText().toString())>6){
-            Toast.makeText(getApplicationContext()
-                            ,"Capacity cannot exceed 6!"
-                            ,Toast.LENGTH_LONG).show();
-        }else if(Double.parseDouble(price.getText().toString())>20){
-            Toast.makeText(getApplicationContext()
-                            ,"Price per person cannot exceed 20TL!"
-                            ,Toast.LENGTH_LONG).show();
-        }
+
         else {
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setMessage("Do you want to edit this trip?")
@@ -272,10 +275,10 @@ public class EditTripDriverActivity extends AppCompatActivity {
                                             object
                                             ,dateText.getText().toString()
                                             ,timeText.getText().toString()
-                                            ,from.getSelectedItem().toString()
-                                            ,destination.getSelectedItem().toString()
-                                            ,Integer.parseInt(capacity.getText().toString())
-                                            ,Integer.parseInt(price.getText().toString())
+                                            ,from.getText().toString()
+                                            ,destination.getText().toString()
+                                            ,Integer.parseInt(capacitySpinner.getSelectedItem().toString())
+                                            ,Integer.parseInt(priceSpinner.getSelectedItem().toString())
                                     );
                                     object.saveInBackground(new SaveCallback() {
                                         @Override
@@ -336,6 +339,17 @@ public class EditTripDriverActivity extends AppCompatActivity {
         object.put(definitions.getDestinationKey(), destination);
         object.put(definitions.getCapacityKey(), capacity);
         object.put(definitions.getPriceKey(), price);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+
     }
 }
 

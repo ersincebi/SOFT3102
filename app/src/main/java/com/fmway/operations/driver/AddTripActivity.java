@@ -1,5 +1,6 @@
 package com.fmway.operations.driver;
 
+import com.fmway.operations.driver.*;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -40,7 +42,7 @@ import java.util.List;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddTripActivity extends AppCompatActivity {
+public class AddTripActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button dateButton;
     private Button timeButton;
@@ -49,10 +51,10 @@ public class AddTripActivity extends AppCompatActivity {
     private TextView timeText;
     private Spinner fromSpinner;
     private Spinner destSpinner;
-    private EditText capacity;
-    private EditText price;
     private Context context=this;
     private String userID;
+    private Spinner capacitySpinner;
+    private Spinner priceSpinner;
 
     UserTypes role;
     private TripParseDefinitions definitions = new TripParseDefinitions();
@@ -117,14 +119,28 @@ public class AddTripActivity extends AppCompatActivity {
         timeText=findViewById(R.id.addTripTime);
         fromSpinner=findViewById(R.id.fromSpinner);
         destSpinner=findViewById(R.id.destSpinner);
-        capacity=findViewById(R.id.addTripCapacity);
-        price=findViewById(R.id.addTripPrice);
+        capacitySpinner=findViewById(R.id.capacitySpinner);
+        priceSpinner=findViewById(R.id.priceSpinner);
 
         Intent iin= getIntent();
         Bundle b = iin.getExtras();
 
         if(b!=null)
             userID =(String) b.get("userID");
+
+        ArrayAdapter<CharSequence> capacityAdapter= ArrayAdapter.createFromResource(this,R.array.capacity,android.R.layout.simple_spinner_item);
+        capacityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        capacitySpinner.setAdapter(capacityAdapter);
+        capacitySpinner.setOnItemSelectedListener(this);
+
+        capacitySpinner.setPrompt("Select the Capacity");
+
+
+        ArrayAdapter<CharSequence> priceAdapter= ArrayAdapter.createFromResource(this,R.array.price,android.R.layout.simple_spinner_item);
+        priceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceSpinner.setAdapter(priceAdapter);
+        priceSpinner.setOnItemSelectedListener(this);
+        priceSpinner.setPrompt("Select the Price per person");
 
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("County");
@@ -146,6 +162,8 @@ public class AddTripActivity extends AppCompatActivity {
             }
         });
 
+        fromSpinner.setPrompt("Select From");
+        destSpinner.setPrompt("Select Destination");
 
 
 
@@ -222,27 +240,11 @@ public class AddTripActivity extends AppCompatActivity {
                     || timeText.getText().toString().equals("")
                     || fromSpinner.getSelectedItem().toString().equals("")
                     || destSpinner.getSelectedItem().toString().equals("")
-                    || capacity.getText().toString().equals("")
-                    || price.getText().toString().equals("")){
+                    ){
             Toast.makeText(getApplicationContext()
                             ,"Fields cannot be empty!"
                             ,Toast.LENGTH_LONG).show();
-        } else if(Integer.parseInt(capacity.getText().toString())>6){
-            Toast.makeText(getApplicationContext()
-                            ,"Capacity cannot exceed 6!"
-                            ,Toast.LENGTH_LONG).show();
-        } else if(Integer.parseInt(capacity.getText().toString())<1){
-            Toast.makeText(getApplicationContext()
-                    ,"Minimum capacity has to be 1!"
-                    ,Toast.LENGTH_LONG).show();
-        } else if(Double.parseDouble(price.getText().toString())>20){
-            Toast.makeText(getApplicationContext()
-                            ,"Price per person cannot exceed 20TL !"
-                            ,Toast.LENGTH_LONG).show();
-        } else if(Double.parseDouble(price.getText().toString())<5){
-            Toast.makeText(getApplicationContext()
-                    ,"Minimum price has to be 5 TL"
-                    ,Toast.LENGTH_LONG).show();
+
         } else {
             AlertDialog.Builder builder=new AlertDialog.Builder(this);
             builder.setMessage("Do you want to add this trip?").setCancelable(false)
@@ -256,8 +258,8 @@ public class AddTripActivity extends AppCompatActivity {
                                     ,timeText.getText().toString()
                                     ,fromSpinner.getSelectedItem().toString()
                                     ,destSpinner.getSelectedItem().toString()
-                                    ,Integer.parseInt(capacity.getText().toString())
-                                    ,Integer.parseInt(price.getText().toString())
+                                    ,Integer.parseInt(capacitySpinner.getSelectedItem().toString())
+                                    ,Integer.parseInt(priceSpinner.getSelectedItem().toString())
                                     ,userID
                             );
                             object.saveInBackground(new SaveCallback() {
@@ -333,5 +335,15 @@ public class AddTripActivity extends AppCompatActivity {
         object.put(definitions.getCapacityKey(), capacity);
         object.put(definitions.getPriceKey(), price);
         object.put(definitions.getTripCreatedByKey(), uid);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }
