@@ -18,7 +18,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="gone" />
         <TextView
             android:id="@+id/customView_username"
             android:layout_width="20dp"
@@ -33,7 +35,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="TextView"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/customView_name"

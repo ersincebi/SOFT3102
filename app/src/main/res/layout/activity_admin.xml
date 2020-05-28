@@ -110,4 +110,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/driverLicenseListButton"
         app:layout_constraintTop_toBottomOf="@+id/addAdminButton" />
+
+    <Button
+        android:id="@+id/listLicenceActivityButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="312dp"
+        android:layout_marginLeft="312dp"
+        android:layout_marginTop="236dp"
+        android:onClick="listLicenceActivity"
+        android:text="List licence"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

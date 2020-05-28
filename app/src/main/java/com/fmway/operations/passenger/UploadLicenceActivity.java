@@ -36,6 +36,8 @@ public class UploadLicenceActivity extends AppCompatActivity {
     private EditText uploadText;
     private ImageView imageView;
     private Bitmap chosenImage;
+    private String userID;
+
 
     private LicenseParseDefinitions definitions = new LicenseParseDefinitions();
 
@@ -51,6 +53,12 @@ public class UploadLicenceActivity extends AppCompatActivity {
 
         uploadText = findViewById(R.id.upload_activity_licence);
         imageView   = findViewById(R.id.upload_activity_image);
+
+        Intent iin= getIntent();
+        Bundle b = iin.getExtras();
+
+        if(b!=null)
+            userID =(String) b.get("userID");
 
     }
 
@@ -73,6 +81,7 @@ public class UploadLicenceActivity extends AppCompatActivity {
         object.put(definitions.getImageKey(),parseFile);
         object.put(definitions.getUploadKey(), upload);
         object.put(definitions.getUsernameKey(), ParseUser.getCurrentUser().getUsername());
+        object.put("userID",userID);
         object.saveInBackground(new SaveCallback() {
             @Override
             public void done(com.parse.ParseException e) {
