@@ -1,7 +1,10 @@
 package com.fmway.operations.passenger;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +20,7 @@ import com.parse.LogOutCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class PassengerActivity extends AppCompatActivity {
@@ -25,6 +29,7 @@ public class PassengerActivity extends AppCompatActivity {
     private Button listTripsButton;
     private Button applyDriverButton;
     private String userID;
+    Context context = this;
 
     /**
      * menu option creator handler
@@ -125,4 +130,31 @@ public class PassengerActivity extends AppCompatActivity {
         intent.putExtra("userID",userID);
         startActivity(intent);
     }
+
+
+
+    public boolean onKeyDown (int keyCode, KeyEvent event){
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            AlertDialog.Builder alert = new AlertDialog.Builder(context);
+            alert.setTitle("Are you sure you want to end the session?")
+                    .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+
+                    }).setNegativeButton ("No",new DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+
+            }).create().show();
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+
 }
