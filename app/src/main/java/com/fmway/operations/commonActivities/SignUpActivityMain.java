@@ -12,8 +12,12 @@ import com.fmway.models.user.UserTypes;
 import com.fmway.operations.admin.AdminActivity;
 import com.fmway.operations.driver.DriverActivity;
 import com.fmway.operations.passenger.PassengerActivity;
+import com.parse.ParseACL;
 import com.parse.ParseException;
+import com.parse.ParseRelation;
+import com.parse.ParseRole;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class SignUpActivityMain extends AppCompatActivity {
@@ -38,6 +42,7 @@ public class SignUpActivityMain extends AppCompatActivity {
         phoneText = findViewById(R.id.user_phone);
         usernameText = findViewById(R.id.user_username);
         passwordText = findViewById(R.id.user_password);
+
     }
 
     /**
@@ -56,7 +61,23 @@ public class SignUpActivityMain extends AppCompatActivity {
                 ,phoneText.getText().toString()
                 ,usernameText.getText().toString()
                 ,passwordText.getText().toString()
+
         );
+        ParseACL roleACL = new ParseACL();
+        roleACL.setPublicReadAccess(true);
+        ParseRole role = new ParseRole("User", roleACL);
+        role.saveInBackground();
+        ParseUser[] usersToAddRole = new ParseUser[1];
+        usersToAddRole[0] = user;
+        role.getUsers().add(user);
+        role.add("users",user);
+        role.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+
+            }
+        });
+        role.saveInBackground();
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -81,6 +102,8 @@ public class SignUpActivityMain extends AppCompatActivity {
                     }
                 }
             }
+
+
         });
     }
 
