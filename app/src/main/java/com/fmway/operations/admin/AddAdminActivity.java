@@ -10,9 +10,7 @@ import android.widget.Toast;
 import com.fmway.R;
 import com.fmway.models.user.UserParseDefinitions;
 import com.fmway.models.user.UserTypes;
-import com.parse.ParseACL;
 import com.parse.ParseException;
-import com.parse.ParseRole;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -24,7 +22,6 @@ public class AddAdminActivity extends AppCompatActivity {
     private ParseUser user;
     private UserParseDefinitions definitions = new UserParseDefinitions();
     private UserTypes roles;
-
 
     /**
      * activity constructor
@@ -43,7 +40,6 @@ public class AddAdminActivity extends AppCompatActivity {
         passwordText = findViewById(R.id.addAdminPassword);
         addAdminButton=findViewById(R.id.addAdminButton);
 
-
     }
 
 
@@ -52,9 +48,7 @@ public class AddAdminActivity extends AppCompatActivity {
      * @param view
      */
     public void addAdminAccount (View view) {
-
         user = new ParseUser();
-
 
         addUserToDb(
                 user
@@ -65,25 +59,10 @@ public class AddAdminActivity extends AppCompatActivity {
                 ,usernameText.getText().toString()
                 ,passwordText.getText().toString()
         );
-        ParseACL roleACL = new ParseACL();
-        roleACL.setPublicReadAccess(true);
-        roleACL.setPublicWriteAccess(true);
-        roleACL.setRoleWriteAccess("User",true);
-        ParseRole role = new ParseRole("Admin", roleACL);
-        role.saveInBackground();
-        ParseUser[] usersToAddRole = new ParseUser[1];
-        usersToAddRole[0] = user;
-        user.setACL(roleACL);
-        role.getUsers().add(user);
-        for(ParseUser user : usersToAddRole){
-            role.getUsers().add(user);
-        }
-        role.saveInBackground();
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
-
                 if (e!= null) {
                     Toast.makeText(getApplicationContext()
                                     ,e.getLocalizedMessage()

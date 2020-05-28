@@ -105,39 +105,25 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
         setContentView(R.layout.activity_userdetailsadmin);
         blockUserButton = findViewById(R.id.block_user_button);
         blockUserButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                System.out.println(savedExtra);
-                final ParseQuery<ParseUser> query = ParseUser.getQuery();
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
                 query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
                     @Override
                     public void done(ParseUser object, ParseException e) {
-                        object.put("userType","blocked");
+
+                        banUser(object);
                         object.saveInBackground(new SaveCallback() {
                             @Override
                             public void done(ParseException e) {
-                                if (e != null) {
-                                    Toast.makeText(getApplicationContext()
-                                            ,e.getLocalizedMessage()
-                                            ,Toast.LENGTH_LONG).show();
 
-                                } else {
-                                    Toast.makeText(getApplicationContext()
-                                            ,"DONE"
-                                            ,Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext()
-                                            ,AdminActivity.class);
-
-                                    startActivity(intent);
-
-                                }
-                            };
+                            }
                         });
-                    };
+                        Toast.makeText(getApplicationContext(),object.getUsername()+" Banned!",Toast.LENGTH_LONG).show();
 
+                    }
                 });
-            };
+            }
         });
     }
 
@@ -147,5 +133,9 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
      *
      * @param object variable is inherits the ParseObject class
      */
-
+    public void banUser(
+            ParseUser object
+    ){
+        object.put(definitions.getUserTypeKey(), role.BLOCKED.getUserType());
+    }
 }

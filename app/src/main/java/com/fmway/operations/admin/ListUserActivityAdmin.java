@@ -31,8 +31,7 @@ public class ListUserActivityAdmin extends AppCompatActivity {
 
     private ListView listView;
     private ArrayList<User> userList;
-    private User selected=null;
-
+    private String selected=null;
 
     private com.fmway.models.user.admin.PostActivityAdminUser PostActivityAdminUser;
 
@@ -102,13 +101,13 @@ public class ListUserActivityAdmin extends AppCompatActivity {
 
         download();
         listView.setAdapter(PostActivityAdminUser);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selected =  (User) listView.getItemAtPosition(position);
                 Intent myIntent= new Intent(ListUserActivityAdmin.this
-                        ,UserDetailsAdminActivity.class);
-                myIntent.putExtra("objectID",selected.getObjectId());
+                                            ,UserDetailsAdminActivity.class);
+                myIntent.putExtra(definitions.getObjectIdKey(), selected);
                 startActivity(myIntent);
             }
         });

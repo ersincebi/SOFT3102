@@ -53,7 +53,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
     String userId;
     int tripPrice;
     boolean checkUser;
-    boolean canJoin = true;
 
 
     /**
@@ -168,7 +167,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
     }
 
     public void joinTrip(){
-
         ParseQuery<ParseObject> query1 = ParseQuery.getQuery("Trip");
         query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
             @Override
@@ -183,7 +181,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                 int balance = user.getInt("balance");
                 if(balance < tripPrice){
                     Toast.makeText(getApplicationContext(), "Not Enough Balance", Toast.LENGTH_SHORT).show();
-                    canJoin = false;
                     finish();
                 }
                 else{
@@ -191,7 +188,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     if(userCheck() != true){
                         System.out.println(userCheck());
                         Toast.makeText(getApplicationContext(), "You already joined this trip", Toast.LENGTH_SHORT).show();
-                        canJoin = false;
                         finish();
                     }
                     int finalbal = balance- tripPrice;
@@ -205,29 +201,24 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     });
                     Toast.makeText(getApplicationContext(),"Joined Trip",Toast.LENGTH_LONG).show();
                 }
-
             }
         });
-        if(canJoin){
-            query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    object.put("Passengers", ParseUser.getCurrentUser().getObjectId());
-                    object.addUnique("Passenger",ParseUser.getCurrentUser().getObjectId());
-                    object.increment("Capacity",-1);
-                    object.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
+        query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject object, ParseException e) {
+                object.put("Passengers", ParseUser.getCurrentUser().getObjectId());
+                object.addUnique("Passenger",ParseUser.getCurrentUser().getObjectId());
+                object.increment("Capacity",-1);
+                object.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
 
-                        }
-                    });
+                    }
+                });
 
-                    finish();
-                }
-            });
-        }
-
-
+                finish();
+            }
+        });
 
 
     }
