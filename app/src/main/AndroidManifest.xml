@@ -49,6 +49,8 @@
         <activity android:name=".operations.admin.DriverLicenseListActivity" />
         <activity android:name=".operations.admin.IssueListActivity" />
         <activity android:name=".operations.admin.Admin_UserOperations" />
+        <activity android:name=".operations.admin.ListLicencesActivity"></activity>
+        <activity android:name=".operations.admin.LicenceDetailsActivity"></activity>
     </application>
 
 </manifest>

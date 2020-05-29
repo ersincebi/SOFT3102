@@ -22,8 +22,10 @@ import com.fmway.models.user.UserTypes;
 import com.fmway.models.user.passenger.RatingParseDefinitions;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.LogOutCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -114,19 +116,21 @@ public class Profile extends AppCompatActivity {
                             ,e.getLocalizedMessage()
                             ,Toast.LENGTH_LONG).show();
                 } else {
-                    byte [] imageData = object.getBytes(definitions.getImageKey());
-                    if(imageData != null){
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(imageData
-                                                                        ,0
-                                                                        ,imageData.length);
-                        Bitmap emptyBitmap = Bitmap.createBitmap(bitmap.getWidth()
-                                                                    ,bitmap.getHeight()
-                                                                    ,bitmap.getConfig());
+                    ParseFile parseFile = (ParseFile) object.get(definitions.getImageKey());
+                    if(parseFile != null){
+                        parseFile.getDataInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                if (e == null && data != null){
 
-                        if(!bitmap.sameAs(emptyBitmap))
-                            profileImage.setImageBitmap(
-                                    bitmap
-                            );
+                                    Bitmap bitmap = BitmapFactory.decodeByteArray(data,0,data.length);
+                                    profileImage.setImageBitmap(
+                                            bitmap
+                                    );
+
+                                }
+                            }
+                        });
                     }
                     userRole = object.getString(definitions.getUserTypeKey());
                     fullName.setText(

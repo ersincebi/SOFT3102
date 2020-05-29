@@ -60,8 +60,10 @@ public class SignUpLoginActivity extends AppCompatActivity {
                     String userType=user.getString("userType");
                     if (userType.equals(role.ADMIN.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         intent.putExtra("userID",userID);
                         startActivity(intent);
+                        //finish();
                     } else if (userType.equals(role.PASSENGER.getUserType())){
                         Intent intent = new Intent(getApplicationContext(), PassengerActivity.class);
                         intent.putExtra("userID",userID);

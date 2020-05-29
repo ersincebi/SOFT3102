@@ -173,10 +173,10 @@ public class profileSettings extends AppCompatActivity {
      * @param view
      */
     public void updateProfile(View view){
-        ParseQuery<ParseObject> query= ParseQuery.getQuery(definitions.getClassName());
-        query.getInBackground(userID, new GetCallback<ParseObject>() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.getInBackground(userID, new GetCallback<ParseUser>() {
             @Override
-            public void done(ParseObject object, ParseException e) {
+            public void done(ParseUser object, ParseException e) {
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 chosenImage.compress(Bitmap.CompressFormat.PNG, 50,byteArrayOutputStream);
                 byte[] bytes = byteArrayOutputStream.toByteArray();
