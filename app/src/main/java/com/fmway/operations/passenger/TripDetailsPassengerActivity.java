@@ -53,7 +53,7 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
     String userId;
     int tripPrice;
     boolean checkUser;
-    boolean canJoin = true;
+    boolean canBejoined;
 
 
     /**
@@ -190,22 +190,27 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     if(userCheck() != true){
                         System.out.println(userCheck());
                         Toast.makeText(getApplicationContext(), "You already joined this trip", Toast.LENGTH_SHORT).show();
+                        canBejoined = false;
                         finish();
                     }
-                    int finalbal = balance- tripPrice;
-                    user.put("balance",finalbal);
-                    user.addUnique("Trip",savedExtra);
-                    user.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
+                    if(canBejoined){
+                        int finalbal = balance- tripPrice;
+                        user.put("balance",finalbal);
+                        user.addUnique("Trip",savedExtra);
+                        user.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
 
-                        }
-                    });
-                    Toast.makeText(getApplicationContext(),"Joined Trip",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        Toast.makeText(getApplicationContext(),"Joined Trip",Toast.LENGTH_LONG).show();
+                    }
+
                 }
 
             }
         });
+        if(canBejoined){
             query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject object, ParseException e) {
@@ -222,6 +227,8 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     finish();
                 }
             });
+        }
+
 
 
 
