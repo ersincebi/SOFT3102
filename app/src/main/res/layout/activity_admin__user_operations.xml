@@ -30,17 +30,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/editProfilesButton"
         android:layout_width="196dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="80dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="247dp"
         android:onClick="editUser"
         android:text="Edit User Profiles"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.404"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="198dp"
+        android:text="USER OPERATIONS"
+        android:textColor="#3F51B5"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editProfilesButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
