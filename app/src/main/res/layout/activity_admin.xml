@@ -9,9 +9,9 @@
         android:id="@+id/editTripsButton"
         android:layout_width="162dp"
         android:layout_height="67dp"
-        android:layout_marginStart="124dp"
-        android:layout_marginLeft="124dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginStart="112dp"
+        android:layout_marginLeft="112dp"
+        android:layout_marginTop="360dp"
         android:onClick="editTrips"
         android:text="Lıst Trips"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,18 +42,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/driverLicenseListButton"
-        android:layout_width="182dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="456dp"
-        android:onClick="listDriverLicense"
-        android:text="Driver License List"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
         android:id="@+id/issueListButton"
         android:layout_width="129dp"
         android:layout_height="62dp"
@@ -67,11 +55,11 @@
 
     <Button
         android:id="@+id/userOperations"
-        android:layout_width="124dp"
-        android:layout_height="53dp"
-        android:layout_marginStart="140dp"
-        android:layout_marginLeft="140dp"
-        android:layout_marginTop="372dp"
+        android:layout_width="134dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="456dp"
         android:onClick="userOperations"
         android:text="User Operations"
         app:layout_constraintStart_toStartOf="parent"

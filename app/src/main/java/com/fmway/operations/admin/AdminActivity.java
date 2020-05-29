@@ -140,10 +140,7 @@ import androidx.appcompat.app.AppCompatActivity;
       * button action for opening add admin activity
       * @param view
       */
-     public void listDriverLicense(View view){
-         Intent intent = new Intent(getApplicationContext(), DriverLicenseListActivity.class);
-         startActivity(intent);
-     }
+
 
      public void listIssue(View view){
          Intent intent = new Intent(getApplicationContext(), IssueListActivity.class);

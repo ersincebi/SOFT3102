@@ -101,4 +101,9 @@ public class Admin_UserOperations extends AppCompatActivity {
         Intent intent=new Intent(getApplicationContext(),ListLicencesActivity.class);
         startActivity(intent);
     }
+
+    public void listDriverLicense(View view){
+        Intent intent = new Intent(getApplicationContext(), DriverLicenseListActivity.class);
+        startActivity(intent);
+    }
 }
