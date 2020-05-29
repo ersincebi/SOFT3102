@@ -155,10 +155,7 @@ import androidx.appcompat.app.AppCompatActivity;
      }
 
 
-     public void listLicenceActivity(View view){
-         Intent intent=new Intent(getApplicationContext(),ListLicencesActivity.class);
-         startActivity(intent);
-     }
+
 
 
 

@@ -96,4 +96,9 @@ public class Admin_UserOperations extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), ListUserActivityAdmin.class);
         startActivity(intent);
     }
+
+    public void listLicenceActivity(View view){
+        Intent intent=new Intent(getApplicationContext(),ListLicencesActivity.class);
+        startActivity(intent);
+    }
 }
