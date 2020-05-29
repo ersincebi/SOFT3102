@@ -63,21 +63,6 @@ public class SignUpActivityMain extends AppCompatActivity {
                 ,passwordText.getText().toString()
 
         );
-        ParseACL roleACL = new ParseACL();
-        roleACL.setPublicReadAccess(true);
-        ParseRole role = new ParseRole("User", roleACL);
-        role.saveInBackground();
-        ParseUser[] usersToAddRole = new ParseUser[1];
-        usersToAddRole[0] = user;
-        role.getUsers().add(user);
-        role.add("users",user);
-        role.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-
-            }
-        });
-        role.saveInBackground();
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {

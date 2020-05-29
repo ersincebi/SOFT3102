@@ -183,7 +183,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                 int balance = user.getInt("balance");
                 if(balance < tripPrice){
                     Toast.makeText(getApplicationContext(), "Not Enough Balance", Toast.LENGTH_SHORT).show();
-                    canJoin = false;
                     finish();
                 }
                 else{
@@ -191,7 +190,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     if(userCheck() != true){
                         System.out.println(userCheck());
                         Toast.makeText(getApplicationContext(), "You already joined this trip", Toast.LENGTH_SHORT).show();
-                        canJoin = false;
                         finish();
                     }
                     int finalbal = balance- tripPrice;
@@ -208,7 +206,6 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
 
             }
         });
-        if(canJoin){
             query1.getInBackground(savedExtra, new GetCallback<ParseObject>() {
                 @Override
                 public void done(ParseObject object, ParseException e) {
@@ -225,7 +222,7 @@ public class TripDetailsPassengerActivity extends AppCompatActivity {
                     finish();
                 }
             });
-        }
+
 
 
 

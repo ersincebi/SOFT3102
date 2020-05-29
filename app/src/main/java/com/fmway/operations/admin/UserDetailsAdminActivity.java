@@ -27,9 +27,11 @@ import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogOutCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseRole;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
@@ -109,34 +111,36 @@ public class UserDetailsAdminActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println(savedExtra);
-                final ParseQuery<ParseUser> query = ParseUser.getQuery();
-                query.getInBackground(savedExtra, new GetCallback<ParseUser>() {
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("objectId",savedExtra);
+                query.findInBackground(new FindCallback<ParseUser>() {
                     @Override
-                    public void done(ParseUser object, ParseException e) {
-                        object.put("userType","blocked");
-                        object.saveInBackground(new SaveCallback() {
-                            @Override
-                            public void done(ParseException e) {
-                                if (e != null) {
-                                    Toast.makeText(getApplicationContext()
-                                            ,e.getLocalizedMessage()
-                                            ,Toast.LENGTH_LONG).show();
-
-                                } else {
-                                    Toast.makeText(getApplicationContext()
-                                            ,"DONE"
-                                            ,Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext()
-                                            ,AdminActivity.class);
-
-                                    startActivity(intent);
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        try {
+                            System.out.println(objects.get(0).getUsername());
+                            objects.get(0).delete();
+                            objects.get(0).deleteInBackground(new DeleteCallback() {
+                                @Override
+                                public void done(ParseException e) {
 
                                 }
-                            };
-                        });
-                    };
+                            });
+                            objects.get(0).deleteInBackground();
+                            objects.get(0).saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
 
+                                }
+                            });
+                            finish();
+                        } catch (ParseException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 });
+
+
+
             };
         });
     }

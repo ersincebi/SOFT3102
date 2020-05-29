@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".operations.commonActivities.profileSettings"></activity>
+        <activity android:name=".operations.commonActivities.profileSettings" />
         <activity android:name=".operations.commonActivities.tripPage" />
         <activity android:name=".operations.commonActivities.listMyTrips" />
         <activity android:name=".operations.commonActivities.Profile" />
@@ -48,6 +48,7 @@
         <activity android:name=".operations.passenger.UploadLicenceActivity" />
         <activity android:name=".operations.admin.DriverLicenseListActivity" />
         <activity android:name=".operations.admin.IssueListActivity" />
+        <activity android:name=".operations.admin.Admin_UserOperations" />
     </application>
 
 </manifest>

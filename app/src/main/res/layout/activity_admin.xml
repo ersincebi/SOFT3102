@@ -9,54 +9,13 @@
         android:id="@+id/editTripsButton"
         android:layout_width="162dp"
         android:layout_height="67dp"
-        android:layout_marginBottom="11dp"
+        android:layout_marginTop="16dp"
         android:onClick="editTrips"
         android:text="Lıst Trips"
-        app:layout_constraintBottom_toTopOf="@+id/editProfilesButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView3" />
-
-    <Button
-        android:id="@+id/editProfilesButton"
-        android:layout_width="212dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="54dp"
-        android:onClick="editUser"
-        android:text="Edit User Profiles"
-        app:layout_constraintBottom_toTopOf="@+id/addAdminButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTripsButton" />
-
-    <Button
-        android:id="@+id/approveDriverButton"
-        android:layout_width="0dp"
-        android:layout_height="67dp"
-        android:layout_marginStart="49dp"
-        android:layout_marginLeft="49dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginRight="29dp"
-        android:onClick="addDriver"
-        android:text="Add Drivers"
-        app:layout_constraintEnd_toStartOf="@+id/addAdminButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/addAdminButton" />
-
-    <Button
-        android:id="@+id/addAdminButton"
-        android:layout_width="150dp"
-        android:layout_height="69dp"
-        android:layout_marginEnd="37dp"
-        android:layout_marginRight="37dp"
-        android:layout_marginBottom="34dp"
-        android:onClick="addAdmin"
-        android:text="ADD AdMın"
-        app:layout_constraintBottom_toTopOf="@+id/issueListButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/approveDriverButton"
-        app:layout_constraintTop_toBottomOf="@+id/editProfilesButton" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -95,7 +54,8 @@
         app:layout_constraintBottom_toBottomOf="@+id/issueListButton"
         app:layout_constraintEnd_toStartOf="@+id/issueListButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/issueListButton" />
+        app:layout_constraintTop_toTopOf="@+id/issueListButton"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/issueListButton"
@@ -108,6 +68,18 @@
         android:text="Issue List"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/driverLicenseListButton"
-        app:layout_constraintTop_toBottomOf="@+id/addAdminButton" />
+        app:layout_constraintStart_toEndOf="@+id/driverLicenseListButton" />
+
+    <Button
+        android:id="@+id/userOperations"
+        android:layout_width="124dp"
+        android:layout_height="53dp"
+        android:onClick="userOperations"
+        android:text="User Operations"
+        app:layout_constraintBottom_toTopOf="@+id/issueListButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTripsButton"
+        app:layout_constraintVertical_bias="0.342" />
 </androidx.constraintlayout.widget.ConstraintLayout>

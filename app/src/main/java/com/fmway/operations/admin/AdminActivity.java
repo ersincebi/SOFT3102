@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
     private Button addAdminButton;
     private Button approveDriversButton;
     private String userID;
+    private  Button userOperations;
 
      /**
       * menu option creator handler
@@ -81,6 +82,7 @@ import androidx.appcompat.app.AppCompatActivity;
         editUserButton=findViewById(R.id.editProfilesButton);
         addAdminButton=findViewById(R.id.addAdminButton);
         approveDriversButton=findViewById(R.id.approveDriverButton);
+        userOperations = findViewById(R.id.userOperations);
 
 
         Intent iin= getIntent();
@@ -140,6 +142,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
      public void listIssue(View view){
          Intent intent = new Intent(getApplicationContext(), IssueListActivity.class);
+         startActivity(intent);
+     }
+     public void userOperations(View view){
+         Intent intent = new Intent(getApplicationContext(), Admin_UserOperations.class);
          startActivity(intent);
      }
 
