@@ -138,15 +138,16 @@ public class PassengerActivity extends AppCompatActivity {
             }
         });
 
-        query.getInBackground(objectID, new GetCallback<ParseObject>() {
-            @Override
-            public void done(ParseObject object, ParseException e) {
-                if (isApproved.equals("true")) {
-                    beDriverButton.setVisibility(View.VISIBLE);
+        if(objectID!=null) {
+            query.getInBackground(objectID, new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (isApproved.equals("true")) {
+                        beDriverButton.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
-        });
-
+            });
+        }
 
 
 
